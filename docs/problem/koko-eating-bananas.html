@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Koko Eating Bananas - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>875. Koko Eating Bananas</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimize-max-distance-to-gas-station.html">Minimize Max Distance to Gas Station</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/maximum-candies-allocated-to-k-children.html">Maximum Candies Allocated to K Children</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimized-maximum-of-products-distributed-to-any-store.html">Minimized Maximum of Products Distributed to Any Store</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/frog-jump-ii.html">Frog Jump II</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-time-to-repair-cars.html">Minimum Time to Repair Cars</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Koko loves to eat bananas. There are <code>n</code> piles of bananas, the <code>ith</code> pile has <code>piles[i]</code> bananas. The guards have gone and will come back in <code>h</code> hours.</p>
+<p>Koko can decide her bananas-per-hour eating speed of <code>k</code>. Each hour, she chooses some pile of bananas and eats <code>k</code> bananas from that pile. If the pile has less than <code>k</code> bananas, she eats all of them instead and will not eat any more bananas during this hour.</p>
+<p>Koko likes to eat slowly but still wants to finish eating all the bananas before the guards return.</p>
+<p>Return <strong>the minimum integer</strong> <code>k</code> <strong>such that she can eat all the bananas within</strong> <code>h</code> <strong>hours</strong>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> piles = [<span class="hljs-number">3</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">11</span>], h = <span class="hljs-number">8</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">4</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> piles = [<span class="hljs-number">30</span>,<span class="hljs-number">11</span>,<span class="hljs-number">23</span>,<span class="hljs-number">4</span>,<span class="hljs-number">20</span>], h = <span class="hljs-number">5</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">30</span>
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> piles = [<span class="hljs-number">30</span>,<span class="hljs-number">11</span>,<span class="hljs-number">23</span>,<span class="hljs-number">4</span>,<span class="hljs-number">20</span>], h = <span class="hljs-number">6</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">23</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= piles.length &lt;= 104</code></p></li>
+<li><p><code>piles.length &lt;= h &lt;= 109</code></p></li>
+<li><p><code>1 &lt;= piles[i] &lt;= 109</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} piles
+ * @param {number} h
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> minEatingSpeed = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">piles, h</span>) </span>{
+    <span class="hljs-keyword">var</span> left = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">var</span> right = <span class="hljs-built_in">Math</span>.max(...piles);
+    <span class="hljs-keyword">while</span> (left &lt; right) {
+        <span class="hljs-keyword">var</span> mid = left + <span class="hljs-built_in">Math</span>.floor((right - left) / <span class="hljs-number">2</span>);
+        <span class="hljs-keyword">var</span> hours = getHours(piles, mid);
+        <span class="hljs-keyword">if</span> (hours &gt; h) {
+            left = mid + <span class="hljs-number">1</span>;
+        } <span class="hljs-keyword">else</span> {
+            right = mid;
+        }
+    }
+    <span class="hljs-keyword">return</span> left;
+};
+
+<span class="hljs-keyword">var</span> getHours = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">piles, num</span>) </span>{
+    <span class="hljs-keyword">var</span> hours = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; piles.length; i++) {
+        hours += <span class="hljs-built_in">Math</span>.ceil(piles[i] / num);
+    }
+    <span class="hljs-keyword">return</span> hours;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * log(n)).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

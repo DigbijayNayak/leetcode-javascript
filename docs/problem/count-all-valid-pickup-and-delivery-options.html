@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Count All Valid Pickup and Delivery Options - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1359. Count All Valid Pickup and Delivery Options</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/combinatorics">Combinatorics</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given <code>n</code> orders, each order consist in pickup and delivery services.&nbsp;</p>
+<p>Count all valid pickup/delivery possible sequences such that delivery(i) is always after of&nbsp;pickup(i).&nbsp;</p>
+<p>Since the answer&nbsp;may be too large,&nbsp;return it modulo&nbsp;10^9 + 7.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: n = <span class="hljs-number">1</span>
+Output: <span class="hljs-number">1</span>
+Explanation: Unique order (P1, D1), Delivery <span class="hljs-number">1</span> always <span class="hljs-keyword">is</span> <span class="hljs-keyword">after</span> <span class="hljs-keyword">of</span> Pickup <span class="hljs-number">1.</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input</span>: n = <span class="hljs-number">2</span>
+<span class="hljs-symbol">Output</span>: <span class="hljs-number">6</span>
+<span class="hljs-symbol">Explanation</span>: All possible orders: 
+(<span class="hljs-built_in">P1</span>,<span class="hljs-built_in">P2</span>,<span class="hljs-built_in">D1</span>,<span class="hljs-built_in">D2</span>), (<span class="hljs-built_in">P1</span>,<span class="hljs-built_in">P2</span>,<span class="hljs-built_in">D2</span>,<span class="hljs-built_in">D1</span>), (<span class="hljs-built_in">P1</span>,<span class="hljs-built_in">D1</span>,<span class="hljs-built_in">P2</span>,<span class="hljs-built_in">D2</span>), (<span class="hljs-built_in">P2</span>,<span class="hljs-built_in">P1</span>,<span class="hljs-built_in">D1</span>,<span class="hljs-built_in">D2</span>), (<span class="hljs-built_in">P2</span>,<span class="hljs-built_in">P1</span>,<span class="hljs-built_in">D2</span>,<span class="hljs-built_in">D1</span>) <span class="hljs-keyword">and </span>(<span class="hljs-built_in">P2</span>,<span class="hljs-built_in">D2</span>,<span class="hljs-built_in">P1</span>,<span class="hljs-built_in">D1</span>).
+<span class="hljs-symbol">This</span> is an invalid order (<span class="hljs-built_in">P1</span>,<span class="hljs-built_in">D2</span>,<span class="hljs-built_in">P2</span>,<span class="hljs-built_in">D1</span>) <span class="hljs-keyword">because </span>Pickup <span class="hljs-number">2</span> is after of Delivery <span class="hljs-number">2</span>.
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> n = <span class="hljs-number">3</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">90</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= n &lt;= 500</code></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> countOrders = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n</span>) </span>{
+    <span class="hljs-keyword">return</span> helper(n, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, {});
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n, x, y, dp</span>) </span>{
+    <span class="hljs-keyword">if</span> (x === n &amp;&amp; y === n) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">var</span> mod = <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">10</span>, <span class="hljs-number">9</span>) + <span class="hljs-number">7</span>;
+    <span class="hljs-keyword">var</span> key = <span class="hljs-string">`<span class="hljs-subst">${x}</span>-<span class="hljs-subst">${y}</span>`</span>;
+    <span class="hljs-keyword">if</span> (dp[key] === <span class="hljs-literal">undefined</span>) {
+        <span class="hljs-keyword">var</span> choosePickup = x &lt; n ? ((n - x) * helper(n, x + <span class="hljs-number">1</span>, y, dp) % mod) : <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">var</span> chooseDelivery = y &lt; n &amp;&amp; x &gt; y ? ((x - y) * helper(n, x, y + <span class="hljs-number">1</span>, dp) % mod) : <span class="hljs-number">0</span>;
+        dp[key] = (choosePickup + chooseDelivery) % mod;
+    }
+    <span class="hljs-keyword">return</span> dp[key];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

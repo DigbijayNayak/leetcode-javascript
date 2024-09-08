@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Check If Two String Arrays are Equivalent - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1662. Check If Two String Arrays are Equivalent</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/string">String</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/check-if-an-original-string-exists-given-two-encoded-strings.html">Check if an Original String Exists Given Two Encoded Strings</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given two string arrays <code>word1</code> and <code>word2</code>, return** <strong><code>true</code></strong> if the two arrays <strong>represent</strong> the same string, and <strong><code>false</code></strong> otherwise.**</p>
+<p>A string is <strong>represented</strong> by an array if the array elements concatenated <strong>in order</strong> forms the string.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs"><span class="hljs-string">Input:</span> word1 = [<span class="hljs-string">"ab"</span>, <span class="hljs-string">"c"</span>], word2 = [<span class="hljs-string">"a"</span>, <span class="hljs-string">"bc"</span>]
+<span class="hljs-string">Output:</span> <span class="hljs-literal">true</span>
+<span class="hljs-string">Explanation:</span>
+word1 represents string <span class="hljs-string">"ab"</span> + <span class="hljs-string">"c"</span> -&gt; <span class="hljs-string">"abc"</span>
+word2 represents string <span class="hljs-string">"a"</span> + <span class="hljs-string">"bc"</span> -&gt; <span class="hljs-string">"abc"</span>
+The strings are the same, so <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-string">Input:</span> word1 = [<span class="hljs-string">"a"</span>, <span class="hljs-string">"cb"</span>], word2 = [<span class="hljs-string">"ab"</span>, <span class="hljs-string">"c"</span>]
+<span class="hljs-string">Output:</span> <span class="hljs-literal">false</span>
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs"><span class="hljs-string">Input:</span> word1  = [<span class="hljs-string">"abc"</span>, <span class="hljs-string">"d"</span>, <span class="hljs-string">"defg"</span>], word2 = [<span class="hljs-string">"abcddefg"</span>]
+<span class="hljs-string">Output:</span> <span class="hljs-literal">true</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= word1.length, word2.length &lt;= 103</code></p></li>
+<li><p><code>1 &lt;= word1[i].length, word2[i].length &lt;= 103</code></p></li>
+<li><p><code>1 &lt;= sum(word1[i].length), sum(word2[i].length) &lt;= 103</code></p></li>
+<li><p><code>word1[i]</code> and <code>word2[i]</code> consist of lowercase letters.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string[]} word1
+ * @param {string[]} word2
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> arrayStringsAreEqual = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">word1, word2</span>) </span>{
+    <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> m = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> n = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (i &lt; word1.length &amp;&amp; j &lt; word2.length) {
+        <span class="hljs-keyword">if</span> (word1[i][m] !== word2[j][n]) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">if</span> (m === word1[i].length - <span class="hljs-number">1</span>) {
+            i += <span class="hljs-number">1</span>;
+            m = <span class="hljs-number">0</span>;
+        } <span class="hljs-keyword">else</span> {
+            m += <span class="hljs-number">1</span>;
+        }
+        <span class="hljs-keyword">if</span> (n === word2[j].length - <span class="hljs-number">1</span>) {
+            j += <span class="hljs-number">1</span>;
+            n = <span class="hljs-number">0</span>;
+        } <span class="hljs-keyword">else</span> {
+            n += <span class="hljs-number">1</span>;
+        }
+    }
+    <span class="hljs-keyword">return</span> i === word1.length &amp;&amp; j === word2.length;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

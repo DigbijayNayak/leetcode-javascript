@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Longest Increasing Subsequence - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>300. Longest Increasing Subsequence</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/increasing-triplet-subsequence.html">Increasing Triplet Subsequence</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/russian-doll-envelopes.html">Russian Doll Envelopes</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/maximum-length-of-pair-chain.html">Maximum Length of Pair Chain</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/number-of-longest-increasing-subsequence.html">Number of Longest Increasing Subsequence</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-ascii-delete-sum-for-two-strings.html">Minimum ASCII Delete Sum for Two Strings</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-number-of-removals-to-make-mountain-array.html">Minimum Number of Removals to Make Mountain Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/find-the-longest-valid-obstacle-course-at-each-position.html">Find the Longest Valid Obstacle Course at Each Position</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-operations-to-make-the-array-k-increasing.html">Minimum Operations to Make the Array K-Increasing</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/longest-ideal-subsequence.html">Longest Ideal Subsequence</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/maximum-number-of-books-you-can-take.html">Maximum Number of Books You Can Take</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/longest-increasing-subsequence-ii.html">Longest Increasing Subsequence II</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given an integer array <code>nums</code>, return **the length of the longest *<em>strictly increasing <strong><em></em></em></strong><em>subsequence</em>***.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: nums = <span class="hljs-comment">[10,9,2,5,3,7,101,18]</span>
+Output: 4
+Explanation: The longest increasing subsequence <span class="hljs-keyword">is</span> <span class="hljs-comment">[2,3,7,101]</span>, therefore the length <span class="hljs-keyword">is</span> 4.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> nums = [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">4</span>
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> nums = [<span class="hljs-number">7</span>,<span class="hljs-number">7</span>,<span class="hljs-number">7</span>,<span class="hljs-number">7</span>,<span class="hljs-number">7</span>,<span class="hljs-number">7</span>,<span class="hljs-number">7</span>]
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">1</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= nums.length &lt;= 2500</code></p></li>
+<li><p><code>-104 &lt;= nums[i] &lt;= 104</code></p></li>
+</ul>
+<p>&nbsp;
+<strong>Follow up:</strong>&nbsp;Can you come up with an algorithm that runs in&nbsp;<code>O(n log(n))</code> time complexity?</p>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> lengthOfLIS = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums</span>) </span>{
+    <span class="hljs-keyword">var</span> arr = [nums[<span class="hljs-number">0</span>]];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">1</span>; i &lt; nums.length; i++) {
+        <span class="hljs-keyword">if</span> (nums[i] &gt; arr[arr.length - <span class="hljs-number">1</span>]) {
+            arr.push(nums[i]);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">var</span> index = binarySearch(arr, nums[i]);
+            arr[index] = nums[i];
+        }
+    }
+    <span class="hljs-keyword">return</span> arr.length;
+};
+
+<span class="hljs-keyword">var</span> binarySearch = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">arr, num</span>) </span>{
+    <span class="hljs-keyword">var</span> left = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> right = arr.length - <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">while</span> (left &lt; right) {
+        <span class="hljs-keyword">var</span> mid = left + <span class="hljs-built_in">Math</span>.floor((right - left) / <span class="hljs-number">2</span>);
+        <span class="hljs-keyword">if</span> (arr[mid] &gt; num) {
+            right = mid;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (arr[mid] === num) {
+            <span class="hljs-keyword">return</span> mid;
+        } <span class="hljs-keyword">else</span> {
+            left = mid + <span class="hljs-number">1</span>;
+        }
+    }
+    <span class="hljs-keyword">return</span> left;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * log(n)).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Find the Longest Valid Obstacle Course at Each Position - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1964. Find the Longest Valid Obstacle Course at Each Position</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-indexed-tree">Binary Indexed Tree</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/longest-increasing-subsequence.html">Longest Increasing Subsequence</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You want to build some obstacle courses. You are given a <strong>0-indexed</strong> integer array <code>obstacles</code> of length <code>n</code>, where <code>obstacles[i]</code> describes the height of the <code>ith</code> obstacle.</p>
+<p>For every index <code>i</code> between <code>0</code> and <code>n - 1</code> (<strong>inclusive</strong>), find the length of the <strong>longest obstacle course</strong> in <code>obstacles</code> such that:</p>
+<ul>
+<li><p>You choose any number of obstacles between <code>0</code> and <code>i</code> <strong>inclusive</strong>.</p></li>
+<li><p>You must include the <code>ith</code> obstacle in the course.</p></li>
+<li><p>You must put the chosen obstacles in the <strong>same order</strong> as they appear in <code>obstacles</code>.</p></li>
+<li><p>Every obstacle (except the first) is <strong>taller</strong> than or the <strong>same height</strong> as the obstacle immediately before it.</p></li>
+</ul>
+<p>Return <strong>an array</strong> <code>ans</code> <strong>of length</strong> <code>n</code>, <strong>where</strong> <code>ans[i]</code> **is the length of the *<em>longest obstacle course</em>* for index** <code>i</code>** as described above**.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: obstacles = <span class="hljs-comment">[1,2,3,2]</span>
+Output: <span class="hljs-comment">[1,2,3,3]</span>
+Explanation: The longest valid obstacle course at each position <span class="hljs-keyword">is</span>:
+- i = 0: <span class="hljs-comment">[1]</span>, <span class="hljs-comment">[1]</span> has length 1.
+- i = 1: <span class="hljs-comment">[1,2]</span>, <span class="hljs-comment">[1,2]</span> has length 2.
+- i = 2: <span class="hljs-comment">[1,2,3]</span>, <span class="hljs-comment">[1,2,3]</span> has length 3.
+- i = 3: <span class="hljs-comment">[1,2,3,2]</span>, <span class="hljs-comment">[1,2,2]</span> has length 3.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: obstacles = <span class="hljs-comment">[2,2,1]</span>
+Output: <span class="hljs-comment">[1,2,1]</span>
+Explanation: The longest valid obstacle course at each position <span class="hljs-keyword">is</span>:
+- i = 0: <span class="hljs-comment">[2]</span>, <span class="hljs-comment">[2]</span> has length 1.
+- i = 1: <span class="hljs-comment">[2,2]</span>, <span class="hljs-comment">[2,2]</span> has length 2.
+- i = 2: <span class="hljs-comment">[2,2,1]</span>, <span class="hljs-comment">[1]</span> has length 1.
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: obstacles = <span class="hljs-comment">[3,1,5,6,4,2]</span>
+Output: <span class="hljs-comment">[1,1,2,3,2,2]</span>
+Explanation: The longest valid obstacle course at each position <span class="hljs-keyword">is</span>:
+- i = 0: <span class="hljs-comment">[3]</span>, <span class="hljs-comment">[3]</span> has length 1.
+- i = 1: <span class="hljs-comment">[3,1]</span>, <span class="hljs-comment">[1]</span> has length 1.
+- i = 2: <span class="hljs-comment">[3,1,5]</span>, <span class="hljs-comment">[3,5]</span> has length 2. <span class="hljs-comment">[1,5]</span> <span class="hljs-keyword">is</span> also valid.
+- i = 3: <span class="hljs-comment">[3,1,5,6]</span>, <span class="hljs-comment">[3,5,6]</span> has length 3. <span class="hljs-comment">[1,5,6]</span> <span class="hljs-keyword">is</span> also valid.
+- i = 4: <span class="hljs-comment">[3,1,5,6,4]</span>, <span class="hljs-comment">[3,4]</span> has length 2. <span class="hljs-comment">[1,4]</span> <span class="hljs-keyword">is</span> also valid.
+- i = 5: <span class="hljs-comment">[3,1,5,6,4,2]</span>, <span class="hljs-comment">[1,2]</span> has length 2.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>n == obstacles.length</code></p></li>
+<li><p><code>1 &lt;= n &lt;= 105</code></p></li>
+<li><p><code>1 &lt;= obstacles[i] &lt;= 107</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} obstacles
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> longestObstacleCourseAtEachPosition = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obstacles</span>) </span>{
+    <span class="hljs-keyword">var</span> res = <span class="hljs-built_in">Array</span>(obstacles.length).fill(<span class="hljs-number">1</span>);
+    <span class="hljs-keyword">var</span> stack = [];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; obstacles.length; i++) {
+        <span class="hljs-keyword">if</span> (!stack.length || obstacles[i] &gt;= stack[stack.length - <span class="hljs-number">1</span>]) {
+            res[i] = (stack.length || <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>;
+            stack.push(obstacles[i]);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">var</span> index = binarySearch(stack, obstacles[i]);
+            res[i] = index + <span class="hljs-number">1</span>;
+            stack[index] = obstacles[i];
+        }
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> binarySearch = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">arr, num</span>) </span>{
+    <span class="hljs-keyword">var</span> left = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> right = arr.length - <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">while</span> (left &lt; right) {
+        <span class="hljs-keyword">var</span> mid = left + <span class="hljs-built_in">Math</span>.floor((right - left) / <span class="hljs-number">2</span>);
+        <span class="hljs-keyword">if</span> (arr[mid] &lt;= num) {
+            left = mid + <span class="hljs-number">1</span>;
+        } <span class="hljs-keyword">else</span> {
+            right = mid;
+        }
+    }
+    <span class="hljs-keyword">return</span> left;
+};
+
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * log(n)).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

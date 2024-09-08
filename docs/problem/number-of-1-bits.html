@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Number of 1 Bits - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>191. Number of 1 Bits</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/divide-and-conquer">Divide and Conquer</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/bit-manipulation">Bit Manipulation</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/reverse-bits.html">Reverse Bits</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/power-of-two.html">Power of Two</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/counting-bits.html">Counting Bits</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/binary-watch.html">Binary Watch</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/hamming-distance.html">Hamming Distance</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/binary-number-with-alternating-bits.html">Binary Number with Alternating Bits</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/prime-number-of-set-bits-in-binary-representation.html">Prime Number of Set Bits in Binary Representation</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Write a function that takes&nbsp;the binary representation of an unsigned integer and returns the number of '1' bits it has (also known as the Hamming weight).</p>
+<p><strong>Note:</strong></p>
+<ul>
+<li><p>Note that in some languages, such as Java, there is no unsigned integer type. In this case, the input will be given as a signed integer type. It should not affect your implementation, as the integer's internal binary representation is the same, whether it is signed or unsigned.</p></li>
+<li><p>In Java, the compiler represents the signed integers using 2's complement notation. Therefore, in Example 3, the input represents the signed integer. <code>-3</code>.</p></li>
+</ul>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Inpu<span class="hljs-variable">t:</span> n = <span class="hljs-number">00000000000000000000000000001011</span>
+Outpu<span class="hljs-variable">t:</span> <span class="hljs-number">3</span>
+Explanation: The <span class="hljs-built_in">input</span> binary <span class="hljs-built_in">string</span> <span class="hljs-number">00000000000000000000000000001011</span> <span class="hljs-built_in">has</span> <span class="hljs-keyword">a</span> total of three <span class="hljs-string">'1'</span> bits.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Inpu<span class="hljs-variable">t:</span> n = <span class="hljs-number">00000000000000000000000010000000</span>
+Outpu<span class="hljs-variable">t:</span> <span class="hljs-number">1</span>
+Explanation: The <span class="hljs-built_in">input</span> binary <span class="hljs-built_in">string</span> <span class="hljs-number">00000000000000000000000010000000</span> <span class="hljs-built_in">has</span> <span class="hljs-keyword">a</span> total of one <span class="hljs-string">'1'</span> bit.
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Inpu<span class="hljs-variable">t:</span> n = <span class="hljs-number">11111111111111111111111111111101</span>
+Outpu<span class="hljs-variable">t:</span> <span class="hljs-number">31</span>
+Explanation: The <span class="hljs-built_in">input</span> binary <span class="hljs-built_in">string</span> <span class="hljs-number">11111111111111111111111111111101</span> <span class="hljs-built_in">has</span> <span class="hljs-keyword">a</span> total of thirty one <span class="hljs-string">'1'</span> bits.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li>The input must be a <strong>binary string</strong> of length <code>32</code>.</li>
+</ul>
+<p>&nbsp;
+<strong>Follow up:</strong> If this function is called many times, how would you optimize it?</p>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n - a positive integer
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> hammingWeight = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n</span>) </span>{
+    <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (n) {
+        <span class="hljs-keyword">if</span> (n &amp; <span class="hljs-number">1</span>) count++;
+        n &gt;&gt;&gt;= <span class="hljs-number">1</span>;
+    }
+    <span class="hljs-keyword">return</span> count;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>use <code>&gt;&gt;&gt;</code> instead of <code>&gt;&gt;</code>.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(1).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

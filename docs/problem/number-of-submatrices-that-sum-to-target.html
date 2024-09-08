@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Number of Submatrices That Sum to Target - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1074. Number of Submatrices That Sum to Target</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/matrix">Matrix</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/prefix-sum">Prefix Sum</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/disconnect-path-in-a-binary-matrix-by-at-most-one-flip.html">Disconnect Path in a Binary Matrix by at Most One Flip</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a <code>matrix</code>&nbsp;and a <code>target</code>, return the number of non-empty submatrices that sum to target.</p>
+<p>A submatrix <code>x1, y1, x2, y2</code> is the set of all cells <code>matrix[x][y]</code> with <code>x1 &lt;= x &lt;= x2</code> and <code>y1 &lt;= y &lt;= y2</code>.</p>
+<p>Two submatrices <code>(x1, y1, x2, y2)</code> and <code>(x1', y1', x2', y2')</code> are different if they have some coordinate&nbsp;that is different: for example, if <code>x1 != x1'</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2020/09/02/mate1.jpg" alt="" /></p>
+<pre><code class="hljs">Input: matrix = <span class="hljs-string">[[0,1,0],[1,1,1],[0,1,0]]</span>, target = <span class="hljs-number">0</span>
+Output: <span class="hljs-number">4</span>
+Explanation: The four <span class="hljs-number">1</span>x1 submatrices that only contain <span class="hljs-number">0.</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: matrix = <span class="hljs-string">[[1,-1],[-1,1]]</span>, target = <span class="hljs-number">0</span>
+Output: <span class="hljs-number">5</span>
+Explanation: The two <span class="hljs-number">1</span>x2 submatrices, plus the two <span class="hljs-number">2</span>x1 submatrices, plus the <span class="hljs-number">2</span>x2 submatrix.
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: matrix = <span class="hljs-string">[[904]]</span>, target = <span class="hljs-number">0</span>
+Output: <span class="hljs-number">0</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= matrix.length &lt;= 100</code></p></li>
+<li><p><code>1 &lt;= matrix[0].length &lt;= 100</code></p></li>
+<li><p><code>-1000 &lt;= matrix[i] &lt;= 1000</code></p></li>
+<li><p><code>-10^8 &lt;= target &lt;= 10^8</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} matrix
+ * @param {number} target
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> numSubmatrixSumTarget = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">matrix, target</span>) </span>{
+    <span class="hljs-keyword">var</span> m = matrix.length;
+    <span class="hljs-keyword">var</span> n = matrix[<span class="hljs-number">0</span>].length;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; m; i++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">1</span>; j &lt; n; j++) {
+            matrix[i][j] += matrix[i][j - <span class="hljs-number">1</span>];
+        }
+    }
+    <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j1 = <span class="hljs-number">0</span>; j1 &lt; n; j1++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j2 = j1; j2 &lt; n; j2++) {
+            <span class="hljs-keyword">var</span> map = {};
+            <span class="hljs-keyword">var</span> sum = <span class="hljs-number">0</span>;
+            map[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; m; i++) {
+                sum += matrix[i][j2] - (matrix[i][j1 - <span class="hljs-number">1</span>] || <span class="hljs-number">0</span>);
+                <span class="hljs-keyword">if</span> (map[sum - target]) res += map[sum - target];
+                map[sum] = (map[sum] || <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>;
+            }
+        }
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>Prefix sum and hash map.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * n * m).</li>
+<li>Space complexity : O(n * m).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

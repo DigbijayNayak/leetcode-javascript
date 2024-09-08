@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Basic Calculator - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>224. Basic Calculator</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/string">String</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/stack">Stack</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/recursion">Recursion</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/evaluate-reverse-polish-notation.html">Evaluate Reverse Polish Notation</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/basic-calculator-ii.html">Basic Calculator II</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/different-ways-to-add-parentheses.html">Different Ways to Add Parentheses</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/expression-add-operators.html">Expression Add Operators</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/basic-calculator-iii.html">Basic Calculator III</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/the-score-of-students-solving-math-expression.html">The Score of Students Solving Math Expression</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimize-result-by-adding-parentheses-to-expression.html">Minimize Result by Adding Parentheses to Expression</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a string <code>s</code> representing a valid expression, implement a basic calculator to evaluate it, and return <strong>the result of the evaluation</strong>.</p>
+<p><strong>Note:</strong> You are <strong>not</strong> allowed to use any built-in function which evaluates strings as mathematical expressions, such as <code>eval()</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> s = <span class="hljs-string">"1 + 1"</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">2</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> s = <span class="hljs-string">" 2-1 + 2 "</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">3</span>
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: s = "(1+(4<span class="hljs-string">+5</span><span class="hljs-string">+2</span>)<span class="hljs-string">-3</span>)+(6<span class="hljs-string">+8</span>)"
+Output: 23
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= s.length &lt;= 3 * 105</code></p></li>
+<li><p><code>s</code> consists of digits, <code>'+'</code>, <code>'-'</code>, <code>'('</code>, <code>')'</code>, and <code>' '</code>.</p></li>
+<li><p><code>s</code> represents a valid expression.</p></li>
+<li><p><code>'+'</code> is <strong>not</strong> used as a unary operation (i.e., <code>"+1"</code> and <code>"+(2 + 3)"</code> is invalid).</p></li>
+<li><p><code>'-'</code> could be used as a unary operation (i.e., <code>"-1"</code> and <code>"-(2 + 3)"</code> is valid).</p></li>
+<li><p>There will be no two consecutive operators in the input.</p></li>
+<li><p>Every number and running calculation will fit in a signed 32-bit integer.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> calculate = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> isPlus = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">while</span> (i &lt; s.length) {
+        <span class="hljs-keyword">switch</span> (s[i]) {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">' '</span>:
+                i++;
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">'+'</span>:
+                isPlus = <span class="hljs-literal">true</span>;
+                i++;
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">'-'</span>:
+                isPlus = <span class="hljs-literal">false</span>;
+                i++;
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">'('</span>:
+                i++;
+                <span class="hljs-keyword">var</span> num = <span class="hljs-number">0</span>;
+                <span class="hljs-keyword">var</span> <span class="hljs-keyword">from</span> = i;
+                <span class="hljs-keyword">while</span> (!(num === <span class="hljs-number">0</span> &amp;&amp; s[i] === <span class="hljs-string">')'</span>)) {
+                    <span class="hljs-keyword">if</span> (s[i] === <span class="hljs-string">'('</span>) num++;
+                    <span class="hljs-keyword">if</span> (s[i] === <span class="hljs-string">')'</span>) num--;
+                    i++;
+                }
+                isPlus
+                    ? (res += calculate(s.slice(<span class="hljs-keyword">from</span>, i)))
+                    : (res -= calculate(s.slice(<span class="hljs-keyword">from</span>, i)))
+                i++;
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">default</span>:
+                <span class="hljs-keyword">var</span> num = <span class="hljs-built_in">Number</span>(s[i]);
+                <span class="hljs-keyword">while</span> (s[i + <span class="hljs-number">1</span>] &gt;= <span class="hljs-string">'0'</span> &amp;&amp; s[i + <span class="hljs-number">1</span>] &lt;= <span class="hljs-string">'9'</span>) {
+                    i++;
+                    num *= <span class="hljs-number">10</span>;
+                    num += <span class="hljs-built_in">Number</span>(s[i]);
+                }
+                isPlus ? (res += num) : (res -= num);
+                i++;
+                <span class="hljs-keyword">break</span>;
+        }
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

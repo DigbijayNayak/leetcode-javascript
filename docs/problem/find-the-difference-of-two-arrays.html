@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Find the Difference of Two Arrays - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>2215. Find the Difference of Two Arrays</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/intersection-of-two-arrays.html">Intersection of Two Arrays</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/intersection-of-two-arrays-ii.html">Intersection of Two Arrays II</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/intersection-of-multiple-arrays.html">Intersection of Multiple Arrays</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given two <strong>0-indexed</strong> integer arrays <code>nums1</code> and <code>nums2</code>, return <strong>a list</strong> <code>answer</code> <strong>of size</strong> <code>2</code> <strong>where:</strong></p>
+<ul>
+<li><p><code>answer[0]</code> **is a list of all *<em>distinct</em>* integers in** <code>nums1</code> **which are *<em>not</em>* present in** <code>nums2</code><strong>.</strong></p></li>
+<li><p><code>answer[1]</code> **is a list of all *<em>distinct</em>* integers in** <code>nums2</code> **which are *<em>not</em>* present in** <code>nums1</code>.</p></li>
+</ul>
+<p><strong>Note</strong> that the integers in the lists may be returned in <strong>any</strong> order.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: nums1 = <span class="hljs-comment">[1,2,3]</span>, nums2 = <span class="hljs-comment">[2,4,6]</span>
+Output: <span class="hljs-comment">[<span class="hljs-comment">[1,3]</span>,<span class="hljs-comment">[4,6]</span>]</span>
+Explanation:
+For nums1, nums1<span class="hljs-comment">[1]</span> = 2 <span class="hljs-keyword">is</span> present at index 0 <span class="hljs-keyword">of</span> nums2, whereas nums1<span class="hljs-comment">[0]</span> = 1 and nums1<span class="hljs-comment">[2]</span> = 3 <span class="hljs-keyword">are</span> not present in nums2. Therefore, answer<span class="hljs-comment">[0]</span> = <span class="hljs-comment">[1,3]</span>.
+For nums2, nums2<span class="hljs-comment">[0]</span> = 2 <span class="hljs-keyword">is</span> present at index 1 <span class="hljs-keyword">of</span> nums1, whereas nums2<span class="hljs-comment">[1]</span> = 4 and nums2<span class="hljs-comment">[2]</span> = 6 <span class="hljs-keyword">are</span> not present in nums2. Therefore, answer<span class="hljs-comment">[1]</span> = <span class="hljs-comment">[4,6]</span>.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: nums1 = <span class="hljs-comment">[1,2,3,3]</span>, nums2 = <span class="hljs-comment">[1,1,2,2]</span>
+Output: <span class="hljs-comment">[<span class="hljs-comment">[3]</span>,<span class="hljs-comment">[]</span>]</span>
+Explanation:
+For nums1, nums1<span class="hljs-comment">[2]</span> and nums1<span class="hljs-comment">[3]</span> <span class="hljs-keyword">are</span> not present in nums2. Since nums1<span class="hljs-comment">[2]</span> == nums1<span class="hljs-comment">[3]</span>, their value <span class="hljs-keyword">is</span> only included once and answer<span class="hljs-comment">[0]</span> = <span class="hljs-comment">[3]</span>.
+Every integer in nums2 <span class="hljs-keyword">is</span> present in nums1. Therefore, answer<span class="hljs-comment">[1]</span> = <span class="hljs-comment">[]</span>.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= nums1.length, nums2.length &lt;= 1000</code></p></li>
+<li><p><code>-1000 &lt;= nums1[i], nums2[i] &lt;= 1000</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[][]}
+ */</span>
+<span class="hljs-keyword">var</span> findDifference = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums1, nums2</span>) </span>{
+    <span class="hljs-keyword">var</span> map = {};
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; nums1.length; i++) {
+        map[nums1[i]] = (map[nums1[i]] || <span class="hljs-number">0</span>) | <span class="hljs-number">1</span>;
+    }
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; nums2.length; i++) {
+        map[nums2[i]] = (map[nums2[i]] || <span class="hljs-number">0</span>) | <span class="hljs-number">2</span>;
+    }
+    <span class="hljs-keyword">var</span> res = [<span class="hljs-keyword">new</span> <span class="hljs-built_in">Set</span>(), <span class="hljs-keyword">new</span> <span class="hljs-built_in">Set</span>()];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; nums1.length; i++) {
+        <span class="hljs-keyword">if</span> (!(map[nums1[i]] &amp; <span class="hljs-number">2</span>)) {
+            res[<span class="hljs-number">0</span>].add(nums1[i]);
+        }
+    }
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; nums2.length; i++) {
+        <span class="hljs-keyword">if</span> (!(map[nums2[i]] &amp; <span class="hljs-number">1</span>)) {
+            res[<span class="hljs-number">1</span>].add(nums2[i]);
+        }
+    }
+    <span class="hljs-keyword">return</span> res.map(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> <span class="hljs-built_in">Array</span>.from(item));
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

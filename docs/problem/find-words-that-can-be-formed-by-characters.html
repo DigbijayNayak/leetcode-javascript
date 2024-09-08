@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Find Words That Can Be Formed by Characters - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1160. Find Words That Can Be Formed by Characters</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/string">String</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/rearrange-characters-to-make-target-string.html">Rearrange Characters to Make Target String</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given an array of strings <code>words</code> and a string <code>chars</code>.</p>
+<p>A string is <strong>good</strong> if it can be formed by characters from chars (each character can only be used once).</p>
+<p>Return <strong>the sum of lengths of all good strings in words</strong>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Inpu<span class="hljs-variable">t:</span> words = [<span class="hljs-string">"cat"</span>,<span class="hljs-string">"bt"</span>,<span class="hljs-string">"hat"</span>,<span class="hljs-string">"tree"</span>], chars = <span class="hljs-string">"atach"</span>
+Outpu<span class="hljs-variable">t:</span> <span class="hljs-number">6</span>
+Explanation: The strings that can <span class="hljs-keyword">be</span> formed are <span class="hljs-string">"cat"</span> <span class="hljs-built_in">and</span> <span class="hljs-string">"hat"</span> <span class="hljs-keyword">so</span> the answer <span class="hljs-keyword">is</span> <span class="hljs-number">3</span> + <span class="hljs-number">3</span> = <span class="hljs-number">6</span>.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Inpu<span class="hljs-variable">t:</span> words = [<span class="hljs-string">"hello"</span>,<span class="hljs-string">"world"</span>,<span class="hljs-string">"leetcode"</span>], chars = <span class="hljs-string">"welldonehoneyr"</span>
+Outpu<span class="hljs-variable">t:</span> <span class="hljs-number">10</span>
+Explanation: The strings that can <span class="hljs-keyword">be</span> formed are <span class="hljs-string">"hello"</span> <span class="hljs-built_in">and</span> <span class="hljs-string">"world"</span> <span class="hljs-keyword">so</span> the answer <span class="hljs-keyword">is</span> <span class="hljs-number">5</span> + <span class="hljs-number">5</span> = <span class="hljs-number">10</span>.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= words.length &lt;= 1000</code></p></li>
+<li><p><code>1 &lt;= words[i].length, chars.length &lt;= 100</code></p></li>
+<li><p><code>words[i]</code> and <code>chars</code> consist of lowercase English letters.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string[]} words
+ * @param {string} chars
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> countCharacters = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">words, chars</span>) </span>{
+    <span class="hljs-keyword">var</span> map = <span class="hljs-built_in">Array</span>(<span class="hljs-number">26</span>).fill(<span class="hljs-number">0</span>);
+    <span class="hljs-keyword">var</span> a = <span class="hljs-string">'a'</span>.charCodeAt(<span class="hljs-number">0</span>);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; chars.length; i++) {
+        map[chars.charCodeAt(i) - a]++;
+    }
+    <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+    outerLoop: <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> m = <span class="hljs-number">0</span>; m &lt; words.length; m++) {
+        <span class="hljs-keyword">var</span> arr = <span class="hljs-built_in">Array</span>.from(map);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> n = <span class="hljs-number">0</span>; n &lt; words[m].length; n++) {
+            <span class="hljs-keyword">if</span> (--arr[words[m].charCodeAt(n) - a] &lt; <span class="hljs-number">0</span>) <span class="hljs-keyword">continue</span> outerLoop;
+        }
+        res += words[m].length;
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(m * n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

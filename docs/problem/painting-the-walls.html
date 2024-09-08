@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Painting the Walls - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>2742. Painting the Walls</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given two <strong>0-indexed</strong> integer arrays,&nbsp;<code>cost</code> and <code>time</code>, of size <code>n</code> representing the costs and the time taken to paint <code>n</code> different walls respectively. There are two painters available:</p>
+<ul>
+<li><p>A<strong>&nbsp;paid painter</strong>&nbsp;that paints the <code>ith</code> wall in <code>time[i]</code> units of time and takes <code>cost[i]</code> units of money.</p></li>
+<li><p>A<strong>&nbsp;free painter</strong> that paints&nbsp;<strong>any</strong> wall in <code>1</code> unit of time at a cost of <code>0</code>. But the&nbsp;free painter can only be used if the paid painter is already <strong>occupied</strong>.</p></li>
+</ul>
+<p>Return **the minimum amount of money required to paint the **<code>n</code><strong>&nbsp;walls.</strong></p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: cost = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>], <span class="hljs-built_in">time</span> = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>]
+Output: <span class="hljs-number">3</span>
+Explanation: The walls <span class="hljs-keyword">at</span> index <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> <span class="hljs-number">1</span> will be painted <span class="hljs-keyword">by</span> <span class="hljs-keyword">the</span> paid painter, <span class="hljs-keyword">and</span> <span class="hljs-keyword">it</span> will take <span class="hljs-number">3</span> units <span class="hljs-keyword">of</span> <span class="hljs-built_in">time</span>; meanwhile, <span class="hljs-keyword">the</span> free painter will paint <span class="hljs-keyword">the</span> walls <span class="hljs-keyword">at</span> index <span class="hljs-number">2</span> <span class="hljs-keyword">and</span> <span class="hljs-number">3</span>, free <span class="hljs-keyword">of</span> cost <span class="hljs-keyword">in</span> <span class="hljs-number">2</span> units <span class="hljs-keyword">of</span> <span class="hljs-built_in">time</span>. Thus, <span class="hljs-keyword">the</span> total cost is <span class="hljs-number">1</span> + <span class="hljs-number">2</span> = <span class="hljs-number">3.</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: cost = [<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">2</span>], <span class="hljs-built_in">time</span> = [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]
+Output: <span class="hljs-number">4</span>
+Explanation: The walls <span class="hljs-keyword">at</span> index <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> <span class="hljs-number">3</span> will be painted <span class="hljs-keyword">by</span> <span class="hljs-keyword">the</span> paid painter, <span class="hljs-keyword">and</span> <span class="hljs-keyword">it</span> will take <span class="hljs-number">2</span> units <span class="hljs-keyword">of</span> <span class="hljs-built_in">time</span>; meanwhile, <span class="hljs-keyword">the</span> free painter will paint <span class="hljs-keyword">the</span> walls <span class="hljs-keyword">at</span> index <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> <span class="hljs-number">2</span>, free <span class="hljs-keyword">of</span> cost <span class="hljs-keyword">in</span> <span class="hljs-number">2</span> units <span class="hljs-keyword">of</span> <span class="hljs-built_in">time</span>. Thus, <span class="hljs-keyword">the</span> total cost is <span class="hljs-number">2</span> + <span class="hljs-number">2</span> = <span class="hljs-number">4.</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= cost.length &lt;= 500</code></p></li>
+<li><p><code>cost.length == time.length</code></p></li>
+<li><p><code>1 &lt;= cost[i] &lt;= 106</code></p></li>
+<li><p><code>1 &lt;= time[i] &lt;= 500</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} cost
+ * @param {number[]} time
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> paintWalls = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">cost, time</span>) </span>{
+    <span class="hljs-keyword">var</span> dp = <span class="hljs-built_in">Array</span>(cost.length).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">Array</span>(cost.length + <span class="hljs-number">1</span>));
+    <span class="hljs-keyword">return</span> helper(cost, time, <span class="hljs-number">0</span>, cost.length, dp);
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">cost, time, i, remains, dp</span>) </span>{
+    <span class="hljs-keyword">if</span> (remains &lt;= <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (i === cost.length) <span class="hljs-keyword">return</span> <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER;
+    <span class="hljs-keyword">if</span> (dp[i][remains] !== <span class="hljs-literal">undefined</span>) <span class="hljs-keyword">return</span> dp[i][remains];
+    <span class="hljs-keyword">var</span> paintByPaidPainter = cost[i] + helper(cost, time, i + <span class="hljs-number">1</span>, remains - time[i] - <span class="hljs-number">1</span>, dp);
+    <span class="hljs-keyword">var</span> paintByFreePainter = helper(cost, time, i + <span class="hljs-number">1</span>, remains, dp);
+    dp[i][remains] = <span class="hljs-built_in">Math</span>.min(paintByPaidPainter, paintByFreePainter);
+    <span class="hljs-keyword">return</span> dp[i][remains];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>Top down dp.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n ^ 2).</li>
+<li>Space complexity : O(n ^ 2).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

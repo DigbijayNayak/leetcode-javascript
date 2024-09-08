@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Minimum Operations to Reduce X to Zero - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1658. Minimum Operations to Reduce X to Zero</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/sliding-window">Sliding Window</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/prefix-sum">Prefix Sum</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-size-subarray-sum.html">Minimum Size Subarray Sum</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/subarray-sum-equals-k.html">Subarray Sum Equals K</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-operations-to-convert-number.html">Minimum Operations to Convert Number</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/removing-minimum-number-of-magic-beans.html">Removing Minimum Number of Magic Beans</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-operations-to-make-the-integer-zero.html">Minimum Operations to Make the Integer Zero</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given an integer array <code>nums</code> and an integer <code>x</code>. In one operation, you can either remove the leftmost or the rightmost element from the array <code>nums</code> and subtract its value from <code>x</code>. Note that this <strong>modifies</strong> the array for future operations.</p>
+<p>Return **the *<em>minimum number</em>* of operations to reduce **<code>x</code> **to *<em>exactly<strong><em></em> <code>0</code> *<em>if it is possible</em></strong></em>, otherwise, return **<code>-1</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Inpu<span class="hljs-variable">t:</span> nums = [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>], <span class="hljs-keyword">x</span> = <span class="hljs-number">5</span>
+Outpu<span class="hljs-variable">t:</span> <span class="hljs-number">2</span>
+Explanation: The optimal solution <span class="hljs-keyword">is</span> <span class="hljs-keyword">to</span> <span class="hljs-built_in">remove</span> the <span class="hljs-keyword">last</span> two elements <span class="hljs-keyword">to</span> reduce <span class="hljs-keyword">x</span> <span class="hljs-keyword">to</span> zero.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> nums = [<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>], <span class="hljs-built_in">x</span> = <span class="hljs-number">4</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">-1</span>
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: nums = [<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">20</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">3</span>], x = <span class="hljs-number">10</span>
+Output: <span class="hljs-number">5</span>
+Explanation: The optimal solution is <span class="hljs-built_in">to</span> remove <span class="hljs-keyword">the</span> <span class="hljs-keyword">last</span> <span class="hljs-literal">three</span> elements <span class="hljs-keyword">and</span> <span class="hljs-keyword">the</span> <span class="hljs-keyword">first</span> <span class="hljs-literal">two</span> elements (<span class="hljs-number">5</span> operations <span class="hljs-keyword">in</span> total) <span class="hljs-built_in">to</span> reduce x <span class="hljs-built_in">to</span> <span class="hljs-literal">zero</span>.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= nums.length &lt;= 105</code></p></li>
+<li><p><code>1 &lt;= nums[i] &lt;= 104</code></p></li>
+<li><p><code>1 &lt;= x &lt;= 109</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @param {number} x
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> minOperations = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums, x</span>) </span>{
+    <span class="hljs-keyword">var</span> leftSumMap = { <span class="hljs-number">0</span>: <span class="hljs-number">0</span> };
+    <span class="hljs-keyword">var</span> rightSumMap = { <span class="hljs-number">0</span>: <span class="hljs-number">0</span> };
+    <span class="hljs-keyword">var</span> leftSum = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> rightSum = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> min = <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; nums.length; i++) {
+      leftSum += nums[i];
+      rightSum += nums[nums.length - <span class="hljs-number">1</span> - i];
+      leftSumMap[leftSum] = i + <span class="hljs-number">1</span>;
+      rightSumMap[rightSum] = i + <span class="hljs-number">1</span>;
+      <span class="hljs-keyword">if</span> (rightSumMap[x - leftSum] !== <span class="hljs-literal">undefined</span> &amp;&amp; (i + <span class="hljs-number">1</span> + rightSumMap[x - leftSum]) &lt;= nums.length) {
+        min = <span class="hljs-built_in">Math</span>.min(min, i + <span class="hljs-number">1</span> + rightSumMap[x - leftSum]);
+      }
+      <span class="hljs-keyword">if</span> (leftSumMap[x - rightSum] !== <span class="hljs-literal">undefined</span> &amp;&amp; (i + <span class="hljs-number">1</span> + leftSumMap[x - rightSum]) &lt;= nums.length) {
+        min = <span class="hljs-built_in">Math</span>.min(min, i + <span class="hljs-number">1</span> + leftSumMap[x - rightSum]);
+      }
+    }
+    <span class="hljs-keyword">return</span> min === <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER ? <span class="hljs-number">-1</span> : min;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n * n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

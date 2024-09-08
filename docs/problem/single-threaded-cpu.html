@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Single-Threaded CPU - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1834. Single-Threaded CPU</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/sorting">Sorting</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/heap-priority-queue">Heap (Priority Queue)</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/parallel-courses-iii.html">Parallel Courses III</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-time-to-complete-all-tasks.html">Minimum Time to Complete All Tasks</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given <code>n</code>​​​​​​ tasks labeled from <code>0</code> to <code>n - 1</code> represented by a 2D integer array <code>tasks</code>, where <code>tasks[i] = [enqueueTimei, processingTimei]</code> means that the <code>i​​​​​​th</code>​​​​ task will be available to process at <code>enqueueTimei</code> and will take <code>processingTimei</code> to finish processing.</p>
+<p>You have a single-threaded CPU that can process <strong>at most one</strong> task at a time and will act in the following way:</p>
+<ul>
+<li><p>If the CPU is idle and there are no available tasks to process, the CPU remains idle.</p></li>
+<li><p>If the CPU is idle and there are available tasks, the CPU will choose the one with the <strong>shortest processing time</strong>. If multiple tasks have the same shortest processing time, it will choose the task with the smallest index.</p></li>
+<li><p>Once a task is started, the CPU will <strong>process the entire task</strong> without stopping.</p></li>
+<li><p>The CPU can finish a task then start a new one instantly.</p></li>
+</ul>
+<p>Return <strong>the order in which the CPU will process the tasks.</strong></p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: tasks = [[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>],[<span class="hljs-number">2</span>,<span class="hljs-number">4</span>],[<span class="hljs-number">3</span>,<span class="hljs-number">2</span>],[<span class="hljs-number">4</span>,<span class="hljs-number">1</span>]]
+Output: [<span class="hljs-number">0</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>]
+Explanation: The events go as follows: 
+- <span class="hljs-keyword">At</span> time = <span class="hljs-number">1</span>, <span class="hljs-keyword">task</span> <span class="hljs-number">0</span> <span class="hljs-keyword">is</span> available to process. Available tasks = {<span class="hljs-number">0</span>}.
+- Also <span class="hljs-keyword">at</span> time = <span class="hljs-number">1</span>, the idle CPU starts processing <span class="hljs-keyword">task</span> <span class="hljs-number">0</span>. Available tasks = {}.
+- <span class="hljs-keyword">At</span> time = <span class="hljs-number">2</span>, <span class="hljs-keyword">task</span> <span class="hljs-number">1</span> <span class="hljs-keyword">is</span> available to process. Available tasks = {<span class="hljs-number">1</span>}.
+- <span class="hljs-keyword">At</span> time = <span class="hljs-number">3</span>, <span class="hljs-keyword">task</span> <span class="hljs-number">2</span> <span class="hljs-keyword">is</span> available to process. Available tasks = {<span class="hljs-number">1</span>, <span class="hljs-number">2</span>}.
+- Also <span class="hljs-keyword">at</span> time = <span class="hljs-number">3</span>, the CPU finishes <span class="hljs-keyword">task</span> <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> starts processing <span class="hljs-keyword">task</span> <span class="hljs-number">2</span> as it <span class="hljs-keyword">is</span> the shortest. Available tasks = {<span class="hljs-number">1</span>}.
+- <span class="hljs-keyword">At</span> time = <span class="hljs-number">4</span>, <span class="hljs-keyword">task</span> <span class="hljs-number">3</span> <span class="hljs-keyword">is</span> available to process. Available tasks = {<span class="hljs-number">1</span>, <span class="hljs-number">3</span>}.
+- <span class="hljs-keyword">At</span> time = <span class="hljs-number">5</span>, the CPU finishes <span class="hljs-keyword">task</span> <span class="hljs-number">2</span> <span class="hljs-keyword">and</span> starts processing <span class="hljs-keyword">task</span> <span class="hljs-number">3</span> as it <span class="hljs-keyword">is</span> the shortest. Available tasks = {<span class="hljs-number">1</span>}.
+- <span class="hljs-keyword">At</span> time = <span class="hljs-number">6</span>, the CPU finishes <span class="hljs-keyword">task</span> <span class="hljs-number">3</span> <span class="hljs-keyword">and</span> starts processing <span class="hljs-keyword">task</span> <span class="hljs-number">1</span>. Available tasks = {}.
+- <span class="hljs-keyword">At</span> time = <span class="hljs-number">10</span>, the CPU finishes <span class="hljs-keyword">task</span> <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> becomes idle.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: tasks = [[<span class="hljs-number">7</span>,<span class="hljs-number">10</span>],[<span class="hljs-number">7</span>,<span class="hljs-number">12</span>],[<span class="hljs-number">7</span>,<span class="hljs-number">5</span>],[<span class="hljs-number">7</span>,<span class="hljs-number">4</span>],[<span class="hljs-number">7</span>,<span class="hljs-number">2</span>]]
+Output: [<span class="hljs-number">4</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>]
+Explanation: The events go as follows:
+- <span class="hljs-keyword">At</span> time = <span class="hljs-number">7</span>, <span class="hljs-keyword">all</span> the tasks become available. Available tasks = {<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>}.
+- Also <span class="hljs-keyword">at</span> time = <span class="hljs-number">7</span>, the idle CPU starts processing <span class="hljs-keyword">task</span> <span class="hljs-number">4</span>. Available tasks = {<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>}.
+- <span class="hljs-keyword">At</span> time = <span class="hljs-number">9</span>, the CPU finishes <span class="hljs-keyword">task</span> <span class="hljs-number">4</span> <span class="hljs-keyword">and</span> starts processing <span class="hljs-keyword">task</span> <span class="hljs-number">3</span>. Available tasks = {<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>}.
+- <span class="hljs-keyword">At</span> time = <span class="hljs-number">13</span>, the CPU finishes <span class="hljs-keyword">task</span> <span class="hljs-number">3</span> <span class="hljs-keyword">and</span> starts processing <span class="hljs-keyword">task</span> <span class="hljs-number">2</span>. Available tasks = {<span class="hljs-number">0</span>,<span class="hljs-number">1</span>}.
+- <span class="hljs-keyword">At</span> time = <span class="hljs-number">18</span>, the CPU finishes <span class="hljs-keyword">task</span> <span class="hljs-number">2</span> <span class="hljs-keyword">and</span> starts processing <span class="hljs-keyword">task</span> <span class="hljs-number">0</span>. Available tasks = {<span class="hljs-number">1</span>}.
+- <span class="hljs-keyword">At</span> time = <span class="hljs-number">28</span>, the CPU finishes <span class="hljs-keyword">task</span> <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> starts processing <span class="hljs-keyword">task</span> <span class="hljs-number">1</span>. Available tasks = {}.
+- <span class="hljs-keyword">At</span> time = <span class="hljs-number">40</span>, the CPU finishes <span class="hljs-keyword">task</span> <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> becomes idle.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>tasks.length == n</code></p></li>
+<li><p><code>1 &lt;= n &lt;= 105</code></p></li>
+<li><p><code>1 &lt;= enqueueTimei, processingTimei &lt;= 109</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} tasks
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> getOrder = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">tasks</span>) </span>{
+    <span class="hljs-keyword">var</span> arr = tasks.map(<span class="hljs-function">(<span class="hljs-params">task, i</span>) =&gt;</span> [task[<span class="hljs-number">0</span>], task[<span class="hljs-number">1</span>], i]).sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a[<span class="hljs-number">0</span>] - b[<span class="hljs-number">0</span>]);
+
+    <span class="hljs-keyword">var</span> queue = <span class="hljs-keyword">new</span> MinPriorityQueue();
+    <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> res = [];
+    <span class="hljs-keyword">var</span> lastTime = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (i &lt; arr.length || queue.size()) {
+        <span class="hljs-keyword">if</span> (!queue.size() &amp;&amp; arr[i][<span class="hljs-number">0</span>] &gt; lastTime) {
+            lastTime = arr[i][<span class="hljs-number">0</span>];
+        }
+
+        <span class="hljs-keyword">while</span> (arr[i] &amp;&amp; arr[i][<span class="hljs-number">0</span>] &lt;= lastTime) {
+            <span class="hljs-keyword">var</span> priority = arr[i][<span class="hljs-number">1</span>] + (arr[i][<span class="hljs-number">2</span>] / <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">10</span>, <span class="hljs-string">`<span class="hljs-subst">${arr.length}</span>`</span>.length));
+            queue.enqueue(arr[i], priority);
+            i++;
+        }
+
+        <span class="hljs-keyword">var</span> task = queue.dequeue().element;
+        res.push(task[<span class="hljs-number">2</span>]);
+        lastTime += task[<span class="hljs-number">1</span>];
+    }
+
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

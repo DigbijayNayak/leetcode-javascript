@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Can Make Arithmetic Progression From Sequence - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1502. Can Make Arithmetic Progression From Sequence</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/sorting">Sorting</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/arithmetic-subarrays.html">Arithmetic Subarrays</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>A sequence of numbers is called an <strong>arithmetic progression</strong> if the difference between any two consecutive elements is the same.</p>
+<p>Given an array of numbers <code>arr</code>, return <code>true</code> **if the array can be rearranged to form an **arithmetic progression<strong>. Otherwise, return</strong> <code>false</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: arr = [<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">1</span>]
+Output: <span class="hljs-literal">true</span>
+Explanation: We can reorder <span class="hljs-keyword">the</span> elements <span class="hljs-keyword">as</span> [<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>] <span class="hljs-keyword">or</span> [<span class="hljs-number">5</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>] <span class="hljs-keyword">with</span> differences <span class="hljs-number">2</span> <span class="hljs-keyword">and</span> <span class="hljs-number">-2</span> respectively, between <span class="hljs-keyword">each</span> consecutive elements.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-attr">Input:</span> <span class="hljs-string">arr</span> <span class="hljs-string">=</span> <span class="hljs-string">[1,2,4]</span>
+<span class="hljs-attr">Output:</span> <span class="hljs-literal">false</span>
+<span class="hljs-attr">Explanation:</span> <span class="hljs-string">There</span> <span class="hljs-string">is</span> <span class="hljs-literal">no</span> <span class="hljs-string">way</span> <span class="hljs-string">to</span> <span class="hljs-string">reorder</span> <span class="hljs-string">the</span> <span class="hljs-string">elements</span> <span class="hljs-string">to</span> <span class="hljs-string">obtain</span> <span class="hljs-string">an</span> <span class="hljs-string">arithmetic</span> <span class="hljs-string">progression.</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>2 &lt;= arr.length &lt;= 1000</code></p></li>
+<li><p><code>-106 &lt;= arr[i] &lt;= 106</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} arr
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> canMakeArithmeticProgression = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">arr</span>) </span>{
+    <span class="hljs-keyword">if</span> (arr.length &lt;= <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    arr.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a - b);
+    <span class="hljs-keyword">const</span> differ = arr[<span class="hljs-number">1</span>] - arr[<span class="hljs-number">0</span>];
+    <span class="hljs-keyword">return</span> arr.every(<span class="hljs-function">(<span class="hljs-params">item, i</span>) =&gt;</span> i === <span class="hljs-number">0</span> || item - arr[i - <span class="hljs-number">1</span>] === differ);
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(nlogn).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

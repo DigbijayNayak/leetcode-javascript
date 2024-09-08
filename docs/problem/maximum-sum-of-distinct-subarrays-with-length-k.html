@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Maximum Sum of Distinct Subarrays With Length K - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>2461. Maximum Sum of Distinct Subarrays With Length K</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/sliding-window">Sliding Window</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/max-consecutive-ones-iii.html">Max Consecutive Ones III</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/longest-nice-subarray.html">Longest Nice Subarray</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/optimal-partition-of-string.html">Optimal Partition of String</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/count-the-number-of-good-subarrays.html">Count the Number of Good Subarrays</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given an integer array <code>nums</code> and an integer <code>k</code>. Find the maximum subarray sum of all the subarrays of <code>nums</code> that meet the following conditions:</p>
+<ul>
+<li><p>The length of the subarray is <code>k</code>, and</p></li>
+<li><p>All the elements of the subarray are <strong>distinct</strong>.</p></li>
+</ul>
+<p>Return <strong>the maximum subarray sum of all the subarrays that meet the conditions</strong><strong>.</strong> If no subarray meets the conditions, return <code>0</code>.</p>
+<p>**A *<em>subarray</em>* is a contiguous non-empty sequence of elements within an array.**</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: nums = [<span class="hljs-number">1</span>,<span class="hljs-number">5</span>,<span class="hljs-number">4</span>,<span class="hljs-number">2</span>,<span class="hljs-number">9</span>,<span class="hljs-number">9</span>,<span class="hljs-number">9</span>], k = <span class="hljs-number">3</span>
+Output: <span class="hljs-number">15</span>
+Explanation: The subarrays <span class="hljs-keyword">of</span> nums <span class="hljs-keyword">with</span> <span class="hljs-built_in">length</span> <span class="hljs-number">3</span> are:
+- [<span class="hljs-number">1</span>,<span class="hljs-number">5</span>,<span class="hljs-number">4</span>] which meets <span class="hljs-keyword">the</span> requirements <span class="hljs-keyword">and</span> has <span class="hljs-keyword">a</span> <span class="hljs-built_in">sum</span> <span class="hljs-keyword">of</span> <span class="hljs-number">10.</span>
+- [<span class="hljs-number">5</span>,<span class="hljs-number">4</span>,<span class="hljs-number">2</span>] which meets <span class="hljs-keyword">the</span> requirements <span class="hljs-keyword">and</span> has <span class="hljs-keyword">a</span> <span class="hljs-built_in">sum</span> <span class="hljs-keyword">of</span> <span class="hljs-number">11.</span>
+- [<span class="hljs-number">4</span>,<span class="hljs-number">2</span>,<span class="hljs-number">9</span>] which meets <span class="hljs-keyword">the</span> requirements <span class="hljs-keyword">and</span> has <span class="hljs-keyword">a</span> <span class="hljs-built_in">sum</span> <span class="hljs-keyword">of</span> <span class="hljs-number">15.</span>
+- [<span class="hljs-number">2</span>,<span class="hljs-number">9</span>,<span class="hljs-number">9</span>] which does <span class="hljs-keyword">not</span> meet <span class="hljs-keyword">the</span> requirements because <span class="hljs-keyword">the</span> <span class="hljs-keyword">element</span> <span class="hljs-number">9</span> is repeated.
+- [<span class="hljs-number">9</span>,<span class="hljs-number">9</span>,<span class="hljs-number">9</span>] which does <span class="hljs-keyword">not</span> meet <span class="hljs-keyword">the</span> requirements because <span class="hljs-keyword">the</span> <span class="hljs-keyword">element</span> <span class="hljs-number">9</span> is repeated.
+We <span class="hljs-literal">return</span> <span class="hljs-number">15</span> because <span class="hljs-keyword">it</span> is <span class="hljs-keyword">the</span> maximum subarray <span class="hljs-built_in">sum</span> <span class="hljs-keyword">of</span> all <span class="hljs-keyword">the</span> subarrays that meet <span class="hljs-keyword">the</span> conditions
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: nums = [<span class="hljs-number">4</span>,<span class="hljs-number">4</span>,<span class="hljs-number">4</span>], k = <span class="hljs-number">3</span>
+Output: <span class="hljs-number">0</span>
+Explanation: The subarrays <span class="hljs-keyword">of</span> nums <span class="hljs-keyword">with</span> <span class="hljs-built_in">length</span> <span class="hljs-number">3</span> are:
+- [<span class="hljs-number">4</span>,<span class="hljs-number">4</span>,<span class="hljs-number">4</span>] which does <span class="hljs-keyword">not</span> meet <span class="hljs-keyword">the</span> requirements because <span class="hljs-keyword">the</span> <span class="hljs-keyword">element</span> <span class="hljs-number">4</span> is repeated.
+We <span class="hljs-literal">return</span> <span class="hljs-number">0</span> because no subarrays meet <span class="hljs-keyword">the</span> conditions.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= k &lt;= nums.length &lt;= 105</code></p></li>
+<li><p><code>1 &lt;= nums[i] &lt;= 105</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> maximumSubarraySum = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums, k</span>) </span>{
+    <span class="hljs-keyword">var</span> map = {};
+    <span class="hljs-keyword">var</span> duplicateNums = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> sum = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; k; j++) {
+        map[nums[j]] = (map[nums[j]] || <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>;
+        sum += nums[j];
+        <span class="hljs-keyword">if</span> (map[nums[j]] === <span class="hljs-number">2</span>) {
+            duplicateNums++;
+        }
+    }
+    <span class="hljs-keyword">var</span> maxSum = duplicateNums === <span class="hljs-number">0</span> ? sum : <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = k; i &lt; nums.length; i++) {
+        <span class="hljs-keyword">var</span> num = map[nums[i]] || <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">var</span> before = map[nums[i - k]];
+        map[nums[i]] = num + <span class="hljs-number">1</span>;
+        map[nums[i - k]]--;
+        sum += nums[i];
+        sum -= nums[i - k];
+        <span class="hljs-keyword">if</span> (num === <span class="hljs-number">1</span> &amp;&amp; map[nums[i]] === <span class="hljs-number">2</span>) {
+            duplicateNums++;
+        }
+        <span class="hljs-keyword">if</span> (before === <span class="hljs-number">2</span> &amp;&amp; map[nums[i - k]] === <span class="hljs-number">1</span>) {
+            duplicateNums--;
+        }
+        <span class="hljs-keyword">if</span> (duplicateNums === <span class="hljs-number">0</span>) {
+            maxSum = <span class="hljs-built_in">Math</span>.max(maxSum, sum);
+        }
+    }
+    <span class="hljs-keyword">return</span> maxSum;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>Sliding window and hash map.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

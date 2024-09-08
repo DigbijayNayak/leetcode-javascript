@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Maximum Length of Pair Chain - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>646. Maximum Length of Pair Chain</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/greedy">Greedy</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/sorting">Sorting</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/longest-increasing-subsequence.html">Longest Increasing Subsequence</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/non-decreasing-subsequences.html">Non-decreasing Subsequences</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/longest-non-decreasing-subarray-from-two-arrays.html">Longest Non-decreasing Subarray From Two Arrays</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given an array of <code>n</code> pairs <code>pairs</code> where <code>pairs[i] = [lefti, righti]</code> and <code>lefti &lt; righti</code>.</p>
+<p>A pair <code>p2 = [c, d]</code> <strong>follows</strong> a pair <code>p1 = [a, b]</code> if <code>b &lt; c</code>. A <strong>chain</strong> of pairs can be formed in this fashion.</p>
+<p>Return <strong>the length longest chain which can be formed</strong>.</p>
+<p>You do not need to use up all the given intervals. You can select pairs in any order.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: pairs = <span class="hljs-comment">[<span class="hljs-comment">[1,2]</span>,<span class="hljs-comment">[2,3]</span>,<span class="hljs-comment">[3,4]</span>]</span>
+Output: 2
+Explanation: The longest chain <span class="hljs-keyword">is</span> <span class="hljs-comment">[1,2]</span> -&gt; <span class="hljs-comment">[3,4]</span>.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: pairs = <span class="hljs-comment">[<span class="hljs-comment">[1,2]</span>,<span class="hljs-comment">[7,8]</span>,<span class="hljs-comment">[4,5]</span>]</span>
+Output: 3
+Explanation: The longest chain <span class="hljs-keyword">is</span> <span class="hljs-comment">[1,2]</span> -&gt; <span class="hljs-comment">[4,5]</span> -&gt; <span class="hljs-comment">[7,8]</span>.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>n == pairs.length</code></p></li>
+<li><p><code>1 &lt;= n &lt;= 1000</code></p></li>
+<li><p><code>-1000 &lt;= lefti &lt; righti &lt;= 1000</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} pairs
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> findLongestChain = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">pairs</span>) </span>{
+    pairs.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a[<span class="hljs-number">0</span>] - b[<span class="hljs-number">0</span>]);
+    <span class="hljs-keyword">var</span> dp = <span class="hljs-built_in">Array</span>(pairs.length);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = pairs.length - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) {
+        <span class="hljs-keyword">var</span> j = i + <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">while</span> (j &lt; pairs.length &amp;&amp; pairs[j][<span class="hljs-number">0</span>] &lt;= pairs[i][<span class="hljs-number">1</span>]) j++;
+        dp[i] = <span class="hljs-built_in">Math</span>.max(
+            dp[i + <span class="hljs-number">1</span>] || <span class="hljs-number">0</span>,
+            <span class="hljs-number">1</span> + (dp[j] || <span class="hljs-number">0</span>),
+        );
+    }
+    <span class="hljs-keyword">return</span> dp[<span class="hljs-number">0</span>];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>Dynamic programming.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n ^ 2).</li>
+<li>Space complexity : O(n).</li>
+</ul>
+<h2 id="solution-2">Solution 2</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} pairs
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> findLongestChain = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">pairs</span>) </span>{
+    pairs.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a[<span class="hljs-number">1</span>] - b[<span class="hljs-number">1</span>]);
+    <span class="hljs-keyword">var</span> res = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; pairs.length; j++) {
+        <span class="hljs-keyword">if</span> (pairs[j][<span class="hljs-number">0</span>] &gt; pairs[i][<span class="hljs-number">1</span>]) {
+            i = j;
+            res++;
+        }
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>Greedy.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * log(n)).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

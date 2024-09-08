@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Count Number of Homogenous Substrings - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1759. Count Number of Homogenous Substrings</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/string">String</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/consecutive-characters.html">Consecutive Characters</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/number-of-substrings-with-only-1s.html">Number of Substrings With Only 1s</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/sum-of-subarray-ranges.html">Sum of Subarray Ranges</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/count-the-number-of-good-subarrays.html">Count the Number of Good Subarrays</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a string <code>s</code>, return **the number of *<em>homogenous</em>* substrings of <strong><code>s</code></strong>.** Since the answer may be too large, return it <strong>modulo</strong> <code>109 + 7</code>.</p>
+<p>A string is <strong>homogenous</strong> if all the characters of the string are the same.</p>
+<p>A <strong>substring</strong> is a contiguous sequence of characters within a string.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: s = <span class="hljs-string">"abbcccaa"</span>
+Output: <span class="hljs-number">13</span>
+Explanation: The homogenous substrings are listed <span class="hljs-keyword">as</span> <span class="hljs-keyword">below</span>:
+<span class="hljs-string">"a"</span>   appears <span class="hljs-number">3</span> <span class="hljs-keyword">times</span>.
+<span class="hljs-string">"aa"</span>  appears <span class="hljs-number">1</span> <span class="hljs-built_in">time</span>.
+<span class="hljs-string">"b"</span>   appears <span class="hljs-number">2</span> <span class="hljs-keyword">times</span>.
+<span class="hljs-string">"bb"</span>  appears <span class="hljs-number">1</span> <span class="hljs-built_in">time</span>.
+<span class="hljs-string">"c"</span>   appears <span class="hljs-number">3</span> <span class="hljs-keyword">times</span>.
+<span class="hljs-string">"cc"</span>  appears <span class="hljs-number">2</span> <span class="hljs-keyword">times</span>.
+<span class="hljs-string">"ccc"</span> appears <span class="hljs-number">1</span> <span class="hljs-built_in">time</span>.
+<span class="hljs-number">3</span> + <span class="hljs-number">1</span> + <span class="hljs-number">2</span> + <span class="hljs-number">1</span> + <span class="hljs-number">3</span> + <span class="hljs-number">2</span> + <span class="hljs-number">1</span> = <span class="hljs-number">13.</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> s = <span class="hljs-string">"xy"</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">2</span>
+<span class="hljs-symbol">Explanation:</span> The homogenous substrings are <span class="hljs-string">"x"</span> <span class="hljs-keyword">and</span> <span class="hljs-string">"y"</span>.
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> s = <span class="hljs-string">"zzzzz"</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">15</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= s.length &lt;= 105</code></p></li>
+<li><p><code>s</code> consists of lowercase letters.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> countHomogenous = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-keyword">var</span> startIndex = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> sum = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> mod = <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">10</span>, <span class="hljs-number">9</span>) + <span class="hljs-number">7</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; s.length; i++) {
+        <span class="hljs-keyword">if</span> (s[i] === s[i + <span class="hljs-number">1</span>]) <span class="hljs-keyword">continue</span>;
+        <span class="hljs-keyword">var</span> num = i - startIndex + <span class="hljs-number">1</span>;
+        sum += ((<span class="hljs-number">1</span> + num) * num / <span class="hljs-number">2</span>) % mod;
+        sum %= mod;
+        startIndex = i + <span class="hljs-number">1</span>;
+    }
+    <span class="hljs-keyword">return</span> sum;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

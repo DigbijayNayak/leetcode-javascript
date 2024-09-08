@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Minimize the Maximum Difference of Pairs - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>2616. Minimize the Maximum Difference of Pairs</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/greedy">Greedy</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-absolute-difference.html">Minimum Absolute Difference</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-difference-between-largest-and-smallest-value-in-three-moves.html">Minimum Difference Between Largest and Smallest Value in Three Moves</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> and an integer <code>p</code>. Find <code>p</code> pairs of indices of <code>nums</code> such that the <strong>maximum</strong> difference amongst all the pairs is <strong>minimized</strong>. Also, ensure no index appears more than once amongst the <code>p</code> pairs.</p>
+<p>Note that for a pair of elements at the index <code>i</code> and <code>j</code>, the difference of this pair is <code>|nums[i] - nums[j]|</code>, where <code>|x|</code> represents the <strong>absolute</strong> <strong>value</strong> of <code>x</code>.</p>
+<p>Return **the *<em>minimum</em>* <strong>maximum</strong> difference among all **<code>p</code> *<em>pairs.</em>* We define the maximum of an empty set to be zero.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: nums = [<span class="hljs-number">10</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">7</span>,<span class="hljs-number">1</span>,<span class="hljs-number">3</span>], p = <span class="hljs-number">2</span>
+Output: <span class="hljs-number">1</span>
+Explanation: The <span class="hljs-keyword">first</span> pair is formed <span class="hljs-built_in">from</span> <span class="hljs-keyword">the</span> indices <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> <span class="hljs-number">4</span>, <span class="hljs-keyword">and</span> <span class="hljs-keyword">the</span> <span class="hljs-keyword">second</span> pair is formed <span class="hljs-built_in">from</span> <span class="hljs-keyword">the</span> indices <span class="hljs-number">2</span> <span class="hljs-keyword">and</span> <span class="hljs-number">5.</span> 
+The maximum difference is <span class="hljs-built_in">max</span>(|nums[<span class="hljs-number">1</span>] - nums[<span class="hljs-number">4</span>]|, |nums[<span class="hljs-number">2</span>] - nums[<span class="hljs-number">5</span>]|) = <span class="hljs-built_in">max</span>(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>) = <span class="hljs-number">1.</span> Therefore, we <span class="hljs-literal">return</span> <span class="hljs-number">1.</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: nums = [<span class="hljs-number">4</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>], p = <span class="hljs-number">1</span>
+Output: <span class="hljs-number">0</span>
+Explanation: Let <span class="hljs-keyword">the</span> indices <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> <span class="hljs-number">3</span> form a pair. The difference <span class="hljs-keyword">of</span> <span class="hljs-keyword">that</span> pair <span class="hljs-keyword">is</span> |<span class="hljs-number">2</span> - <span class="hljs-number">2</span>| = <span class="hljs-number">0</span>, which <span class="hljs-keyword">is</span> <span class="hljs-keyword">the</span> minimum we can attain.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= nums.length &lt;= 105</code></p></li>
+<li><p><code>0 &lt;= nums[i] &lt;= 109</code></p></li>
+<li><p><code>0 &lt;= p &lt;= (nums.length)/2</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @param {number} p
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> minimizeMax = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums, p</span>) </span>{
+    nums.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a - b);
+    <span class="hljs-keyword">var</span> left = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> right = nums[nums.length - <span class="hljs-number">1</span>] - nums[<span class="hljs-number">0</span>];
+    <span class="hljs-keyword">while</span> (left &lt; right) {
+        <span class="hljs-keyword">var</span> mid = left + <span class="hljs-built_in">Math</span>.floor((right - left) / <span class="hljs-number">2</span>);
+        <span class="hljs-keyword">if</span> (count(nums, mid) &gt;= p) {
+            right = mid;
+        } <span class="hljs-keyword">else</span> {
+            left = mid + <span class="hljs-number">1</span>;
+        }
+    }
+    <span class="hljs-keyword">return</span> left;
+};
+
+<span class="hljs-keyword">var</span> count = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums, n</span>) </span>{
+    <span class="hljs-keyword">var</span> num = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; nums.length - <span class="hljs-number">1</span>; i++) {
+        <span class="hljs-keyword">if</span> (nums[i + <span class="hljs-number">1</span>] - nums[i] &lt;= n) {
+            i++;
+            num++;
+        }
+    }
+    <span class="hljs-keyword">return</span> num;
+}
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * log(max - min)).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

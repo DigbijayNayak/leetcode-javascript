@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Next Greater Element II - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>503. Next Greater Element II</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/stack">Stack</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/monotonic-stack">Monotonic Stack</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/next-greater-element-i.html">Next Greater Element I</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/next-greater-element-iii.html">Next Greater Element III</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a circular integer array <code>nums</code> (i.e., the next element of <code>nums[nums.length - 1]</code> is <code>nums[0]</code>), return **the *<em>next greater number</em>* for every element in** <code>nums</code>.</p>
+<p>The <strong>next greater number</strong> of a number <code>x</code> is the first greater number to its traversing-order next in the array, which means you could search circularly to find its next greater number. If it doesn't exist, return <code>-1</code> for this number.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: nums = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>]
+Output: [<span class="hljs-number">2</span>,<span class="hljs-number">-1</span>,<span class="hljs-number">2</span>]
+Explanation: The <span class="hljs-keyword">first</span> <span class="hljs-number">1</span>'s next greater <span class="hljs-built_in">number</span> <span class="hljs-keyword">is</span> <span class="hljs-number">2</span>; 
+The <span class="hljs-built_in">number</span> <span class="hljs-number">2</span> can't find next greater <span class="hljs-built_in">number</span>. 
+The <span class="hljs-keyword">second</span> <span class="hljs-number">1</span>'s next greater <span class="hljs-built_in">number</span> needs <span class="hljs-keyword">to</span> search circularly, which <span class="hljs-keyword">is</span> also <span class="hljs-number">2.</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: nums = <span class="hljs-string">[1,2,3,4,3]</span>
+Output: <span class="hljs-string">[2,3,4,-1,4]</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= nums.length &lt;= 104</code></p></li>
+<li><p><code>-109 &lt;= nums[i] &lt;= 109</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> nextGreaterElements = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums</span>) </span>{
+    <span class="hljs-keyword">var</span> map = <span class="hljs-built_in">Array</span>(nums.length);
+    <span class="hljs-keyword">var</span> stack = [];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = nums.length * <span class="hljs-number">2</span> - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) {
+        <span class="hljs-keyword">var</span> index = i % nums.length;
+        <span class="hljs-keyword">while</span> (stack.length &amp;&amp; stack[stack.length - <span class="hljs-number">1</span>] &lt;= nums[index]) stack.pop();
+        map[index] = stack.length ? stack[stack.length - <span class="hljs-number">1</span>] : <span class="hljs-number">-1</span>;
+        stack.push(nums[index]);
+    }
+    <span class="hljs-keyword">return</span> map;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

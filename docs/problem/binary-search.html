@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Binary Search - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>704. Binary Search</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/search-in-a-sorted-array-of-unknown-size.html">Search in a Sorted Array of Unknown Size</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/maximum-count-of-positive-integer-and-negative-integer.html">Maximum Count of Positive Integer and Negative Integer</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given an array of integers <code>nums</code> which is sorted in ascending order, and an integer <code>target</code>, write a function to search <code>target</code> in <code>nums</code>. If <code>target</code> exists, then return its index. Otherwise, return <code>-1</code>.</p>
+<p>You must write an algorithm with <code>O(log n)</code> runtime complexity.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Inpu<span class="hljs-variable">t:</span> nums = [-<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">9</span>,<span class="hljs-number">12</span>], target = <span class="hljs-number">9</span>
+Outpu<span class="hljs-variable">t:</span> <span class="hljs-number">4</span>
+Explanation: <span class="hljs-number">9</span> <span class="hljs-built_in">exists</span> in nums <span class="hljs-built_in">and</span> its <span class="hljs-built_in">index</span> <span class="hljs-keyword">is</span> <span class="hljs-number">4</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-string">Input:</span> nums = [<span class="hljs-number">-1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">9</span>,<span class="hljs-number">12</span>], target = <span class="hljs-number">2</span>
+<span class="hljs-string">Output:</span> <span class="hljs-number">-1</span>
+<span class="hljs-string">Explanation:</span> <span class="hljs-number">2</span> does not exist <span class="hljs-keyword">in</span> nums so <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= nums.length &lt;= 104</code></p></li>
+<li><p><code>-104 &lt; nums[i], target &lt; 104</code></p></li>
+<li><p>All the integers in <code>nums</code> are <strong>unique</strong>.</p></li>
+<li><p><code>nums</code> is sorted in ascending order.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> search = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums, target</span>) </span>{
+    <span class="hljs-keyword">var</span> left = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> right = nums.length - <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">while</span> (left &lt;= right) {
+        <span class="hljs-keyword">var</span> mid = left + <span class="hljs-built_in">Math</span>.floor((right - left) / <span class="hljs-number">2</span>);
+        <span class="hljs-keyword">if</span> (nums[mid] === target) {
+            <span class="hljs-keyword">return</span> mid;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (nums[mid] &gt; target) {
+            right = mid - <span class="hljs-number">1</span>;
+        } <span class="hljs-keyword">else</span> {
+            left = mid + <span class="hljs-number">1</span>;
+        }
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(log(n)).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

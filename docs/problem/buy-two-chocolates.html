@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Buy Two Chocolates - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>2706. Buy Two Chocolates</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/sorting">Sorting</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given an integer array <code>prices</code> representing the prices of various chocolates in a store. You are also given a single integer <code>money</code>, which represents your initial amount of money.</p>
+<p>You must buy <strong>exactly</strong> two chocolates in such a way that you still have some <strong>non-negative</strong> leftover money. You would like to minimize the sum of the prices of the two chocolates you buy.</p>
+<p>Return <strong>the amount of money you will have leftover after buying the two chocolates</strong>. If there is no way for you to buy two chocolates without ending up in debt, return <code>money</code>. Note that the leftover must be non-negative.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: prices = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>], money = <span class="hljs-number">3</span>
+Output: <span class="hljs-number">0</span>
+Explanation: Purchase <span class="hljs-keyword">the</span> chocolates priced <span class="hljs-keyword">at</span> <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> <span class="hljs-number">2</span> units respectively. You will have <span class="hljs-number">3</span> - <span class="hljs-number">3</span> = <span class="hljs-number">0</span> units <span class="hljs-keyword">of</span> money afterwards. Thus, we <span class="hljs-literal">return</span> <span class="hljs-number">0.</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-string">Input:</span> prices = [<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>], money = <span class="hljs-number">3</span>
+<span class="hljs-string">Output:</span> <span class="hljs-number">3</span>
+<span class="hljs-string">Explanation:</span> You cannot buy <span class="hljs-number">2</span> chocolates without going <span class="hljs-keyword">in</span> debt, so we <span class="hljs-keyword">return</span> <span class="hljs-number">3.</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>2 &lt;= prices.length &lt;= 50</code></p></li>
+<li><p><code>1 &lt;= prices[i] &lt;= 100</code></p></li>
+<li><p><code>1 &lt;= money &lt;= 100</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} prices
+ * @param {number} money
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> buyChoco = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">prices, money</span>) </span>{
+    <span class="hljs-keyword">var</span> minPrice = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> secondMinPrice = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; prices.length; i++) {
+        <span class="hljs-keyword">if</span> (minPrice === <span class="hljs-number">0</span> || prices[i] &lt; minPrice) {
+            secondMinPrice = minPrice;
+            minPrice = prices[i];
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (secondMinPrice === <span class="hljs-number">0</span> || prices[i] &lt; secondMinPrice) {
+            secondMinPrice = prices[i];
+        }
+    }
+    <span class="hljs-keyword">return</span> (minPrice !== <span class="hljs-number">0</span> &amp;&amp; secondMinPrice !== <span class="hljs-number">0</span> &amp;&amp; secondMinPrice + minPrice &lt;= money)
+        ? money - (secondMinPrice + minPrice)
+        : money;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

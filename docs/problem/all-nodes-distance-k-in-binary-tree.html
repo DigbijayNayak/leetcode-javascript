@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>All Nodes Distance K in Binary Tree - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>863. All Nodes Distance K in Binary Tree</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/tree">Tree</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/depth-first-search">Depth-First Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/breadth-first-search">Breadth-First Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-tree">Binary Tree</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/amount-of-time-for-binary-tree-to-be-infected.html">Amount of Time for Binary Tree to Be Infected</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given the <code>root</code> of a binary tree, the value of a target node <code>target</code>, and an integer <code>k</code>, return **an array of the values of all nodes that have a distance *<em><code>k</code></em>* from the target node.**</p>
+<p>You can return the answer in <strong>any order</strong>.</p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/06/28/sketch0.png" alt="" /></p>
+<pre><code class="hljs">Input: root = [<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">1</span>,<span class="hljs-number">6</span>,<span class="hljs-number">2</span>,<span class="hljs-number">0</span>,<span class="hljs-number">8</span>,<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>,<span class="hljs-number">7</span>,<span class="hljs-number">4</span>], target = <span class="hljs-number">5</span>, k = <span class="hljs-number">2</span>
+Output: [<span class="hljs-number">7</span>,<span class="hljs-number">4</span>,<span class="hljs-number">1</span>]
+Explanation: The nodes that are <span class="hljs-keyword">a</span> distance <span class="hljs-number">2</span> <span class="hljs-built_in">from</span> <span class="hljs-keyword">the</span> target node (<span class="hljs-keyword">with</span> <span class="hljs-built_in">value</span> <span class="hljs-number">5</span>) have values <span class="hljs-number">7</span>, <span class="hljs-number">4</span>, <span class="hljs-keyword">and</span> <span class="hljs-number">1.</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: <span class="hljs-attr">root</span> = [<span class="hljs-number">1</span>], <span class="hljs-attr">target</span> = <span class="hljs-number">1</span>, <span class="hljs-attr">k</span> = <span class="hljs-number">3</span>
+Output: []
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p>The number of nodes in the tree is in the range <code>[1, 500]</code>.</p></li>
+<li><p><code>0 &lt;= Node.val &lt;= 500</code></p></li>
+<li><p>All the values <code>Node.val</code> are <strong>unique</strong>.</p></li>
+<li><p><code>target</code> is the value of one of the nodes in the tree.</p></li>
+<li><p><code>0 &lt;= k &lt;= 1000</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {TreeNode} root
+ * @param {TreeNode} target
+ * @param {number} k
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> distanceK = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">root, target, k</span>) </span>{
+    <span class="hljs-keyword">var</span> nodes = [];
+    <span class="hljs-keyword">var</span> parents = [];
+    visit(root, nodes, parents);
+
+    <span class="hljs-keyword">var</span> arr = [[nodes[target.val], <span class="hljs-string">''</span>]];
+    <span class="hljs-keyword">while</span> (k &gt; <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">var</span> newArr = [];
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; arr.length; i++) {
+            <span class="hljs-keyword">var</span> [node, direction] = arr[i];
+            node.left &amp;&amp; direction !== <span class="hljs-string">'left'</span> &amp;&amp; newArr.push([node.left, <span class="hljs-string">'parent'</span>]);
+            node.right &amp;&amp; direction !== <span class="hljs-string">'right'</span> &amp;&amp; newArr.push([node.right, <span class="hljs-string">'parent'</span>]);
+            parents[node.val] &amp;&amp; direction !== <span class="hljs-string">'parent'</span> &amp;&amp; newArr.push([
+                parents[node.val],
+                parents[node.val].left === node ? <span class="hljs-string">'left'</span> : <span class="hljs-string">'right'</span>,
+            ]);
+        }
+        arr = newArr;
+        k--;
+    }
+
+    <span class="hljs-keyword">return</span> arr.map(<span class="hljs-function"><span class="hljs-params">node</span> =&gt;</span> node[<span class="hljs-number">0</span>].val);
+};
+
+<span class="hljs-keyword">var</span> visit = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">root, nodes, parents</span>) </span>{
+    nodes[root.val] = root;
+    <span class="hljs-keyword">if</span> (root.left) {
+        parents[root.left.val] = root;
+        visit(root.left, nodes, parents);
+    }
+    <span class="hljs-keyword">if</span> (root.right) {
+        parents[root.right.val] = root;
+        visit(root.right, nodes, parents);
+    }
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Transpose Matrix - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>867. Transpose Matrix</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/matrix">Matrix</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/simulation">Simulation</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a 2D integer array <code>matrix</code>, return **the *<em>transpose</em>* of** <code>matrix</code>.</p>
+<p>The <strong>transpose</strong> of a matrix is the matrix flipped over its main diagonal, switching the matrix's row and column indices.</p>
+<p><img src="https://assets.leetcode.com/uploads/2021/02/10/hint_transpose.png" alt="" /></p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: matrix = <span class="hljs-string">[[1,2,3],[4,5,6],[7,8,9]]</span>
+Output: <span class="hljs-string">[[1,4,7],[2,5,8],[3,6,9]]</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: matrix = <span class="hljs-string">[[1,2,3],[4,5,6]]</span>
+Output: <span class="hljs-string">[[1,4],[2,5],[3,6]]</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>m == matrix.length</code></p></li>
+<li><p><code>n == matrix[i].length</code></p></li>
+<li><p><code>1 &lt;= m, n &lt;= 1000</code></p></li>
+<li><p><code>1 &lt;= m * n &lt;= 105</code></p></li>
+<li><p><code>-109 &lt;= matrix[i][j] &lt;= 109</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} matrix
+ * @return {number[][]}
+ */</span>
+<span class="hljs-keyword">var</span> transpose = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">matrix</span>) </span>{
+    <span class="hljs-keyword">var</span> m = matrix.length;
+    <span class="hljs-keyword">var</span> n = matrix[<span class="hljs-number">0</span>].length;
+    <span class="hljs-keyword">var</span> res = <span class="hljs-built_in">Array</span>(n).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">Array</span>(m));
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; m; i++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; n; j++) {
+            res[j][i] = matrix[i][j];
+        }
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(m * n).</li>
+<li>Space complexity : O(m * n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

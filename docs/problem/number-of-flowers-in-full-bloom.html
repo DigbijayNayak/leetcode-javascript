@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Number of Flowers in Full Bloom - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>2251. Number of Flowers in Full Bloom</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/sorting">Sorting</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/prefix-sum">Prefix Sum</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/ordered-set">Ordered Set</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/meeting-rooms-ii.html">Meeting Rooms II</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-interval-to-include-each-query.html">Minimum Interval to Include Each Query</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given a <strong>0-indexed</strong> 2D integer array <code>flowers</code>, where <code>flowers[i] = [starti, endi]</code> means the <code>ith</code> flower will be in <strong>full bloom</strong> from <code>starti</code> to <code>endi</code> (<strong>inclusive</strong>). You are also given a <strong>0-indexed</strong> integer array <code>people</code> of size <code>n</code>, where <code>people[i]</code> is the time that the <code>ith</code> person will arrive to see the flowers.</p>
+<p>Return **an integer array *<em><code>answer</code></em>* of size <strong><code>n</code></strong>, where <strong><code>answer[i]</code></strong> is the <strong>number</strong> of flowers that are in full bloom when the <strong><code>ith</code></strong> person arrives.**</p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2022/03/02/ex1new.jpg" alt="" /></p>
+<pre><code class="hljs">Input: flowers = [[<span class="hljs-number">1</span>,<span class="hljs-number">6</span>],[<span class="hljs-number">3</span>,<span class="hljs-number">7</span>],[<span class="hljs-number">9</span>,<span class="hljs-number">12</span>],[<span class="hljs-number">4</span>,<span class="hljs-number">13</span>]], poeple = [<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">7</span>,<span class="hljs-number">11</span>]
+Output: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>]
+Explanation: The figure above shows <span class="hljs-keyword">the</span> times when <span class="hljs-keyword">the</span> flowers are <span class="hljs-keyword">in</span> full bloom <span class="hljs-keyword">and</span> when <span class="hljs-keyword">the</span> people arrive.
+For <span class="hljs-keyword">each</span> person, we <span class="hljs-literal">return</span> <span class="hljs-keyword">the</span> <span class="hljs-built_in">number</span> <span class="hljs-keyword">of</span> flowers <span class="hljs-keyword">in</span> full bloom during their arrival.
+</code></pre>
+<p>Example 2:</p>
+<p><img src="https://assets.leetcode.com/uploads/2022/03/02/ex2new.jpg" alt="" /></p>
+<pre><code class="hljs">Input: flowers = [[<span class="hljs-number">1</span>,<span class="hljs-number">10</span>],[<span class="hljs-number">3</span>,<span class="hljs-number">3</span>]], poeple = [<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>]
+Output: [<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>]
+Explanation: The figure above shows <span class="hljs-keyword">the</span> times when <span class="hljs-keyword">the</span> flowers are <span class="hljs-keyword">in</span> full bloom <span class="hljs-keyword">and</span> when <span class="hljs-keyword">the</span> people arrive.
+For <span class="hljs-keyword">each</span> person, we <span class="hljs-literal">return</span> <span class="hljs-keyword">the</span> <span class="hljs-built_in">number</span> <span class="hljs-keyword">of</span> flowers <span class="hljs-keyword">in</span> full bloom during their arrival.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= flowers.length &lt;= 5 * 104</code></p></li>
+<li><p><code>flowers[i].length == 2</code></p></li>
+<li><p><code>1 &lt;= starti &lt;= endi &lt;= 109</code></p></li>
+<li><p><code>1 &lt;= people.length &lt;= 5 * 104</code></p></li>
+<li><p><code>1 &lt;= people[i] &lt;= 109</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} flowers
+ * @param {number[]} people
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> fullBloomFlowers = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">flowers, people</span>) </span>{
+    <span class="hljs-keyword">var</span> flowersSortByStart = flowers.map(<span class="hljs-function"><span class="hljs-params">flower</span> =&gt;</span> flower[<span class="hljs-number">0</span>]).sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a - b);
+    <span class="hljs-keyword">var</span> flowersSortByEnd = flowers.map(<span class="hljs-function"><span class="hljs-params">flower</span> =&gt;</span> flower[<span class="hljs-number">1</span>]).sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a - b);
+    <span class="hljs-keyword">var</span> peopleTimesSort = <span class="hljs-built_in">Array</span>.from(people).sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a - b);
+    <span class="hljs-keyword">var</span> map = {};
+    <span class="hljs-keyword">var</span> startIndex = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> endIndex = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; peopleTimesSort.length; i++) {
+        <span class="hljs-keyword">var</span> time = peopleTimesSort[i];
+        <span class="hljs-comment">// number of flowers started before or in time</span>
+        startIndex = findStartIndex(flowersSortByStart, time, startIndex);
+        <span class="hljs-comment">// number of flowers ended before time</span>
+        endIndex = findEndIndex(flowersSortByEnd, time, endIndex);
+        <span class="hljs-comment">// full bloom flower number = flower started number - flower ended number</span>
+        map[time] = startIndex - endIndex;
+    }
+    <span class="hljs-keyword">return</span> people.map(<span class="hljs-function">(<span class="hljs-params">time</span>) =&gt;</span> map[time]);
+};
+
+<span class="hljs-keyword">var</span> findStartIndex = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">times, time, from</span>) </span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-keyword">from</span>; i &lt;= times.length; i++) {
+        <span class="hljs-keyword">if</span> (times[i] &lt;= time) <span class="hljs-keyword">continue</span>;
+        <span class="hljs-keyword">return</span> i;
+    }
+};
+
+<span class="hljs-keyword">var</span> findEndIndex = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">times, time, from</span>) </span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-keyword">from</span>; i &lt;= times.length; i++) {
+        <span class="hljs-keyword">if</span> (times[i] &lt; time) <span class="hljs-keyword">continue</span>;
+        <span class="hljs-keyword">return</span> i;
+    }
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(nlog(n) + mlog(m) + n + m).</li>
+<li>Space complexity : O(n + m).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

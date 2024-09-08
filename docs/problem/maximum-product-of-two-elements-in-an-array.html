@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Maximum Product of Two Elements in an Array - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1464. Maximum Product of Two Elements in an Array</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/sorting">Sorting</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/heap-priority-queue">Heap (Priority Queue)</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given the array of integers <code>nums</code>, you will choose two different indices <code>i</code> and <code>j</code> of that array. <strong>Return the maximum value of</strong> <code>(nums[i]-1)*(nums[j]-1)</code>.
+&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: nums = [3,4,5,2]
+Output: 12 
+Explanation: <span class="hljs-keyword">If</span> you choose the indices <span class="hljs-attribute">i</span>=1 <span class="hljs-keyword">and</span> <span class="hljs-attribute">j</span>=2 (indexed <span class="hljs-keyword">from</span> 0), you will <span class="hljs-builtin-name">get</span> the maximum value, that is, (nums[1]-1)*(nums[2]-1) = (4-1)*(5-1) = 3<span class="hljs-number">*4</span> = 12. 
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: nums = [1,5,4,5]
+Output: 16
+Explanation: Choosing the indices <span class="hljs-attribute">i</span>=1 <span class="hljs-keyword">and</span> <span class="hljs-attribute">j</span>=3 (indexed <span class="hljs-keyword">from</span> 0), you will <span class="hljs-builtin-name">get</span> the maximum value of (5-1)*(5-1) = 16.
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> nums = [<span class="hljs-number">3</span>,<span class="hljs-number">7</span>]
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">12</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>2 &lt;= nums.length &lt;= 500</code></p></li>
+<li><p><code>1 &lt;= nums[i] &lt;= 10^3</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> maxProduct = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums</span>) </span>{
+    <span class="hljs-keyword">if</span> (nums.length === <span class="hljs-number">2</span>) {
+        <span class="hljs-keyword">return</span> (nums[<span class="hljs-number">0</span>] - <span class="hljs-number">1</span>) * (nums[<span class="hljs-number">1</span>] - <span class="hljs-number">1</span>);
+    }
+    <span class="hljs-keyword">var</span> minNegativeNum = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> secondMinNegativeNum = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> maxPositiveNum = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> secondMaxPositiveNum = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; nums.length; i++) {
+        <span class="hljs-keyword">var</span> num = nums[i] - <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">if</span> (num &lt; minNegativeNum) {
+            secondMinNegativeNum = minNegativeNum;
+            minNegativeNum = num;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (num &lt; secondMinNegativeNum) {
+            secondMinNegativeNum = num;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (num &gt; maxPositiveNum) {
+            secondMaxPositiveNum = maxPositiveNum;
+            maxPositiveNum = num;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (num &gt; secondMaxPositiveNum) {
+            secondMaxPositiveNum = num;
+        }
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.max(
+        minNegativeNum * secondMinNegativeNum,
+        maxPositiveNum * secondMaxPositiveNum,
+    );
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

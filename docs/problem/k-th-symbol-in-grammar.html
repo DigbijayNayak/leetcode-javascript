@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>K-th Symbol in Grammar - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>779. K-th Symbol in Grammar</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/bit-manipulation">Bit Manipulation</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/recursion">Recursion</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>We build a table of <code>n</code> rows (<strong>1-indexed</strong>). We start by writing <code>0</code> in the <code>1st</code> row. Now in every subsequent row, we look at the previous row and replace each occurrence of <code>0</code> with <code>01</code>, and each occurrence of <code>1</code> with <code>10</code>.</p>
+<ul>
+<li>For example, for <code>n = 3</code>, the <code>1st</code> row is <code>0</code>, the <code>2nd</code> row is <code>01</code>, and the <code>3rd</code> row is <code>0110</code>.</li>
+</ul>
+<p>Given two integer <code>n</code> and <code>k</code>, return the <code>kth</code> (<strong>1-indexed</strong>) symbol in the <code>nth</code> row of a table of <code>n</code> rows.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> n = <span class="hljs-number">1</span>, k = <span class="hljs-number">1</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">0</span>
+<span class="hljs-symbol">Explanation:</span> row <span class="hljs-number">1</span>: <span class="hljs-number">0</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-attribute">Input</span>: n = 2, k = 1
+<span class="hljs-attribute">Output</span>: 0
+<span class="hljs-attribute">Explanation</span>: 
+<span class="hljs-attribute">row 1</span>: 0
+<span class="hljs-attribute">row 2</span>: 01
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs"><span class="hljs-attribute">Input</span>: n = 2, k = 2
+<span class="hljs-attribute">Output</span>: 1
+<span class="hljs-attribute">Explanation</span>: 
+<span class="hljs-attribute">row 1</span>: 0
+<span class="hljs-attribute">row 2</span>: 01
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= n &lt;= 30</code></p></li>
+<li><p><code>1 &lt;= k &lt;= 2n - 1</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @param {number} k
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> kthGrammar = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n, k</span>) </span>{
+    <span class="hljs-keyword">var</span> op = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (n &gt; <span class="hljs-number">1</span>) {
+        n--;
+        <span class="hljs-keyword">if</span> (k % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>) {
+            op = op === <span class="hljs-number">0</span> ? <span class="hljs-number">1</span> : <span class="hljs-number">0</span>;
+        }
+        k = <span class="hljs-built_in">Math</span>.ceil(k / <span class="hljs-number">2</span>);
+    }
+    <span class="hljs-keyword">return</span> op;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

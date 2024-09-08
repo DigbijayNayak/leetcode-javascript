@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Find Eventual Safe States - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>802. Find Eventual Safe States</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/depth-first-search">Depth-First Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/breadth-first-search">Breadth-First Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/graph">Graph</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/topological-sort">Topological Sort</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/build-a-matrix-with-conditions.html">Build a Matrix With Conditions</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>There is a directed graph of <code>n</code> nodes with each node labeled from <code>0</code> to <code>n - 1</code>. The graph is represented by a <strong>0-indexed</strong> 2D integer array <code>graph</code> where <code>graph[i]</code> is an integer array of nodes adjacent to node <code>i</code>, meaning there is an edge from node <code>i</code> to each node in <code>graph[i]</code>.</p>
+<p>A node is a <strong>terminal node</strong> if there are no outgoing edges. A node is a <strong>safe node</strong> if every possible path starting from that node leads to a <strong>terminal node</strong> (or another safe node).</p>
+<p>Return **an array containing all the *<em>safe nodes</em>* of the graph**. The answer should be sorted in *<em>ascending</em>* order.</p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/03/17/picture1.png" alt="" /></p>
+<pre><code class="hljs">Input: graph = <span class="hljs-comment">[<span class="hljs-comment">[1,2]</span>,<span class="hljs-comment">[2,3]</span>,<span class="hljs-comment">[5]</span>,<span class="hljs-comment">[0]</span>,<span class="hljs-comment">[5]</span>,<span class="hljs-comment">[]</span>,<span class="hljs-comment">[]</span>]</span>
+Output: <span class="hljs-comment">[2,4,5,6]</span>
+Explanation: The given graph <span class="hljs-keyword">is</span> shown above.
+Nodes 5 and 6 <span class="hljs-keyword">are</span> terminal nodes as there <span class="hljs-keyword">are</span> no outgoing edges from either <span class="hljs-keyword">of</span> them.
+Every path starting at nodes 2, 4, 5, and 6 all lead to either node 5 or 6.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: graph = [[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>],[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>],[<span class="hljs-number">3</span>,<span class="hljs-number">4</span>],[<span class="hljs-number">0</span>,<span class="hljs-number">4</span>],[]]
+Output: [<span class="hljs-number">4</span>]
+Explanation:
+Only <span class="hljs-keyword">node</span> <span class="hljs-title">4</span> is a terminal <span class="hljs-keyword">node</span><span class="hljs-title">, and</span> every path starting at <span class="hljs-keyword">node</span> <span class="hljs-title">4</span> leads to <span class="hljs-keyword">node</span> <span class="hljs-title">4</span>.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>n == graph.length</code></p></li>
+<li><p><code>1 &lt;= n &lt;= 104</code></p></li>
+<li><p><code>0 &lt;= graph[i].length &lt;= n</code></p></li>
+<li><p><code>0 &lt;= graph[i][j] &lt;= n - 1</code></p></li>
+<li><p><code>graph[i]</code> is sorted in a strictly increasing order.</p></li>
+<li><p>The graph may contain self-loops.</p></li>
+<li><p>The number of edges in the graph will be in the range <code>[1, 4 * 104]</code>.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} graph
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> eventualSafeNodes = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">graph</span>) </span>{
+    <span class="hljs-keyword">var</span> map = <span class="hljs-built_in">Array</span>(graph.length);
+    <span class="hljs-keyword">var</span> path = <span class="hljs-built_in">Array</span>(graph.length);
+    <span class="hljs-keyword">var</span> res = [];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; graph.length; i++) {
+        <span class="hljs-keyword">if</span> (isSafeNode(i, graph, map, path)) {
+            res.push(i);
+        }
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> isSafeNode = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">i, graph, map, path</span>) </span>{
+    <span class="hljs-keyword">if</span> (graph[i].length === <span class="hljs-number">0</span> || map[i] === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">if</span> (map[i] === <span class="hljs-number">2</span> || path[i] === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    path[i] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; graph[i].length; j++) {
+        <span class="hljs-keyword">var</span> index = graph[i][j];
+        <span class="hljs-keyword">if</span> (!isSafeNode(index, graph, map, path)) {
+            path[i] = <span class="hljs-number">0</span>;
+            map[i] = <span class="hljs-number">2</span>;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        }
+    }
+    path[i] = <span class="hljs-number">0</span>;
+    map[i] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>DFS (Depth First Search).</p>
+<p><strong>Complexity:</strong></p>
+<p><code>n</code> nodes, <code>m</code> edges.</p>
+<ul>
+<li>Time complexity : O(n + m).</li>
+<li>Space complexity : O(n + m).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

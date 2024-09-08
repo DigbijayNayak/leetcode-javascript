@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Champagne Tower - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>799. Champagne Tower</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/number-of-ways-to-build-house-of-cards.html">Number of Ways to Build House of Cards</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>We stack glasses in a pyramid, where the <strong>first</strong> row has <code>1</code> glass, the <strong>second</strong> row has <code>2</code> glasses, and so on until the 100th row.&nbsp; Each glass holds one cup&nbsp;of champagne.</p>
+<p>Then, some champagne is poured into the first glass at the top.&nbsp; When the topmost glass is full, any excess liquid poured will fall equally to the glass immediately to the left and right of it.&nbsp; When those glasses become full, any excess champagne will fall equally to the left and right of those glasses, and so on.&nbsp; (A glass at the bottom row has its excess champagne fall on the floor.)</p>
+<p>For example, after one cup of champagne is poured, the top most glass is full.&nbsp; After two cups of champagne are poured, the two glasses on the second row are half full.&nbsp; After three cups of champagne are poured, those two cups become full - there are 3 full glasses total now.&nbsp; After four cups of champagne are poured, the third row has the middle glass half full, and the two outside glasses are a quarter full, as pictured below.</p>
+<p><img src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/03/09/tower.png" alt="" /></p>
+<p>Now after pouring some non-negative integer cups of champagne, return how full the <code>jth</code> glass in the <code>ith</code> row is (both <code>i</code> and <code>j</code> are 0-indexed.)</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Inpu<span class="hljs-variable">t:</span> poured = <span class="hljs-number">1</span>, query_row = <span class="hljs-number">1</span>, query_glass = <span class="hljs-number">1</span>
+Outpu<span class="hljs-variable">t:</span> <span class="hljs-number">0.00000</span>
+Explanation: We poured <span class="hljs-number">1</span> cup of champange <span class="hljs-keyword">to</span> the top glass of the tower (which <span class="hljs-keyword">is</span> indexed <span class="hljs-keyword">as</span> (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>)). There will <span class="hljs-keyword">be</span> <span class="hljs-keyword">no</span> excess liquid <span class="hljs-keyword">so</span> <span class="hljs-keyword">all</span> the glasses under the top glass will remain <span class="hljs-built_in">empty</span>.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: poured = <span class="hljs-number">2</span>, query_row = <span class="hljs-number">1</span>, query_glass = <span class="hljs-number">1</span>
+Output: <span class="hljs-number">0.50000</span>
+Explanation: We poured <span class="hljs-number">2</span> cups <span class="hljs-keyword">of</span> champange <span class="hljs-built_in">to</span> <span class="hljs-keyword">the</span> top glass <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> tower (which is indexed <span class="hljs-keyword">as</span> (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>)). There is <span class="hljs-literal">one</span> cup <span class="hljs-keyword">of</span> excess liquid. The glass indexed <span class="hljs-keyword">as</span> (<span class="hljs-number">1</span>, <span class="hljs-number">0</span>) <span class="hljs-keyword">and</span> <span class="hljs-keyword">the</span> glass indexed <span class="hljs-keyword">as</span> (<span class="hljs-number">1</span>, <span class="hljs-number">1</span>) will share <span class="hljs-keyword">the</span> excess liquid equally, <span class="hljs-keyword">and</span> <span class="hljs-keyword">each</span> will <span class="hljs-built_in">get</span> half cup <span class="hljs-keyword">of</span> champange.
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: <span class="hljs-attr">poured</span> = <span class="hljs-number">100000009</span>, <span class="hljs-attr">query_row</span> = <span class="hljs-number">33</span>, <span class="hljs-attr">query_glass</span> = <span class="hljs-number">17</span>
+Output: <span class="hljs-number">1.00000</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>0 &lt;=&amp;nbsp;poured &lt;= 109</code></p></li>
+<li><p><code>0 &lt;= query_glass &lt;= query_row&amp;nbsp;&lt; 100</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} poured
+ * @param {number} query_row
+ * @param {number} query_glass
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> champagneTower = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">poured, query_row, query_glass</span>) </span>{
+    <span class="hljs-keyword">var</span> glasses = [poured];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; query_row; i++) {
+        <span class="hljs-keyword">var</span> nextRow = <span class="hljs-built_in">Array</span>(i + <span class="hljs-number">2</span>).fill(<span class="hljs-number">0</span>);
+        <span class="hljs-keyword">var</span> hasNext = <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt;= i; j++) {
+            <span class="hljs-keyword">var</span> extra = (glasses[j] - <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>;
+            <span class="hljs-keyword">if</span> (extra &lt;= <span class="hljs-number">0</span>) <span class="hljs-keyword">continue</span>;
+            hasNext = <span class="hljs-literal">true</span>;
+            nextRow[j] += extra;
+            nextRow[j + <span class="hljs-number">1</span>] += extra;
+        }
+        <span class="hljs-keyword">if</span> (!hasNext) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        glasses = nextRow;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.min(glasses[query_glass], <span class="hljs-number">1</span>); 
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(query_row ^ 2).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

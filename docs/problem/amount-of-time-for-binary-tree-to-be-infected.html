@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Amount of Time for Binary Tree to Be Infected - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>2385. Amount of Time for Binary Tree to Be Infected</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/tree">Tree</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/depth-first-search">Depth-First Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/breadth-first-search">Breadth-First Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-tree">Binary Tree</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/maximum-depth-of-binary-tree.html">Maximum Depth of Binary Tree</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/shortest-path-to-get-food.html">Shortest Path to Get Food</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/all-nodes-distance-k-in-binary-tree.html">All Nodes Distance K in Binary Tree</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/count-the-number-of-infection-sequences.html">Count the Number of Infection Sequences</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given the <code>root</code> of a binary tree with <strong>unique</strong> values, and an integer <code>start</code>. At minute <code>0</code>, an <strong>infection</strong> starts from the node with value <code>start</code>.</p>
+<p>Each minute, a node becomes infected if:</p>
+<ul>
+<li><p>The node is currently uninfected.</p></li>
+<li><p>The node is adjacent to an infected node.</p></li>
+</ul>
+<p>Return <strong>the number of minutes needed for the entire tree to be infected.</strong></p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2022/06/25/image-20220625231744-1.png" alt="" /></p>
+<pre><code class="hljs">Input: root = [<span class="hljs-number">1</span>,<span class="hljs-number">5</span>,<span class="hljs-number">3</span>,null,<span class="hljs-number">4</span>,<span class="hljs-number">10</span>,<span class="hljs-number">6</span>,<span class="hljs-number">9</span>,<span class="hljs-number">2</span>], <span class="hljs-literal">start</span> = <span class="hljs-number">3</span>
+Output: <span class="hljs-number">4</span>
+Explanation: The following nodes are <span class="hljs-literal">inf</span>ected during:
+- Minute <span class="hljs-number">0</span>: <span class="hljs-keyword">Node</span> <span class="hljs-title">3</span>
+- Minute <span class="hljs-number">1</span>: Nodes <span class="hljs-number">1</span>, <span class="hljs-number">10</span> <span class="hljs-keyword">and</span> <span class="hljs-number">6</span>
+- Minute <span class="hljs-number">2</span>: <span class="hljs-keyword">Node</span> <span class="hljs-title">5</span>
+- Minute <span class="hljs-number">3</span>: <span class="hljs-keyword">Node</span> <span class="hljs-title">4</span>
+- Minute <span class="hljs-number">4</span>: Nodes <span class="hljs-number">9</span> <span class="hljs-keyword">and</span> <span class="hljs-number">2</span>
+It takes <span class="hljs-number">4</span> minutes for the whole tree to be <span class="hljs-literal">inf</span>ected so we return <span class="hljs-number">4</span>.
+</code></pre>
+<p>Example 2:</p>
+<p><img src="https://assets.leetcode.com/uploads/2022/06/25/image-20220625231812-2.png" alt="" /></p>
+<pre><code class="hljs">Input: root = [1], <span class="hljs-keyword">start</span> = <span class="hljs-number">1</span>
+<span class="hljs-keyword">Output</span>: <span class="hljs-number">0</span>
+Explanation: <span class="hljs-keyword">At</span> <span class="hljs-keyword">minute</span> <span class="hljs-number">0</span>, the <span class="hljs-keyword">only</span> node <span class="hljs-keyword">in</span> the tree <span class="hljs-keyword">is</span> infected so we <span class="hljs-keyword">return</span> <span class="hljs-number">0.</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p>The number of nodes in the tree is in the range <code>[1, 105]</code>.</p></li>
+<li><p><code>1 &lt;= Node.val &lt;= 105</code></p></li>
+<li><p>Each node has a <strong>unique</strong> value.</p></li>
+<li><p>A node with a value of <code>start</code> exists in the tree.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {TreeNode} root
+ * @param {number} start
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> amountOfTime = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">root, start</span>) </span>{
+    <span class="hljs-keyword">const</span> startNode = findStartNode(root, start, <span class="hljs-literal">null</span>);
+    <span class="hljs-keyword">return</span> findLongestPath(root, startNode, <span class="hljs-number">0</span>, {});
+};
+
+<span class="hljs-keyword">var</span> findStartNode = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">node, start, parent</span>) </span>{
+    <span class="hljs-keyword">if</span> (!node) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">const</span> startNode = (node.val === start ? node : <span class="hljs-literal">null</span>)
+        || findStartNode(node.left, start, node)
+        || findStartNode(node.right, start, node);
+    <span class="hljs-keyword">if</span> (startNode) {
+        node.parent = parent;
+        <span class="hljs-keyword">return</span> startNode;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+};
+
+<span class="hljs-keyword">var</span> findLongestPath = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">root, node, depth, visited</span>) </span>{
+    <span class="hljs-keyword">if</span> (!node || visited[node.val]) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    visited[node.val] = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">if</span> (!node.left &amp;&amp; !node.right &amp;&amp; !node.parent) <span class="hljs-keyword">return</span> depth;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.max(
+        node === root ? depth : <span class="hljs-number">0</span>,
+        findLongestPath(root, node.left, depth + <span class="hljs-number">1</span>, visited),
+        findLongestPath(root, node.right, depth + <span class="hljs-number">1</span>, visited),
+        findLongestPath(root, node.parent, depth + <span class="hljs-number">1</span>, visited),
+    );
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

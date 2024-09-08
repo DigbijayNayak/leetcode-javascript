@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Build Array Where You Can Find The Maximum Exactly K Comparisons - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1420. Build Array Where You Can Find The Maximum Exactly K Comparisons</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/prefix-sum">Prefix Sum</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given three integers <code>n</code>, <code>m</code> and <code>k</code>. Consider the following algorithm to find the maximum element of an array of positive integers:</p>
+<p><img src="https://assets.leetcode.com/uploads/2020/04/02/e.png" alt="" /></p>
+<p>You should build the array arr which has the following properties:</p>
+<ul>
+<li><p><code>arr</code> has exactly <code>n</code> integers.</p></li>
+<li><p><code>1 &lt;= arr[i] &lt;= m</code> where <code>(0 &lt;= i &lt; n)</code>.</p></li>
+<li><p>After applying the mentioned algorithm to <code>arr</code>, the value <code>search_cost</code> is equal to <code>k</code>.</p></li>
+</ul>
+<p>Return <strong>the number of ways</strong> to build the array <code>arr</code> under the mentioned conditions. As the answer may grow large, the answer <strong>must be</strong> computed modulo <code>109 + 7</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: n = 2, m = 3, k = 1
+Output: 6
+Explanation: The possible arrays <span class="hljs-keyword">are</span> <span class="hljs-comment">[1, 1]</span>, <span class="hljs-comment">[2, 1]</span>, <span class="hljs-comment">[2, 2]</span>, <span class="hljs-comment">[3, 1]</span>, <span class="hljs-comment">[3, 2]</span> <span class="hljs-comment">[3, 3]</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-attr">Input:</span> <span class="hljs-string">n</span> <span class="hljs-string">=</span> <span class="hljs-number">5</span><span class="hljs-string">,</span> <span class="hljs-string">m</span> <span class="hljs-string">=</span> <span class="hljs-number">2</span><span class="hljs-string">,</span> <span class="hljs-string">k</span> <span class="hljs-string">=</span> <span class="hljs-number">3</span>
+<span class="hljs-attr">Output:</span> <span class="hljs-number">0</span>
+<span class="hljs-attr">Explanation:</span> <span class="hljs-string">There</span> <span class="hljs-string">are</span> <span class="hljs-literal">no</span> <span class="hljs-string">possible</span> <span class="hljs-string">arrays</span> <span class="hljs-string">that</span> <span class="hljs-string">satisify</span> <span class="hljs-string">the</span> <span class="hljs-string">mentioned</span> <span class="hljs-string">conditions.</span>
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: n = 9, m = 1, k = 1
+Output: 1
+Explanation: The only possible<span class="hljs-built_in"> array </span>is [1, 1, 1, 1, 1, 1, 1, 1, 1]
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= n &lt;= 50</code></p></li>
+<li><p><code>1 &lt;= m &lt;= 100</code></p></li>
+<li><p><code>0 &lt;= k &lt;= n</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @param {number} m
+ * @param {number} k
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> numOfArrays = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n, m, k</span>) </span>{
+    <span class="hljs-keyword">return</span> helper(n, m, k, <span class="hljs-number">0</span>, {});
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">n, m, k, maxSoFar, dp</span>) </span>{
+    <span class="hljs-keyword">if</span> (n === <span class="hljs-number">0</span> &amp;&amp; k === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">if</span> (n === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (maxSoFar === m &amp;&amp; k &gt; <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> key = <span class="hljs-string">`<span class="hljs-subst">${n}</span>-<span class="hljs-subst">${k}</span>-<span class="hljs-subst">${maxSoFar}</span>`</span>;
+    <span class="hljs-keyword">if</span> (dp[key] !== <span class="hljs-literal">undefined</span>) {
+        <span class="hljs-keyword">return</span> dp[key];
+    }
+    <span class="hljs-keyword">var</span> mod = <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">10</span>, <span class="hljs-number">9</span>) + <span class="hljs-number">7</span>;
+    <span class="hljs-keyword">var</span> ans = <span class="hljs-number">0</span>;
+    <span class="hljs-comment">// choose num less than the current max value</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">1</span>; i &lt;= maxSoFar; i++) {
+        ans = (ans + helper(n - <span class="hljs-number">1</span>, m, k, maxSoFar, dp)) % mod;
+    }
+    <span class="hljs-comment">// choose num bigger than the current max value</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = maxSoFar + <span class="hljs-number">1</span>; j &lt;= m; j++) {
+        ans = (ans + helper(n - <span class="hljs-number">1</span>, m, k - <span class="hljs-number">1</span>, j, dp)) % mod;
+    }
+    dp[key] = ans;
+    <span class="hljs-keyword">return</span> dp[key];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * m ^ 2 * k).</li>
+<li>Space complexity : O(n * m * k).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

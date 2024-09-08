@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Min Cost to Connect All Points - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1584. Min Cost to Connect All Points</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/union-find">Union Find</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/graph">Graph</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/minimum-spanning-tree">Minimum Spanning Tree</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-number-of-lines-to-cover-points.html">Minimum Number of Lines to Cover Points</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given an array <code>points</code> representing integer coordinates of some points on a 2D-plane, where <code>points[i] = [xi, yi]</code>.</p>
+<p>The cost of connecting two points <code>[xi, yi]</code> and <code>[xj, yj]</code> is the <strong>manhattan distance</strong> between them: <code>|xi - xj| + |yi - yj|</code>, where <code>|val|</code> denotes the absolute value of <code>val</code>.</p>
+<p>Return <strong>the minimum cost to make all points connected.</strong> All points are connected if there is <strong>exactly one</strong> simple path between any two points.</p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2020/08/26/d.png" alt="" /></p>
+<pre><code class="hljs"><span class="hljs-attribute">Input</span>: points = [[0,0],[2,2],[3,10],[5,2],[7,0]]
+<span class="hljs-attribute">Output</span>: 20
+<span class="hljs-attribute">Explanation</span>: 
+
+<span class="applescript">We can connect <span class="hljs-keyword">the</span> points <span class="hljs-keyword">as</span> shown <span class="hljs-keyword">above</span> <span class="hljs-keyword">to</span> <span class="hljs-keyword">get</span> <span class="hljs-keyword">the</span> minimum cost <span class="hljs-keyword">of</span> <span class="hljs-number">20.</span>
+Notice <span class="hljs-keyword">that</span> there <span class="hljs-keyword">is</span> a unique path <span class="hljs-keyword">between</span> <span class="hljs-keyword">every</span> pair <span class="hljs-keyword">of</span> points.</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: points = <span class="hljs-string">[[3,12],[-2,5],[-4,1]]</span>
+Output: <span class="hljs-number">18</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= points.length &lt;= 1000</code></p></li>
+<li><p><code>-106 &lt;= xi, yi &lt;= 106</code></p></li>
+<li><p>All pairs <code>(xi, yi)</code> are distinct.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} points
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> minCostConnectPoints = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">points</span>) </span>{
+    <span class="hljs-keyword">var</span> edges = [];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; points.length; i++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = i + <span class="hljs-number">1</span>; j &lt; points.length; j++) {
+            edges.push([i, j, getDistance(points, i, j)]);
+        }
+    }
+    edges.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a[<span class="hljs-number">2</span>] - b[<span class="hljs-number">2</span>]);
+    <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> parents = <span class="hljs-built_in">Array</span>(points.length).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function">(<span class="hljs-params">_, i</span>) =&gt;</span> i);
+    <span class="hljs-keyword">var</span> rank = <span class="hljs-built_in">Array</span>(points.length).fill(<span class="hljs-number">0</span>);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> m = <span class="hljs-number">0</span>; m &lt; edges.length; m++) {
+        <span class="hljs-keyword">var</span> [i, j, distance] = edges[m];
+        <span class="hljs-keyword">var</span> n = find(parents, i);
+        <span class="hljs-keyword">var</span> k = find(parents, j);
+        <span class="hljs-keyword">if</span> (n === k) <span class="hljs-keyword">continue</span>;
+        <span class="hljs-keyword">if</span> (rank[n] &lt;= rank[k]) {
+            union(parents, n, k);
+            rank[k]++;
+        } <span class="hljs-keyword">else</span> {
+            union(parents, k, n);
+            rank[n]++;
+        }
+        res += distance;
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> getDistance = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">points, i, j</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.abs(points[i][<span class="hljs-number">0</span>] - points[j][<span class="hljs-number">0</span>]) + <span class="hljs-built_in">Math</span>.abs(points[i][<span class="hljs-number">1</span>] - points[j][<span class="hljs-number">1</span>]);
+};
+
+<span class="hljs-keyword">var</span> union = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">parents, i, j</span>) </span>{
+    parents[i] = j;
+};
+
+<span class="hljs-keyword">var</span> find = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">parents, i</span>) </span>{
+    <span class="hljs-keyword">if</span> (parents[i] === i) {
+        <span class="hljs-keyword">return</span> i;
+    }
+    parents[i] = find(parents, parents[i]);
+    <span class="hljs-keyword">return</span> parents[i];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>Union-find to detect circle.</p>
+<p>Kruskal’s Algorithm to get minimum spanning tree.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n ^ 2).</li>
+<li>Space complexity : O(n ^ 2).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

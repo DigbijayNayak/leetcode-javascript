@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Repeated DNA Sequences - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>187. Repeated DNA Sequences</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/string">String</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/bit-manipulation">Bit Manipulation</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/sliding-window">Sliding Window</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/rolling-hash">Rolling Hash</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/hash-function">Hash Function</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>The <strong>DNA sequence</strong> is composed of a series of nucleotides abbreviated as <code>'A'</code>, <code>'C'</code>, <code>'G'</code>, and <code>'T'</code>.</p>
+<ul>
+<li>For example, <code>"ACGAATTCCG"</code> is a <strong>DNA sequence</strong>.</li>
+</ul>
+<p>When studying <strong>DNA</strong>, it is useful to identify repeated sequences within the DNA.</p>
+<p>Given a string <code>s</code> that represents a <strong>DNA sequence</strong>, return all the <strong><code>10</code>-letter-long</strong> sequences (substrings) that occur more than once in a DNA molecule. You may return the answer in <strong>any order</strong>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> s = <span class="hljs-string">"AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"</span>
+<span class="hljs-symbol">Output:</span> [<span class="hljs-string">"AAAAACCCCC"</span>,<span class="hljs-string">"CCCCCAAAAA"</span>]
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> s = <span class="hljs-string">"AAAAAAAAAAAAA"</span>
+<span class="hljs-symbol">Output:</span> [<span class="hljs-string">"AAAAAAAAAA"</span>]
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= s.length &lt;= 105</code></p></li>
+<li><p><code>s[i]</code> is either <code>'A'</code>, <code>'C'</code>, <code>'G'</code>, or <code>'T'</code>.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @return {string[]}
+ */</span>
+<span class="hljs-keyword">var</span> findRepeatedDnaSequences = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-keyword">var</span> res = [];
+    <span class="hljs-keyword">var</span> map = {};
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt;= s.length - <span class="hljs-number">10</span>; i++) {
+        <span class="hljs-keyword">var</span> str = s.slice(i, i + <span class="hljs-number">10</span>);
+        <span class="hljs-keyword">var</span> num = map[str];
+        <span class="hljs-keyword">if</span> (num === <span class="hljs-number">-1</span>) <span class="hljs-keyword">continue</span>;
+        <span class="hljs-keyword">if</span> (num === <span class="hljs-number">1</span>) {
+            map[str] = <span class="hljs-number">-1</span>;
+            res.push(str);
+            <span class="hljs-keyword">continue</span>;
+        }
+        map[str] = <span class="hljs-number">1</span>;
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

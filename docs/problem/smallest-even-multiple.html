@@ -1,0 +1,34 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Smallest Even Multiple - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>2413. Smallest Even Multiple</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/number-theory">Number Theory</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/greatest-common-divisor-of-strings.html">Greatest Common Divisor of Strings</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/three-divisors.html">Three Divisors</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/find-greatest-common-divisor-of-array.html">Find Greatest Common Divisor of Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/convert-the-temperature.html">Convert the Temperature</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-cuts-to-divide-a-circle.html">Minimum Cuts to Divide a Circle</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a <strong>positive</strong> integer <code>n</code>, return **the smallest positive integer that is a multiple of *<em>both</em>* <strong><code>2</code></strong> and **<code>n</code>.
+&nbsp;
+Example 1:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> n = <span class="hljs-number">5</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">10</span>
+<span class="hljs-symbol">Explanation:</span> The smallest multiple of both <span class="hljs-number">5</span> <span class="hljs-keyword">and</span> <span class="hljs-number">2</span> is <span class="hljs-number">10.</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: n = 6
+Output: 6
+Explanation: The smallest multiple of both 6 <span class="hljs-keyword">and</span> 2 is 6.<span class="hljs-built_in"> Note </span>that a number is a multiple of itself.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= n &lt;= 150</code></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> smallestEvenMultiple = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n</span>) </span>{
+    <span class="hljs-keyword">return</span> n % <span class="hljs-number">2</span> === <span class="hljs-number">0</span> ? n : n * <span class="hljs-number">2</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

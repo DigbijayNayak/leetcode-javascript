@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Number of Music Playlists - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>920. Number of Music Playlists</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/combinatorics">Combinatorics</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/count-the-number-of-good-subsequences.html">Count the Number of Good Subsequences</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Your music player contains <code>n</code> different songs. You want to listen to <code>goal</code> songs (not necessarily different) during your trip. To avoid boredom, you will create a playlist so that:</p>
+<ul>
+<li><p>Every song is played <strong>at least once</strong>.</p></li>
+<li><p>A song can only be played again only if <code>k</code> other songs have been played.</p></li>
+</ul>
+<p>Given <code>n</code>, <code>goal</code>, and <code>k</code>, return <strong>the number of possible playlists that you can create</strong>. Since the answer can be very large, return it <strong>modulo</strong> <code>109 + 7</code>.
+&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: n = 3, goal = 3, k = 1
+Output: 6
+Explanation: There <span class="hljs-keyword">are</span> 6 possible playlists: <span class="hljs-comment">[1, 2, 3]</span>, <span class="hljs-comment">[1, 3, 2]</span>, <span class="hljs-comment">[2, 1, 3]</span>, <span class="hljs-comment">[2, 3, 1]</span>, <span class="hljs-comment">[3, 1, 2]</span>, and <span class="hljs-comment">[3, 2, 1]</span>.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: n = 2, goal = 3, k = 0
+Output: 6
+Explanation: There <span class="hljs-keyword">are</span> 6 possible playlists: <span class="hljs-comment">[1, 1, 2]</span>, <span class="hljs-comment">[1, 2, 1]</span>, <span class="hljs-comment">[2, 1, 1]</span>, <span class="hljs-comment">[2, 2, 1]</span>, <span class="hljs-comment">[2, 1, 2]</span>, and <span class="hljs-comment">[1, 2, 2]</span>.
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> n = <span class="hljs-number">2</span>, goal = <span class="hljs-number">3</span>, k = <span class="hljs-number">1</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">2</span>
+<span class="hljs-symbol">Explanation:</span> There are <span class="hljs-number">2</span> possible playlists: [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>] <span class="hljs-keyword">and</span> [<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>].
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><code>0 &lt;= k &lt; n &lt;= goal &lt;= 100</code></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @param {number} goal
+ * @param {number} k
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> numMusicPlaylists = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n, goal, k</span>) </span>{
+    <span class="hljs-keyword">var</span> mod = <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">10</span>, <span class="hljs-number">9</span>) + <span class="hljs-number">7</span>;
+    <span class="hljs-keyword">var</span> dp = <span class="hljs-built_in">Array</span>(goal + <span class="hljs-number">1</span>).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">Array</span>(n + <span class="hljs-number">1</span>).fill(<span class="hljs-number">0</span>));
+    dp[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">1</span>; i &lt;= goal; i++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">1</span>; j &lt;= <span class="hljs-built_in">Math</span>.min(i, n); j++) {
+            <span class="hljs-comment">// new song</span>
+            dp[i][j] = dp[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>] * (n - (j - <span class="hljs-number">1</span>)) % mod;
+            <span class="hljs-comment">// old song</span>
+            <span class="hljs-keyword">if</span> (j &gt; k) {
+                dp[i][j] = (dp[i][j] + dp[i - <span class="hljs-number">1</span>][j] * (j - k)) % mod;
+            }
+        }
+    }
+    <span class="hljs-keyword">return</span> dp[goal][n];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>Bottom-up DP.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(goal * n).</li>
+<li>Space complexity : O(goal * n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Find Unique Binary String - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1980. Find Unique Binary String</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/string">String</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/backtracking">Backtracking</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/missing-number.html">Missing Number</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/find-all-numbers-disappeared-in-an-array.html">Find All Numbers Disappeared in an Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/random-pick-with-blacklist.html">Random Pick with Blacklist</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given an array of strings <code>nums</code> containing <code>n</code> <strong>unique</strong> binary strings each of length <code>n</code>, return **a binary string of length *<em><code>n</code></em>* that <strong>does not appear</strong> in <strong><code>nums</code></strong>. If there are multiple answers, you may return <strong>any</strong> of them**.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> nums = [<span class="hljs-string">"01"</span>,<span class="hljs-string">"10"</span>]
+<span class="hljs-symbol">Output:</span> <span class="hljs-string">"11"</span>
+<span class="hljs-symbol">Explanation:</span> <span class="hljs-string">"11"</span> does not appear <span class="hljs-keyword">in</span> nums. <span class="hljs-string">"00"</span> would also be correct.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> nums = [<span class="hljs-string">"00"</span>,<span class="hljs-string">"01"</span>]
+<span class="hljs-symbol">Output:</span> <span class="hljs-string">"11"</span>
+<span class="hljs-symbol">Explanation:</span> <span class="hljs-string">"11"</span> does not appear <span class="hljs-keyword">in</span> nums. <span class="hljs-string">"10"</span> would also be correct.
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> nums = [<span class="hljs-string">"111"</span>,<span class="hljs-string">"011"</span>,<span class="hljs-string">"001"</span>]
+<span class="hljs-symbol">Output:</span> <span class="hljs-string">"101"</span>
+<span class="hljs-symbol">Explanation:</span> <span class="hljs-string">"101"</span> does not appear <span class="hljs-keyword">in</span> nums. <span class="hljs-string">"000"</span>, <span class="hljs-string">"010"</span>, <span class="hljs-string">"100"</span>, <span class="hljs-keyword">and</span> <span class="hljs-string">"110"</span> would also be correct.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>n == nums.length</code></p></li>
+<li><p><code>1 &lt;= n &lt;= 16</code></p></li>
+<li><p><code>nums[i].length == n</code></p></li>
+<li><p><code>nums[i]</code>is either <code>'0'</code> or <code>'1'</code>.</p></li>
+<li><p>All the strings of <code>nums</code> are <strong>unique</strong>.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string[]} nums
+ * @return {string}
+ */</span>
+<span class="hljs-keyword">var</span> findDifferentBinaryString = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums</span>) </span>{
+    <span class="hljs-keyword">var</span> str = <span class="hljs-string">''</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt;= nums.length; i++) {
+        str = i.toString(<span class="hljs-number">2</span>);
+        str = <span class="hljs-string">'0'</span>.repeat(nums.length - str.length) + str;
+        <span class="hljs-keyword">if</span> (!nums.includes(str)) {
+            <span class="hljs-keyword">return</span> str;
+        }
+    }
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>Since array <code>nums</code> only contains <code>n</code> numbers, if we got <code>n + 1</code> numbers, there mush have at lease one number not in that array.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Next Greater Element III - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>556. Next Greater Element III</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/two-pointers">Two Pointers</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/string">String</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/next-greater-element-i.html">Next Greater Element I</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/next-greater-element-ii.html">Next Greater Element II</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/next-palindrome-using-same-digits.html">Next Palindrome Using Same Digits</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a positive integer <code>n</code>, find <strong>the smallest integer which has exactly the same digits existing in the integer</strong> <code>n</code> <strong>and is greater in value than</strong> <code>n</code>. If no such positive integer exists, return <code>-1</code>.</p>
+<p><strong>Note</strong> that the returned integer should fit in <strong>32-bit integer</strong>, if there is a valid answer but it does not fit in <strong>32-bit integer</strong>, return <code>-1</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> n = <span class="hljs-number">12</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">21</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> n = <span class="hljs-number">21</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">-1</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= n &lt;= 231 - 1</code></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> nextGreaterElement = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n</span>) </span>{
+    <span class="hljs-keyword">var</span> nums = n.toString().split(<span class="hljs-string">''</span>);
+    <span class="hljs-keyword">var</span> i = nums.length - <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">while</span> (i &gt; <span class="hljs-number">0</span> &amp;&amp; nums[i] &lt;= nums[i - <span class="hljs-number">1</span>]) i--;
+    <span class="hljs-keyword">if</span> (i === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    <span class="hljs-keyword">var</span> j = i;
+    <span class="hljs-keyword">while</span> (j &lt;= nums.length - <span class="hljs-number">1</span> &amp;&amp; nums[j] &gt; nums[i - <span class="hljs-number">1</span>]) j++;
+    swap(nums, i - <span class="hljs-number">1</span>, j - <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">var</span> newNums = nums.slice(<span class="hljs-number">0</span>, i).concat(nums.slice(i).reverse());
+    <span class="hljs-keyword">var</span> newNum = <span class="hljs-built_in">Number</span>(newNums.join(<span class="hljs-string">''</span>));
+    <span class="hljs-keyword">return</span> newNum &gt; <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">2</span>, <span class="hljs-number">31</span>) - <span class="hljs-number">1</span> ? <span class="hljs-number">-1</span> : newNum;
+};
+
+<span class="hljs-keyword">var</span> swap = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums, i, j</span>) </span>{
+    <span class="hljs-keyword">var</span> tmp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = tmp;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

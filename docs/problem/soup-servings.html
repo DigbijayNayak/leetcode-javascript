@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Soup Servings - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>808. Soup Servings</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/probability-and-statistics">Probability and Statistics</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>There are two types of soup: <strong>type A</strong> and <strong>type B</strong>. Initially, we have <code>n</code> ml of each type of soup. There are four kinds of operations:</p>
+<ul>
+<li><p>Serve <code>100</code> ml of <strong>soup A</strong> and <code>0</code> ml of <strong>soup B</strong>,</p></li>
+<li><p>Serve <code>75</code> ml of <strong>soup A</strong> and <code>25</code> ml of <strong>soup B</strong>,</p></li>
+<li><p>Serve <code>50</code> ml of <strong>soup A</strong> and <code>50</code> ml of <strong>soup B</strong>, and</p></li>
+<li><p>Serve <code>25</code> ml of <strong>soup A</strong> and <code>75</code> ml of <strong>soup B</strong>.</p></li>
+</ul>
+<p>When we serve some soup, we give it to someone, and we no longer have it. Each turn, we will choose from the four operations with an equal probability <code>0.25</code>. If the remaining volume of soup is not enough to complete the operation, we will serve as much as possible. We stop once we no longer have some quantity of both types of soup.</p>
+<p><strong>Note</strong> that we do not have an operation where all <code>100</code> ml's of <strong>soup B</strong> are used first.</p>
+<p>Return **the probability that *<em>soup A</em>* will be empty first, plus half the probability that <strong>A</strong> and <strong>B</strong> become empty at the same time**. Answers within <code>10-5</code> of the actual answer will be accepted.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: n = <span class="hljs-number">50</span>
+Output: <span class="hljs-number">0.62500</span>
+Explanation: If we choose <span class="hljs-keyword">the</span> <span class="hljs-keyword">first</span> <span class="hljs-literal">two</span> operations, A will become <span class="hljs-literal">empty</span> <span class="hljs-keyword">first</span>.
+For <span class="hljs-keyword">the</span> <span class="hljs-keyword">third</span> operation, A <span class="hljs-keyword">and</span> B will become <span class="hljs-literal">empty</span> <span class="hljs-keyword">at</span> <span class="hljs-keyword">the</span> same <span class="hljs-built_in">time</span>.
+For <span class="hljs-keyword">the</span> <span class="hljs-keyword">fourth</span> operation, B will become <span class="hljs-literal">empty</span> <span class="hljs-keyword">first</span>.
+So <span class="hljs-keyword">the</span> total probability <span class="hljs-keyword">of</span> A becoming <span class="hljs-literal">empty</span> <span class="hljs-keyword">first</span> plus half <span class="hljs-keyword">the</span> probability that A <span class="hljs-keyword">and</span> B become <span class="hljs-literal">empty</span> <span class="hljs-keyword">at</span> <span class="hljs-keyword">the</span> same <span class="hljs-built_in">time</span>, is <span class="hljs-number">0.25</span> * (<span class="hljs-number">1</span> + <span class="hljs-number">1</span> + <span class="hljs-number">0.5</span> + <span class="hljs-number">0</span>) = <span class="hljs-number">0.625</span>.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> n = <span class="hljs-number">100</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">0.71875</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><code>0 &lt;= n &lt;= 109</code></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> soupServings = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n</span>) </span>{
+    <span class="hljs-keyword">var</span> m = <span class="hljs-built_in">Math</span>.ceil(n / <span class="hljs-number">25</span>);
+    <span class="hljs-keyword">var</span> dp = {};
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">1</span>; i &lt;= m; i++) {
+        <span class="hljs-keyword">if</span> (solve(i, i, dp) &gt; (<span class="hljs-number">1</span> - <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">10</span>, <span class="hljs-number">-5</span>))) {
+            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+        }
+    }
+    <span class="hljs-keyword">return</span> solve(m, m, dp);
+};
+
+<span class="hljs-keyword">var</span> solve = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">a, b, dp</span>) </span>{
+    <span class="hljs-keyword">if</span> (a &lt;= <span class="hljs-number">0</span> &amp;&amp; b &lt;= <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0.5</span>;
+    <span class="hljs-keyword">if</span> (a &lt;= <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">if</span> (b &lt;= <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> key = <span class="hljs-string">`<span class="hljs-subst">${a}</span>-<span class="hljs-subst">${b}</span>`</span>;
+    <span class="hljs-keyword">if</span> (dp[key] === <span class="hljs-literal">undefined</span>) {
+        dp[key] = <span class="hljs-number">0.25</span> * solve(a - <span class="hljs-number">4</span>, b, dp)
+            + <span class="hljs-number">0.25</span> * solve(a - <span class="hljs-number">3</span>, b - <span class="hljs-number">1</span>, dp)
+            + <span class="hljs-number">0.25</span> * solve(a - <span class="hljs-number">2</span>, b - <span class="hljs-number">2</span>, dp)
+            + <span class="hljs-number">0.25</span> * solve(a - <span class="hljs-number">1</span>, b - <span class="hljs-number">3</span>, dp);
+    }
+    <span class="hljs-keyword">return</span> dp[key];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>Top-down, DP.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

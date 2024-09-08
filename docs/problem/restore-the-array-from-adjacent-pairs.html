@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Restore the Array From Adjacent Pairs - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1743. Restore the Array From Adjacent Pairs</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>There is an integer array <code>nums</code> that consists of <code>n</code> **unique **elements, but you have forgotten it. However, you do remember every pair of adjacent elements in <code>nums</code>.</p>
+<p>You are given a 2D integer array <code>adjacentPairs</code> of size <code>n - 1</code> where each <code>adjacentPairs[i] = [ui, vi]</code> indicates that the elements <code>ui</code> and <code>vi</code> are adjacent in <code>nums</code>.</p>
+<p>It is guaranteed that every adjacent pair of elements <code>nums[i]</code> and <code>nums[i+1]</code> will exist in <code>adjacentPairs</code>, either as <code>[nums[i], nums[i+1]]</code> or <code>[nums[i+1], nums[i]]</code>. The pairs can appear <strong>in any order</strong>.</p>
+<p>Return **the original array *<em><code>nums</code></em>*. If there are multiple solutions, return *<em>any of them</em>***.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: adjacentPairs = [[2,1],[3,4],[3,2]]
+Output: [1,2,3,4]
+Explanation: This<span class="hljs-built_in"> array </span>has all its adjacent pairs in adjacentPairs.
+Notice that adjacentPairs[i] may<span class="hljs-built_in"> not </span>be in left-to-right order.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input</span>: adjacentPairs = [[<span class="hljs-number">4</span>,<span class="hljs-number">-2</span>],[<span class="hljs-number">1</span>,<span class="hljs-number">4</span>],[<span class="hljs-number">-3</span>,<span class="hljs-number">1</span>]]
+<span class="hljs-symbol">Output</span>: [<span class="hljs-number">-2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">1</span>,<span class="hljs-number">-3</span>]
+<span class="hljs-symbol">Explanation</span>: <span class="hljs-symbol">There</span> can be negative numbers.
+<span class="hljs-symbol">Another</span> solution is [<span class="hljs-number">-3</span>,<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">-2</span>], which would also be accepted.
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: adjacentPairs = <span class="hljs-string">[[100000,-100000]]</span>
+Output: [<span class="hljs-number">100000</span>,<span class="hljs-number">-100000</span>]
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>nums.length == n</code></p></li>
+<li><p><code>adjacentPairs.length == n - 1</code></p></li>
+<li><p><code>adjacentPairs[i].length == 2</code></p></li>
+<li><p><code>2 &lt;= n &lt;= 105</code></p></li>
+<li><p><code>-105 &lt;= nums[i], ui, vi &lt;= 105</code></p></li>
+<li><p>There exists some <code>nums</code> that has <code>adjacentPairs</code> as its pairs.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} adjacentPairs
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> restoreArray = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">adjacentPairs</span>) </span>{
+    <span class="hljs-keyword">var</span> map = {};
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span> ; i &lt; adjacentPairs.length; i++) {
+        map[adjacentPairs[i][<span class="hljs-number">0</span>]] = map[adjacentPairs[i][<span class="hljs-number">0</span>]] || [];
+        map[adjacentPairs[i][<span class="hljs-number">1</span>]] = map[adjacentPairs[i][<span class="hljs-number">1</span>]] || [];
+        map[adjacentPairs[i][<span class="hljs-number">0</span>]].push(adjacentPairs[i][<span class="hljs-number">1</span>]);
+        map[adjacentPairs[i][<span class="hljs-number">1</span>]].push(adjacentPairs[i][<span class="hljs-number">0</span>]);
+    }
+    <span class="hljs-keyword">var</span> root = <span class="hljs-built_in">Number</span>(<span class="hljs-built_in">Object</span>.keys(map).find(<span class="hljs-function"><span class="hljs-params">num</span> =&gt;</span> map[num].length === <span class="hljs-number">1</span>));
+    <span class="hljs-keyword">var</span> res = [root];
+    <span class="hljs-keyword">var</span> last = root;
+    <span class="hljs-keyword">var</span> now = map[root][<span class="hljs-number">0</span>];
+    <span class="hljs-keyword">while</span> (now !== <span class="hljs-literal">undefined</span>) {
+        <span class="hljs-keyword">var</span> next = map[now][<span class="hljs-number">0</span>] === last ? map[now][<span class="hljs-number">1</span>] : map[now][<span class="hljs-number">0</span>];
+        res.push(now);
+        last = now;
+        now = next;
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Delete Duplicate Emails - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>196. Delete Duplicate Emails</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/database">Database</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Table: <code>Person</code></p>
+<pre><code class="hljs"><span class="hljs-code">+-------------+</span>---------+
+<span class="hljs-section">| Column Name | Type    |
++-------------+---------+</span>
+| id          | int     |
+<span class="hljs-section">| email       | varchar |
++-------------+---------+</span>
+id is the primary key (column with unique values) for this table.
+Each row of this table contains an email. The emails will not contain uppercase letters.
+</code></pre>
+<p>&nbsp;</p>
+<p>Write a solution to** delete** all duplicate emails, keeping only one unique email with the smallest <code>id</code>.</p>
+<p>For SQL users, please note that you are supposed to write a <code>DELETE</code> statement and not a <code>SELECT</code> one.</p>
+<p>For Pandas users, please note that you are supposed to modify <code>Person</code> in place.</p>
+<p>After running your script, the answer shown is the <code>Person</code> table. The driver will first compile and run your piece of code and then show the <code>Person</code> table. The final order of the <code>Person</code> table <strong>does not matter</strong>.</p>
+<p>The result format is in the following example.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: 
+<span class="hljs-section">Person table:
++----+------------------+</span>
+<span class="hljs-section">| id | email            |
++----+------------------+</span>
+| 1  | john@example.com |
+| 2  | bob@example.com  |
+<span class="hljs-section">| 3  | john@example.com |
++----+------------------+</span>
+<span class="hljs-section">Output: 
++----+------------------+</span>
+<span class="hljs-section">| id | email            |
++----+------------------+</span>
+| 1  | john@example.com |
+<span class="hljs-section">| 2  | bob@example.com  |
++----+------------------+</span>
+Explanation: john@example.com is repeated two times. We keep the row with the smallest Id = 1.
+</code></pre>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"># Write your MySQL query statement below
+DELETE p1 FROM Person p1, Person p2 WHERE p1.email = p2.email AND p1.id &gt; p2.id;
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

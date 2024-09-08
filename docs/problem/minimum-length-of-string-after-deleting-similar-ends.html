@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Minimum Length of String After Deleting Similar Ends - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1750. Minimum Length of String After Deleting Similar Ends</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/two-pointers">Two Pointers</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/string">String</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a string <code>s</code> consisting only of characters <code>'a'</code>, <code>'b'</code>, and <code>'c'</code>. You are asked to apply the following algorithm on the string any number of times:</p>
+<ul>
+<li><p>Pick a <strong>non-empty</strong> prefix from the string <code>s</code> where all the characters in the prefix are equal.</p></li>
+<li><p>Pick a <strong>non-empty</strong> suffix from the string <code>s</code> where all the characters in this suffix are equal.</p></li>
+<li><p>The prefix and the suffix should not intersect at any index.</p></li>
+<li><p>The characters from the prefix and suffix must be the same.</p></li>
+<li><p>Delete both the prefix and the suffix.</p></li>
+</ul>
+<p>Return **the *<em>minimum length</em>* of **<code>s</code> *<em>after performing the above operation any number of times (possibly zero times)</em>*.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: s = <span class="hljs-string">"ca"</span>
+Output: <span class="hljs-number">2</span>
+Explanation: You can't remove any <span class="hljs-built_in">characters</span>, so <span class="hljs-keyword">the</span> <span class="hljs-built_in">string</span> stays <span class="hljs-keyword">as</span> <span class="hljs-keyword">is</span>.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: s = <span class="hljs-string">"cabaabac"</span>
+Output: 0
+Explanation: An optimal sequence of operations is:
+- Take<span class="hljs-built_in"> prefix </span>= <span class="hljs-string">"c"</span> <span class="hljs-keyword">and</span> suffix = <span class="hljs-string">"c"</span> <span class="hljs-keyword">and</span> <span class="hljs-builtin-name">remove</span> them, s = <span class="hljs-string">"abaaba"</span>.
+- Take<span class="hljs-built_in"> prefix </span>= <span class="hljs-string">"a"</span> <span class="hljs-keyword">and</span> suffix = <span class="hljs-string">"a"</span> <span class="hljs-keyword">and</span> <span class="hljs-builtin-name">remove</span> them, s = <span class="hljs-string">"baab"</span>.
+- Take<span class="hljs-built_in"> prefix </span>= <span class="hljs-string">"b"</span> <span class="hljs-keyword">and</span> suffix = <span class="hljs-string">"b"</span> <span class="hljs-keyword">and</span> <span class="hljs-builtin-name">remove</span> them, s = <span class="hljs-string">"aa"</span>.
+- Take<span class="hljs-built_in"> prefix </span>= <span class="hljs-string">"a"</span> <span class="hljs-keyword">and</span> suffix = <span class="hljs-string">"a"</span> <span class="hljs-keyword">and</span> <span class="hljs-builtin-name">remove</span> them, s = <span class="hljs-string">""</span>.
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: s = <span class="hljs-string">"aabccabba"</span>
+Output: 3
+Explanation: An optimal sequence of operations is:
+- Take<span class="hljs-built_in"> prefix </span>= <span class="hljs-string">"aa"</span> <span class="hljs-keyword">and</span> suffix = <span class="hljs-string">"a"</span> <span class="hljs-keyword">and</span> <span class="hljs-builtin-name">remove</span> them, s = <span class="hljs-string">"bccabb"</span>.
+- Take<span class="hljs-built_in"> prefix </span>= <span class="hljs-string">"b"</span> <span class="hljs-keyword">and</span> suffix = <span class="hljs-string">"bb"</span> <span class="hljs-keyword">and</span> <span class="hljs-builtin-name">remove</span> them, s = <span class="hljs-string">"cca"</span>.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= s.length &lt;= 105</code></p></li>
+<li><p><code>s</code> only consists of characters <code>'a'</code>, <code>'b'</code>, and <code>'c'</code>.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> minimumLength = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-keyword">var</span> left = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> right = s.length - <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">while</span> (left &lt; right &amp;&amp; s[left] === s[right]) {
+        <span class="hljs-keyword">while</span> (s[left] === s[left + <span class="hljs-number">1</span>] &amp;&amp; left + <span class="hljs-number">1</span> &lt; right) left++;
+        <span class="hljs-keyword">while</span> (s[right] === s[right - <span class="hljs-number">1</span>] &amp;&amp; right - <span class="hljs-number">1</span> &gt; left) right--;
+        left++;
+        right--;
+    }
+    <span class="hljs-keyword">return</span> right - left + <span class="hljs-number">1</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(0).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

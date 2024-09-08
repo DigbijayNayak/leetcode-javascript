@@ -1,0 +1,84 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Cheapest Flights Within K Stops - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>787. Cheapest Flights Within K Stops</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/depth-first-search">Depth-First Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/breadth-first-search">Breadth-First Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/graph">Graph</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/heap-priority-queue">Heap (Priority Queue)</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/shortest-path">Shortest Path</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/maximum-vacation-days.html">Maximum Vacation Days</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-cost-to-reach-city-with-discounts.html">Minimum Cost to Reach City With Discounts</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>There are <code>n</code> cities connected by some number of flights. You are given an array <code>flights</code> where <code>flights[i] = [fromi, toi, pricei]</code> indicates that there is a flight from city <code>fromi</code> to city <code>toi</code> with cost <code>pricei</code>.</p>
+<p>You are also given three integers <code>src</code>, <code>dst</code>, and <code>k</code>, return <strong>**the cheapest price</strong> from <strong><code>src</code></strong> to <strong><code>dst</code></strong> with at most <strong><code>k</code></strong> stops. <strong>If there is no such route, return</strong> **<code>-1</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2022/03/18/cheapest-flights-within-k-stops-3drawio.png" alt="" /></p>
+<pre><code class="hljs">Input: n = 4, flights = [[0,1,100],[1,2,100],[2,0,100],[1,3,600],[2,3,200]], src = 0, dst = 3, k = 1
+Output: 700
+Explanation:
+The graph is shown above.
+The optimal path with at most 1 stop <span class="hljs-keyword">from</span> city 0 <span class="hljs-keyword">to</span> 3 is marked <span class="hljs-keyword">in</span> red <span class="hljs-keyword">and</span> has cost 100 + 600 = 700.<span class="hljs-built_in">
+Note </span>that the path through cities [0,1,2,3] is cheaper but is invalid because it uses 2 stops.
+</code></pre>
+<p>Example 2:</p>
+<p><img src="https://assets.leetcode.com/uploads/2022/03/18/cheapest-flights-within-k-stops-1drawio.png" alt="" /></p>
+<pre><code class="hljs">Inpu<span class="hljs-variable">t:</span> n = <span class="hljs-number">3</span>, flights = [[<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">100</span>],[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">100</span>],[<span class="hljs-number">0</span>,<span class="hljs-number">2</span>,<span class="hljs-number">500</span>]], src = <span class="hljs-number">0</span>, dst = <span class="hljs-number">2</span>, <span class="hljs-keyword">k</span> = <span class="hljs-number">1</span>
+Outpu<span class="hljs-variable">t:</span> <span class="hljs-number">200</span>
+Explanation:
+The graph <span class="hljs-keyword">is</span> shown above.
+The optimal path with at most <span class="hljs-number">1</span> <span class="hljs-keyword">stop</span> from city <span class="hljs-number">0</span> <span class="hljs-keyword">to</span> <span class="hljs-number">2</span> <span class="hljs-keyword">is</span> marked in <span class="hljs-keyword">red</span> <span class="hljs-built_in">and</span> <span class="hljs-built_in">has</span> cost <span class="hljs-number">100</span> + <span class="hljs-number">100</span> = <span class="hljs-number">200</span>.
+</code></pre>
+<p>Example 3:</p>
+<p><img src="https://assets.leetcode.com/uploads/2022/03/18/cheapest-flights-within-k-stops-2drawio.png" alt="" /></p>
+<pre><code class="hljs">Inpu<span class="hljs-variable">t:</span> n = <span class="hljs-number">3</span>, flights = [[<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">100</span>],[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">100</span>],[<span class="hljs-number">0</span>,<span class="hljs-number">2</span>,<span class="hljs-number">500</span>]], src = <span class="hljs-number">0</span>, dst = <span class="hljs-number">2</span>, <span class="hljs-keyword">k</span> = <span class="hljs-number">0</span>
+Outpu<span class="hljs-variable">t:</span> <span class="hljs-number">500</span>
+Explanation:
+The graph <span class="hljs-keyword">is</span> shown above.
+The optimal path with <span class="hljs-keyword">no</span> stops from city <span class="hljs-number">0</span> <span class="hljs-keyword">to</span> <span class="hljs-number">2</span> <span class="hljs-keyword">is</span> marked in <span class="hljs-keyword">red</span> <span class="hljs-built_in">and</span> <span class="hljs-built_in">has</span> cost <span class="hljs-number">500</span>.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= n &lt;= 100</code></p></li>
+<li><p><code>0 &lt;= flights.length &lt;= (n * (n - 1) / 2)</code></p></li>
+<li><p><code>flights[i].length == 3</code></p></li>
+<li><p><code>0 &lt;= fromi, toi &lt; n</code></p></li>
+<li><p><code>fromi != toi</code></p></li>
+<li><p><code>1 &lt;= pricei &lt;= 104</code></p></li>
+<li><p>There will not be any multiple flights between two cities.</p></li>
+<li><p><code>0 &lt;= src, dst, k &lt; n</code></p></li>
+<li><p><code>src != dst</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @param {number[][]} flights
+ * @param {number} src
+ * @param {number} dst
+ * @param {number} k
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> findCheapestPrice = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n, flights, src, dst, k</span>) </span>{
+    <span class="hljs-keyword">var</span> map = <span class="hljs-built_in">Array</span>(n).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> []);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; flights.length; i++) {
+        map[flights[i][<span class="hljs-number">0</span>]].push([flights[i][<span class="hljs-number">1</span>], flights[i][<span class="hljs-number">2</span>]]);
+    }
+    <span class="hljs-keyword">var</span> dp = <span class="hljs-built_in">Array</span>(n).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> ({}));
+    <span class="hljs-keyword">var</span> res = dfs(src, dst, k, map, dp);
+    <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> dfs = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">src, dst, k, map, dp</span>) </span>{
+    <span class="hljs-keyword">if</span> (dp[src][k] !== <span class="hljs-literal">undefined</span>) <span class="hljs-keyword">return</span> dp[src][k];
+    <span class="hljs-keyword">if</span> (src === dst) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (k === <span class="hljs-number">-1</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    <span class="hljs-keyword">var</span> res = <span class="hljs-number">-1</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; map[src].length; i++) {
+        <span class="hljs-keyword">var</span> tmp = dfs(map[src][i][<span class="hljs-number">0</span>], dst, k - <span class="hljs-number">1</span>, map, dp);
+        <span class="hljs-keyword">if</span> (tmp === <span class="hljs-number">-1</span>) <span class="hljs-keyword">continue</span>;
+        <span class="hljs-keyword">if</span> (res === <span class="hljs-number">-1</span> || res &gt; tmp + map[src][i][<span class="hljs-number">1</span>]) {
+            res = tmp + map[src][i][<span class="hljs-number">1</span>];
+        }
+    }
+    dp[src][k] = res;
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>DFS + DP.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * k).</li>
+<li>Space complexity : O(n * k).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

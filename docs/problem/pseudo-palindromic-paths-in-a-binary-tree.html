@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Pseudo-Palindromic Paths in a Binary Tree - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1457. Pseudo-Palindromic Paths in a Binary Tree</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/bit-manipulation">Bit Manipulation</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/tree">Tree</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/depth-first-search">Depth-First Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/breadth-first-search">Breadth-First Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-tree">Binary Tree</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a binary tree where node values are digits from 1 to 9. A path in the binary tree is said to be <strong>pseudo-palindromic</strong> if at least one permutation of the node values in the path is a palindrome.</p>
+<p>**Return the number of *<em>pseudo-palindromic</em>* paths going from the root node to leaf nodes.**</p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2020/05/06/palindromic_paths_1.png" alt="" /></p>
+<pre><code class="hljs">Input: root = [<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>,<span class="hljs-literal">null</span>,<span class="hljs-number">1</span>]
+Output: <span class="hljs-number">2</span> 
+Explanation: The figure above represents <span class="hljs-keyword">the</span> given binary tree. There are <span class="hljs-literal">three</span> paths going <span class="hljs-built_in">from</span> <span class="hljs-keyword">the</span> root node <span class="hljs-built_in">to</span> leaf nodes: <span class="hljs-keyword">the</span> red path [<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>], <span class="hljs-keyword">the</span> green path [<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], <span class="hljs-keyword">and</span> <span class="hljs-keyword">the</span> path [<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>]. Among these paths only red path <span class="hljs-keyword">and</span> green path are pseudo-palindromic paths since <span class="hljs-keyword">the</span> red path [<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>] can be rearranged <span class="hljs-keyword">in</span> [<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>] (palindrome) <span class="hljs-keyword">and</span> <span class="hljs-keyword">the</span> green path [<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>] can be rearranged <span class="hljs-keyword">in</span> [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>] (palindrome).
+</code></pre>
+<p>Example 2:</p>
+<p><img src="https://assets.leetcode.com/uploads/2020/05/07/palindromic_paths_2.png" alt="" /></p>
+<pre><code class="hljs">Input: root = [<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>,<span class="hljs-literal">null</span>,<span class="hljs-number">1</span>]
+Output: <span class="hljs-number">1</span> 
+Explanation: The figure above represents <span class="hljs-keyword">the</span> given binary tree. There are <span class="hljs-literal">three</span> paths going <span class="hljs-built_in">from</span> <span class="hljs-keyword">the</span> root node <span class="hljs-built_in">to</span> leaf nodes: <span class="hljs-keyword">the</span> green path [<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], <span class="hljs-keyword">the</span> path [<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>], <span class="hljs-keyword">and</span> <span class="hljs-keyword">the</span> path [<span class="hljs-number">2</span>,<span class="hljs-number">1</span>]. Among these paths only <span class="hljs-keyword">the</span> green path is pseudo-palindromic since [<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>] can be rearranged <span class="hljs-keyword">in</span> [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>] (palindrome).
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> root = [<span class="hljs-number">9</span>]
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">1</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p>The number of nodes in the tree is in the range <code>[1, 105]</code>.</p></li>
+<li><p><code>1 &lt;= Node.val &lt;= 9</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * @param {TreeNode} root
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> pseudoPalindromicPaths  = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">root</span>) </span>{
+    <span class="hljs-keyword">return</span> dfs(root, <span class="hljs-built_in">Array</span>(<span class="hljs-number">10</span>).fill(<span class="hljs-number">0</span>), <span class="hljs-number">0</span>);
+};
+
+<span class="hljs-keyword">var</span> dfs = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">node, map, numOfOdd</span>) </span>{
+    <span class="hljs-keyword">if</span> (!node) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (map[node.val] % <span class="hljs-number">2</span>) {
+        numOfOdd -= <span class="hljs-number">1</span>;
+    } <span class="hljs-keyword">else</span> {
+        numOfOdd += <span class="hljs-number">1</span>;
+    }
+    <span class="hljs-keyword">if</span> (!node.left &amp;&amp; !node.right) {
+        <span class="hljs-keyword">return</span> numOfOdd &lt;= <span class="hljs-number">1</span> ? <span class="hljs-number">1</span> : <span class="hljs-number">0</span>;
+    }
+    map[node.val] += <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">var</span> res = dfs(node.left, map, numOfOdd)
+        + dfs(node.right, map, numOfOdd);
+    map[node.val] -= <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Construct the Lexicographically Largest Valid Sequence - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1718. Construct the Lexicographically Largest Valid Sequence</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/backtracking">Backtracking</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/the-number-of-beautiful-subsets.html">The Number of Beautiful Subsets</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given an integer <code>n</code>, find a sequence that satisfies all of the following:</p>
+<ul>
+<li><p>The integer <code>1</code> occurs once in the sequence.</p></li>
+<li><p>Each integer between <code>2</code> and <code>n</code> occurs twice in the sequence.</p></li>
+<li><p>For every integer <code>i</code> between <code>2</code> and <code>n</code>, the <strong>distance</strong> between the two occurrences of <code>i</code> is exactly <code>i</code>.</p></li>
+</ul>
+<p>The <strong>distance</strong> between two numbers on the sequence, <code>a[i]</code> and <code>a[j]</code>, is the absolute difference of their indices, <code>|j - i|</code>.</p>
+<p>Return **the *<em>lexicographically largest</em>* sequence****. It is guaranteed that under the given constraints, there is always a solution. **</p>
+<p>A sequence <code>a</code> is lexicographically larger than a sequence <code>b</code> (of the same length) if in the first position where <code>a</code> and <code>b</code> differ, sequence <code>a</code> has a number greater than the corresponding number in <code>b</code>. For example, <code>[0,1,9,0]</code> is lexicographically larger than <code>[0,1,5,6]</code> because the first position they differ is at the third number, and <code>9</code> is greater than <code>5</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: n = 3
+Output: <span class="hljs-comment">[3,1,2,3,2]</span>
+Explanation: <span class="hljs-comment">[2,3,2,1,3]</span> <span class="hljs-keyword">is</span> also a valid sequence, but <span class="hljs-comment">[3,1,2,3,2]</span> <span class="hljs-keyword">is</span> the lexicographically largest valid sequence.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> n = <span class="hljs-number">5</span>
+<span class="hljs-symbol">Output:</span> [<span class="hljs-number">5</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">2</span>]
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= n &lt;= 20</code></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> constructDistancedSequence = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n</span>) </span>{
+    <span class="hljs-keyword">return</span> dfs(n, <span class="hljs-built_in">Array</span>(n), <span class="hljs-built_in">Array</span>(n * <span class="hljs-number">2</span> - <span class="hljs-number">1</span>), <span class="hljs-number">0</span>);
+};
+
+<span class="hljs-keyword">var</span> dfs = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n, used, res, m</span>) </span>{
+    <span class="hljs-keyword">if</span> (m &gt;= res.length) <span class="hljs-keyword">return</span> res;
+    <span class="hljs-keyword">if</span> (res[m]) <span class="hljs-keyword">return</span> dfs(n, used, res, m + <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = n; i &gt; <span class="hljs-number">0</span>; i--) {
+        <span class="hljs-keyword">if</span> (used[i - <span class="hljs-number">1</span>]) <span class="hljs-keyword">continue</span>;
+        <span class="hljs-keyword">if</span> (i !== <span class="hljs-number">1</span> &amp;&amp; res[m + i]) <span class="hljs-keyword">continue</span>;
+        <span class="hljs-keyword">if</span> (m + i &gt;= res.length &amp;&amp; i !== <span class="hljs-number">1</span>) <span class="hljs-keyword">continue</span>;
+        used[i - <span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
+        res[m] = i;
+        <span class="hljs-keyword">if</span> (i !== <span class="hljs-number">1</span>) res[m + i] = i;
+        <span class="hljs-keyword">var</span> tmp = dfs(n, used, res, m + <span class="hljs-number">1</span>);
+        <span class="hljs-keyword">if</span> (tmp) <span class="hljs-keyword">return</span> tmp;
+        used[i - <span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;
+        res[m] = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">if</span> (i !== <span class="hljs-number">1</span>) res[m + i] = <span class="hljs-number">0</span>;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>Backtrack and DFS.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

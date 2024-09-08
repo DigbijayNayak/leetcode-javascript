@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Furthest Building You Can Reach - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1642. Furthest Building You Can Reach</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/greedy">Greedy</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/heap-priority-queue">Heap (Priority Queue)</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/make-the-prefix-sum-non-negative.html">Make the Prefix Sum Non-negative</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/find-building-where-alice-and-bob-can-meet.html">Find Building Where Alice and Bob Can Meet</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given an integer array <code>heights</code> representing the heights of buildings, some <code>bricks</code>, and some <code>ladders</code>.</p>
+<p>You start your journey from building <code>0</code> and move to the next building by possibly using bricks or ladders.</p>
+<p>While moving from building <code>i</code> to building <code>i+1</code> (<strong>0-indexed</strong>),</p>
+<ul>
+<li><p>If the current building's height is <strong>greater than or equal</strong> to the next building's height, you do <strong>not</strong> need a ladder or bricks.</p></li>
+<li><p>If the current building's height is <strong>less than</strong> the next building's height, you can either use <strong>one ladder</strong> or <code>(h[i+1] - h[i])</code> <strong>bricks</strong>.</p></li>
+</ul>
+<p><strong>Return the furthest building index (0-indexed) you can reach if you use the given ladders and bricks optimally.</strong></p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2020/10/27/q4.gif" alt="" /></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> heights = [<span class="hljs-number">4</span>,<span class="hljs-number">2</span>,<span class="hljs-number">7</span>,<span class="hljs-number">6</span>,<span class="hljs-number">9</span>,<span class="hljs-number">14</span>,<span class="hljs-number">12</span>], <span class="hljs-keyword">bricks </span>= <span class="hljs-number">5</span>, ladders = <span class="hljs-number">1</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">4</span>
+<span class="hljs-symbol">Explanation:</span> Starting <span class="hljs-built_in">at</span> <span class="hljs-keyword">building </span><span class="hljs-number">0</span>, you can follow these steps:
+- Go to <span class="hljs-keyword">building </span><span class="hljs-number">1</span> without using ladders <span class="hljs-keyword">nor </span><span class="hljs-keyword">bricks </span>since <span class="hljs-number">4</span> &gt;= <span class="hljs-number">2</span>.
+- Go to <span class="hljs-keyword">building </span><span class="hljs-number">2</span> using <span class="hljs-number">5</span> <span class="hljs-keyword">bricks. </span>You must use <span class="hljs-keyword">either </span><span class="hljs-keyword">bricks </span><span class="hljs-keyword">or </span>ladders <span class="hljs-keyword">because </span><span class="hljs-number">2</span> &lt; <span class="hljs-number">7</span>.
+- Go to <span class="hljs-keyword">building </span><span class="hljs-number">3</span> without using ladders <span class="hljs-keyword">nor </span><span class="hljs-keyword">bricks </span>since <span class="hljs-number">7</span> &gt;= <span class="hljs-number">6</span>.
+- Go to <span class="hljs-keyword">building </span><span class="hljs-number">4</span> using your only ladder. You must use <span class="hljs-keyword">either </span><span class="hljs-keyword">bricks </span><span class="hljs-keyword">or </span>ladders <span class="hljs-keyword">because </span><span class="hljs-number">6</span> &lt; <span class="hljs-number">9</span>.
+It is impossible to go <span class="hljs-keyword">beyond </span><span class="hljs-keyword">building </span><span class="hljs-number">4</span> <span class="hljs-keyword">because </span>you do not have any more <span class="hljs-keyword">bricks </span><span class="hljs-keyword">or </span>ladders.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: <span class="hljs-attr">heights</span> = [<span class="hljs-number">4</span>,<span class="hljs-number">12</span>,<span class="hljs-number">2</span>,<span class="hljs-number">7</span>,<span class="hljs-number">3</span>,<span class="hljs-number">18</span>,<span class="hljs-number">20</span>,<span class="hljs-number">3</span>,<span class="hljs-number">19</span>], <span class="hljs-attr">bricks</span> = <span class="hljs-number">10</span>, <span class="hljs-attr">ladders</span> = <span class="hljs-number">2</span>
+Output: <span class="hljs-number">7</span>
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: <span class="hljs-attr">heights</span> = [<span class="hljs-number">14</span>,<span class="hljs-number">3</span>,<span class="hljs-number">19</span>,<span class="hljs-number">3</span>], <span class="hljs-attr">bricks</span> = <span class="hljs-number">17</span>, <span class="hljs-attr">ladders</span> = <span class="hljs-number">0</span>
+Output: <span class="hljs-number">3</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= heights.length &lt;= 105</code></p></li>
+<li><p><code>1 &lt;= heights[i] &lt;= 106</code></p></li>
+<li><p><code>0 &lt;= bricks &lt;= 109</code></p></li>
+<li><p><code>0 &lt;= ladders &lt;= heights.length</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} heights
+ * @param {number} bricks
+ * @param {number} ladders
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> furthestBuilding = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">heights, bricks, ladders</span>) </span>{
+    <span class="hljs-keyword">var</span> queue = <span class="hljs-keyword">new</span> MinPriorityQueue();
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; heights.length - <span class="hljs-number">1</span>; i++) {
+        <span class="hljs-keyword">if</span> (heights[i + <span class="hljs-number">1</span>] &lt;= heights[i]) <span class="hljs-keyword">continue</span>;
+        queue.enqueue(heights[i + <span class="hljs-number">1</span>] - heights[i], heights[i + <span class="hljs-number">1</span>] - heights[i]);
+        <span class="hljs-keyword">if</span> (queue.size() &gt; ladders) {
+            <span class="hljs-keyword">var</span> height = queue.dequeue().element;
+            <span class="hljs-keyword">if</span> (bricks &lt; height) <span class="hljs-keyword">return</span> i;
+            bricks -= height;
+        }
+    }
+    <span class="hljs-keyword">return</span> heights.length - <span class="hljs-number">1</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * log(n)).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

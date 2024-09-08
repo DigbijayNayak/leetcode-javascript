@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Minimum Number of Operations to Make Array Continuous - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>2009. Minimum Number of Operations to Make Array Continuous</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/longest-repeating-character-replacement.html">Longest Repeating Character Replacement</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/continuous-subarray-sum.html">Continuous Subarray Sum</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/moving-stones-until-consecutive-ii.html">Moving Stones Until Consecutive II</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-one-bit-operations-to-make-integers-zero.html">Minimum One Bit Operations to Make Integers Zero</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-adjacent-swaps-for-k-consecutive-ones.html">Minimum Adjacent Swaps for K Consecutive Ones</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given an integer array <code>nums</code>. In one operation, you can replace <strong>any</strong> element in <code>nums</code> with <strong>any</strong> integer.</p>
+<p><code>nums</code> is considered <strong>continuous</strong> if both of the following conditions are fulfilled:</p>
+<ul>
+<li><p>All elements in <code>nums</code> are <strong>unique</strong>.</p></li>
+<li><p>The difference between the <strong>maximum</strong> element and the <strong>minimum</strong> element in <code>nums</code> equals <code>nums.length - 1</code>.</p></li>
+</ul>
+<p>For example, <code>nums = [4, 2, 5, 3]</code> is <strong>continuous</strong>, but <code>nums = [1, 2, 3, 5, 6]</code> is <strong>not continuous</strong>.</p>
+<p>Return **the *<em>minimum</em>* number of operations to make <strong><code>nums</code></strong> <strong><em>**<em>continuous</em></strong></em>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> nums = [<span class="hljs-number">4</span>,<span class="hljs-number">2</span>,<span class="hljs-number">5</span>,<span class="hljs-number">3</span>]
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">0</span>
+<span class="hljs-symbol">Explanation:</span><span class="hljs-variable">&amp;nbsp</span>;nums is already continuous.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: nums = [1,2,3,5,6]
+Output: 1
+Explanation:&amp;nbsp;One possible solution is to change the last element to 4.
+The resulting<span class="hljs-built_in"> array </span>is [1,2,3,5,4], which is continuous.
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: nums = [1,10,100,1000]
+Output: 3
+Explanation:&amp;nbsp;One possible solution is to:
+- <span class="hljs-keyword">Change</span> the <span class="hljs-keyword">second</span> <span class="hljs-keyword">element</span> <span class="hljs-keyword">to</span> <span class="hljs-number">2.</span>
+- <span class="hljs-keyword">Change</span> the third <span class="hljs-keyword">element</span> <span class="hljs-keyword">to</span> <span class="hljs-number">3.</span>
+- <span class="hljs-keyword">Change</span> the fourth <span class="hljs-keyword">element</span> <span class="hljs-keyword">to</span> <span class="hljs-number">4.</span>
+The resulting <span class="hljs-built_in">array</span> <span class="hljs-keyword">is</span> [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>], which <span class="hljs-keyword">is</span> continuous.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= nums.length &lt;= 105</code></p></li>
+<li><p><code>1 &lt;= nums[i] &lt;= 109</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> minOperations = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums</span>) </span>{
+    nums.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a - b);
+
+    <span class="hljs-keyword">var</span> uniqueNums = [];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; nums.length; i++) {
+        <span class="hljs-keyword">if</span> (nums[i] !== nums[i - <span class="hljs-number">1</span>]) uniqueNums.push(nums[i]);
+    }
+
+    <span class="hljs-keyword">var</span> left = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> maxUniqueNumsInRange = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> right = <span class="hljs-number">0</span>; right &lt; uniqueNums.length; right++) {
+        <span class="hljs-keyword">while</span> (uniqueNums[right] - uniqueNums[left] &gt;= nums.length) left++;
+        maxUniqueNumsInRange = <span class="hljs-built_in">Math</span>.max(maxUniqueNumsInRange, right - left + <span class="hljs-number">1</span>);
+    }
+
+    <span class="hljs-keyword">return</span> nums.length - maxUniqueNumsInRange;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * log(n)).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

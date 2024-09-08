@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Largest Submatrix With Rearrangements - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1727. Largest Submatrix With Rearrangements</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/greedy">Greedy</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/sorting">Sorting</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/matrix">Matrix</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/max-area-of-island.html">Max Area of Island</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given a binary matrix <code>matrix</code> of size <code>m x n</code>, and you are allowed to rearrange the <strong>columns</strong> of the <code>matrix</code> in any order.</p>
+<p>Return **the area of the largest submatrix within *<em><code>matrix</code></em>* where <strong>every</strong> element of the submatrix is <strong><code>1</code></strong> after reordering the columns optimally.**</p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2020/12/29/screenshot-2020-12-30-at-40536-pm.png" alt="" /></p>
+<pre><code class="hljs">Input: matrix = [[0,0,1],[1,1,1],[1,0,1]]
+Output: 4
+Explanation: You can rearrange the columns as shown above.
+The largest submatrix of 1s, <span class="hljs-keyword">in</span> bold, has an<span class="hljs-built_in"> area </span>of 4.
+</code></pre>
+<p>Example 2:</p>
+<p><img src="https://assets.leetcode.com/uploads/2020/12/29/screenshot-2020-12-30-at-40852-pm.png" alt="" /></p>
+<pre><code class="hljs">Input: matrix = [[1,0,1,0,1]]
+Output: 3
+Explanation: You can rearrange the columns as shown above.
+The largest submatrix of 1s, <span class="hljs-keyword">in</span> bold, has an<span class="hljs-built_in"> area </span>of 3.
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: matrix = [[1,1,0],[1,0,1]]
+Output: 2
+Explanation: Notice that you must rearrange entire columns, <span class="hljs-keyword">and</span> there is <span class="hljs-literal">no</span> way <span class="hljs-keyword">to</span> make a submatrix of 1s larger than an<span class="hljs-built_in"> area </span>of 2.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>m == matrix.length</code></p></li>
+<li><p><code>n == matrix[i].length</code></p></li>
+<li><p><code>1 &lt;= m * n &lt;= 105</code></p></li>
+<li><p><code>matrix[i][j]</code> is either <code>0</code> or <code>1</code>.</p></li>
+</ul>
+<h2 id="solution-1">Solution 1</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} matrix
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> largestSubmatrix = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">matrix</span>) </span>{
+    <span class="hljs-keyword">var</span> max = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; matrix.length; i++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; matrix[i].length; j++) {
+            <span class="hljs-keyword">if</span> (matrix[i][j] !== <span class="hljs-number">0</span> &amp;&amp; i &gt; <span class="hljs-number">0</span>) {
+                matrix[i][j] = matrix[i - <span class="hljs-number">1</span>][j] + <span class="hljs-number">1</span>;
+            }
+        }
+        <span class="hljs-keyword">var</span> arr = [...matrix[i]].sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> b - a);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; arr.length; j++) {
+            <span class="hljs-keyword">if</span> (arr[j] === <span class="hljs-number">0</span>) <span class="hljs-keyword">break</span>;
+            max = <span class="hljs-built_in">Math</span>.max(max, arr[j] * (j + <span class="hljs-number">1</span>));
+        }
+    }
+    <span class="hljs-keyword">return</span> max;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * m * log(m)).</li>
+<li>Space complexity : O(1).</li>
+</ul>
+<h2 id="solution-2">Solution 2</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} matrix
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> largestSubmatrix = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">matrix</span>) </span>{
+    <span class="hljs-keyword">var</span> max = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> lastHeights = [];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; matrix.length; i++) {
+        <span class="hljs-keyword">var</span> seen = {};
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; matrix[i].length; j++) {
+            <span class="hljs-keyword">if</span> (matrix[i][j] === <span class="hljs-number">1</span>) {
+                i &gt; <span class="hljs-number">0</span> &amp;&amp; (matrix[i][j] = matrix[i - <span class="hljs-number">1</span>][j] + <span class="hljs-number">1</span>);
+                seen[j] = <span class="hljs-literal">true</span>;
+            }
+        }
+        <span class="hljs-keyword">var</span> heights = [];
+        <span class="hljs-comment">// old ones</span>
+        <span class="hljs-keyword">var</span> used = {};
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> k = <span class="hljs-number">0</span>; k &lt; lastHeights.length; k++) {
+            <span class="hljs-keyword">var</span> item = lastHeights[k];
+            <span class="hljs-keyword">if</span> (seen[item[<span class="hljs-number">1</span>]]) {
+                heights.push([item[<span class="hljs-number">0</span>] + <span class="hljs-number">1</span>, item[<span class="hljs-number">1</span>]]);
+                used[item[<span class="hljs-number">1</span>]] = <span class="hljs-literal">true</span>;
+            }
+        }
+        <span class="hljs-comment">// new ones</span>
+        <span class="hljs-keyword">var</span> keys = <span class="hljs-built_in">Object</span>.keys(seen);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> n = <span class="hljs-number">0</span>; n &lt; keys.length; n++) {
+            <span class="hljs-keyword">if</span> (!used[keys[n]]) {
+                heights.push([<span class="hljs-number">1</span>, <span class="hljs-built_in">Number</span>(keys[n])]);
+            }
+        }
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> m = <span class="hljs-number">0</span>; m &lt; heights.length; m++) {
+            max = <span class="hljs-built_in">Math</span>.max(max, heights[m][<span class="hljs-number">0</span>] * (m + <span class="hljs-number">1</span>));
+        }
+        lastHeights = heights;
+    }
+    <span class="hljs-keyword">return</span> max;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * m).</li>
+<li>Space complexity : O(m).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

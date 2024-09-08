@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Count Nice Pairs in an Array - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1814. Count Nice Pairs in an Array</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/counting">Counting</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/number-of-pairs-of-interchangeable-rectangles.html">Number of Pairs of Interchangeable Rectangles</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/count-number-of-bad-pairs.html">Count Number of Bad Pairs</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/number-of-pairs-satisfying-inequality.html">Number of Pairs Satisfying Inequality</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given an array <code>nums</code> that consists of non-negative integers. Let us define <code>rev(x)</code> as the reverse of the non-negative integer <code>x</code>. For example, <code>rev(123) = 321</code>, and <code>rev(120) = 21</code>. A pair of indices <code>(i, j)</code> is <strong>nice</strong> if it satisfies all of the following conditions:</p>
+<ul>
+<li><p><code>0 &lt;= i &lt; j &lt; nums.length</code></p></li>
+<li><p><code>nums[i] + rev(nums[j]) == nums[j] + rev(nums[i])</code></p></li>
+</ul>
+<p>Return <strong>the number of nice pairs of indices</strong>. Since that number can be too large, return it <strong>modulo</strong> <code>109 + 7</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: nums = [42,11,1,97]
+Output: 2
+Explanation: The two pairs are:
+ - (0,3) :<span class="hljs-number"> 42 </span>+ rev(97) =<span class="hljs-number"> 42 </span>+<span class="hljs-number"> 79 </span>= 121,<span class="hljs-number"> 97 </span>+ rev(42) =<span class="hljs-number"> 97 </span>+<span class="hljs-number"> 24 </span>= 121.
+ - (1,2) :<span class="hljs-number"> 11 </span>+ rev(1) =<span class="hljs-number"> 11 </span>+<span class="hljs-number"> 1 </span>= 12,<span class="hljs-number"> 1 </span>+ rev(11) =<span class="hljs-number"> 1 </span>+<span class="hljs-number"> 11 </span>= 12.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> nums = [<span class="hljs-number">13</span>,<span class="hljs-number">10</span>,<span class="hljs-number">35</span>,<span class="hljs-number">24</span>,<span class="hljs-number">76</span>]
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">4</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= nums.length &lt;= 105</code></p></li>
+<li><p><code>0 &lt;= nums[i] &lt;= 109</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> countNicePairs = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums</span>) </span>{
+    <span class="hljs-keyword">var</span> diffArray = nums.map(<span class="hljs-function"><span class="hljs-params">num</span> =&gt;</span> {
+        <span class="hljs-keyword">var</span> rev = <span class="hljs-built_in">Number</span>(<span class="hljs-built_in">String</span>(num).split(<span class="hljs-string">''</span>).reverse().join(<span class="hljs-string">''</span>));
+        <span class="hljs-keyword">return</span> num - rev;
+    }).sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a - b);
+    <span class="hljs-keyword">var</span> tmp = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> mod = <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">10</span>, <span class="hljs-number">9</span>) + <span class="hljs-number">7</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; diffArray.length; i++) {
+        tmp += <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">if</span> (diffArray[i + <span class="hljs-number">1</span>] !== diffArray[i]) {
+            res += tmp * (tmp - <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>;
+            res %= mod;
+            tmp = <span class="hljs-number">0</span>;
+        }
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * log(n)).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Minimum Deletions to Make Character Frequencies Unique - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1647. Minimum Deletions to Make Character Frequencies Unique</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/string">String</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/greedy">Greedy</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/sorting">Sorting</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-deletions-to-make-array-beautiful.html">Minimum Deletions to Make Array Beautiful</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/removing-minimum-and-maximum-from-array.html">Removing Minimum and Maximum From Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/remove-letter-to-equalize-frequency.html">Remove Letter To Equalize Frequency</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>A string <code>s</code> is called <strong>good</strong> if there are no two different characters in <code>s</code> that have the same <strong>frequency</strong>.</p>
+<p>Given a string <code>s</code>, return** the <strong>minimum</strong> number of characters you need to delete to make <strong><code>s</code></strong> <strong>good</strong>.**</p>
+<p>The <strong>frequency</strong> of a character in a string is the number of times it appears in the string. For example, in the string <code>"aab"</code>, the <strong>frequency</strong> of <code>'a'</code> is <code>2</code>, while the <strong>frequency</strong> of <code>'b'</code> is <code>1</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> s = <span class="hljs-string">"aab"</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">0</span>
+<span class="hljs-symbol">Explanation:</span> s is already good.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: s = <span class="hljs-string">"aaabbbcc"</span>
+Output: <span class="hljs-number">2</span>
+Explanation: You can <span class="hljs-built_in">delete</span> <span class="hljs-literal">two</span> <span class="hljs-string">'b'</span>s resulting <span class="hljs-keyword">in</span> <span class="hljs-keyword">the</span> good <span class="hljs-keyword">string</span> <span class="hljs-string">"aaabcc"</span>.
+Another way <span class="hljs-keyword">it</span> <span class="hljs-built_in">to</span> <span class="hljs-built_in">delete</span> <span class="hljs-literal">one</span> <span class="hljs-string">'b'</span> <span class="hljs-keyword">and</span> <span class="hljs-literal">one</span> <span class="hljs-string">'c'</span> resulting <span class="hljs-keyword">in</span> <span class="hljs-keyword">the</span> good <span class="hljs-keyword">string</span> <span class="hljs-string">"aaabbc"</span>.
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: s = "ceabaacb"
+Output: 2
+Explanation: You can <span class="hljs-keyword">delete</span> <span class="hljs-keyword">both</span> <span class="hljs-string">'c'</span>s resulting <span class="hljs-keyword">in</span> the good <span class="hljs-keyword">string</span> <span class="hljs-string">"eabaab"</span>.
+Note that we <span class="hljs-keyword">only</span> care about <span class="hljs-keyword">characters</span> that <span class="hljs-keyword">are</span> still <span class="hljs-keyword">in</span> the <span class="hljs-keyword">string</span> <span class="hljs-keyword">at</span> the <span class="hljs-keyword">end</span> (i.e. frequency <span class="hljs-keyword">of</span> <span class="hljs-number">0</span> <span class="hljs-keyword">is</span> ignored).
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= s.length &lt;= 105</code></p></li>
+<li><p><code>s</code>&nbsp;contains only lowercase English letters.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> minDeletions = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-keyword">var</span> frequencyMap = {};
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; s.length; i++) {
+        frequencyMap[s[i]] = (frequencyMap[s[i]] || <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>;
+    }
+    <span class="hljs-keyword">var</span> frequencies = <span class="hljs-built_in">Object</span>.values(frequencyMap).sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> b - a);
+    <span class="hljs-keyword">var</span> duplicatedFrequencies = [];
+    <span class="hljs-keyword">var</span> result = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; frequencies.length; j++) {
+        <span class="hljs-keyword">var</span> frequency = frequencies[j];
+        <span class="hljs-keyword">if</span> (frequency === frequencies[j + <span class="hljs-number">1</span>]) {
+            duplicatedFrequencies.push(frequency);
+            <span class="hljs-keyword">continue</span>;
+        }
+        <span class="hljs-keyword">while</span> (duplicatedFrequencies.length &amp;&amp; frequency &gt; (frequencies[j + <span class="hljs-number">1</span>] || <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>) {
+            frequency -= <span class="hljs-number">1</span>;
+            result += duplicatedFrequencies.pop() - frequency;
+        }
+    }
+    <span class="hljs-keyword">while</span> (duplicatedFrequencies.length) {
+        result += duplicatedFrequencies.pop();
+    }
+    <span class="hljs-keyword">return</span> result;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

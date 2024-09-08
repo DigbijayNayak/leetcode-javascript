@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Out of Boundary Paths - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>576. Out of Boundary Paths</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/knight-probability-in-chessboard.html">Knight Probability in Chessboard</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/execution-of-all-suffix-instructions-staying-in-a-grid.html">Execution of All Suffix Instructions Staying in a Grid</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>There is an <code>m x n</code> grid with a ball. The ball is initially at the position <code>[startRow, startColumn]</code>. You are allowed to move the ball to one of the four adjacent cells in the grid (possibly out of the grid crossing the grid boundary). You can apply <strong>at most</strong> <code>maxMove</code> moves to the ball.</p>
+<p>Given the five integers <code>m</code>, <code>n</code>, <code>maxMove</code>, <code>startRow</code>, <code>startColumn</code>, return the number of paths to move the ball out of the grid boundary. Since the answer can be very large, return it <strong>modulo</strong> <code>109 + 7</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2021/04/28/out_of_boundary_paths_1.png" alt="" /></p>
+<pre><code class="hljs">Input: <span class="hljs-attr">m</span> = <span class="hljs-number">2</span>, <span class="hljs-attr">n</span> = <span class="hljs-number">2</span>, <span class="hljs-attr">maxMove</span> = <span class="hljs-number">2</span>, <span class="hljs-attr">startRow</span> = <span class="hljs-number">0</span>, <span class="hljs-attr">startColumn</span> = <span class="hljs-number">0</span>
+Output: <span class="hljs-number">6</span>
+</code></pre>
+<p>Example 2:</p>
+<p><img src="https://assets.leetcode.com/uploads/2021/04/28/out_of_boundary_paths_2.png" alt="" /></p>
+<pre><code class="hljs">Input: <span class="hljs-attr">m</span> = <span class="hljs-number">1</span>, <span class="hljs-attr">n</span> = <span class="hljs-number">3</span>, <span class="hljs-attr">maxMove</span> = <span class="hljs-number">3</span>, <span class="hljs-attr">startRow</span> = <span class="hljs-number">0</span>, <span class="hljs-attr">startColumn</span> = <span class="hljs-number">1</span>
+Output: <span class="hljs-number">12</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= m, n &lt;= 50</code></p></li>
+<li><p><code>0 &lt;= maxMove &lt;= 50</code></p></li>
+<li><p><code>0 &lt;= startRow &lt; m</code></p></li>
+<li><p><code>0 &lt;= startColumn &lt; n</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} m
+ * @param {number} n
+ * @param {number} maxMove
+ * @param {number} startRow
+ * @param {number} startColumn
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> findPaths = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">m, n, maxMove, startRow, startColumn</span>) </span>{
+    <span class="hljs-keyword">var</span> matrix = <span class="hljs-built_in">Array</span>(m).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">Array</span>(n).fill(<span class="hljs-number">0</span>));
+    matrix[startRow][startColumn] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> mod = <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">10</span>, <span class="hljs-number">9</span>) + <span class="hljs-number">7</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> k = <span class="hljs-number">0</span>; k &lt; maxMove; k++) {
+        <span class="hljs-keyword">var</span> newMatrix = <span class="hljs-built_in">Array</span>(m).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">Array</span>(n).fill(<span class="hljs-number">0</span>));
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; m; i++) {
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; n; j++) {
+                newMatrix[i][j] = (
+                    (matrix[i - <span class="hljs-number">1</span>] ? matrix[i - <span class="hljs-number">1</span>][j] : <span class="hljs-number">0</span>) +
+                    (matrix[i][j - <span class="hljs-number">1</span>] || <span class="hljs-number">0</span>) +
+                    (matrix[i + <span class="hljs-number">1</span>] ? matrix[i + <span class="hljs-number">1</span>][j] : <span class="hljs-number">0</span>) +
+                    (matrix[i][j + <span class="hljs-number">1</span>] || <span class="hljs-number">0</span>)
+                ) % mod;
+                <span class="hljs-keyword">if</span> (i === <span class="hljs-number">0</span>) res += matrix[i][j];
+                <span class="hljs-keyword">if</span> (i === m - <span class="hljs-number">1</span>) res += matrix[i][j];
+                <span class="hljs-keyword">if</span> (j === <span class="hljs-number">0</span>) res += matrix[i][j];
+                <span class="hljs-keyword">if</span> (j === n - <span class="hljs-number">1</span>) res += matrix[i][j];
+                res %= mod;
+            }
+        }
+        matrix = newMatrix;
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>Dynamic programming.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

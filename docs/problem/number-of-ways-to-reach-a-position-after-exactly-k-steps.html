@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Number of Ways to Reach a Position After Exactly k Steps - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>2400. Number of Ways to Reach a Position After Exactly k Steps</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/combinatorics">Combinatorics</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/unique-paths.html">Unique Paths</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/climbing-stairs.html">Climbing Stairs</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/reach-a-number.html">Reach a Number</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/reaching-points.html">Reaching Points</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/number-of-ways-to-stay-in-the-same-place-after-some-steps.html">Number of Ways to Stay in the Same Place After Some Steps</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given two <strong>positive</strong> integers <code>startPos</code> and <code>endPos</code>. Initially, you are standing at position <code>startPos</code> on an <strong>infinite</strong> number line. With one step, you can move either one position to the left, or one position to the right.</p>
+<p>Given a positive integer <code>k</code>, return **the number of *<em>different</em>* ways to reach the position <strong><code>endPos</code></strong> starting from <strong><code>startPos</code></strong>, such that you perform <strong>exactly</strong> <strong><code>k</code></strong> steps**. Since the answer may be very large, return it *<em>modulo</em>* <code>109 + 7</code>.</p>
+<p>Two ways are considered different if the order of the steps made is not exactly the same.</p>
+<p><strong>Note</strong> that the number line includes negative integers.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: startPos = <span class="hljs-number">1</span>, endPos = <span class="hljs-number">2</span>, k = <span class="hljs-number">3</span>
+Output: <span class="hljs-number">3</span>
+Explanation: We can reach position <span class="hljs-number">2</span> <span class="hljs-keyword">from</span> <span class="hljs-number">1</span> <span class="hljs-keyword">in</span> exactly <span class="hljs-number">3</span> steps <span class="hljs-keyword">in</span> three ways:
+- <span class="hljs-number">1</span><span class="hljs-function"> -&gt;</span> <span class="hljs-number">2</span><span class="hljs-function"> -&gt;</span> <span class="hljs-number">3</span><span class="hljs-function"> -&gt;</span> <span class="hljs-number">2.</span>
+- <span class="hljs-number">1</span><span class="hljs-function"> -&gt;</span> <span class="hljs-number">2</span><span class="hljs-function"> -&gt;</span> <span class="hljs-number">1</span><span class="hljs-function"> -&gt;</span> <span class="hljs-number">2.</span>
+- <span class="hljs-number">1</span><span class="hljs-function"> -&gt;</span> <span class="hljs-number">0</span><span class="hljs-function"> -&gt;</span> <span class="hljs-number">1</span><span class="hljs-function"> -&gt;</span> <span class="hljs-number">2.</span>
+It can be proven <span class="hljs-literal">that</span> <span class="hljs-literal">no</span> other way <span class="hljs-keyword">is</span> possible, so we <span class="hljs-keyword">return</span> <span class="hljs-number">3.</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: startPos = 2, endPos = 5, k = 10
+Output: <span class="hljs-number">0</span>
+Explanation: It <span class="hljs-keyword">is</span> impossible <span class="hljs-keyword">to</span> reach <span class="hljs-built_in">position</span> <span class="hljs-number">5</span> <span class="hljs-keyword">from</span> <span class="hljs-built_in">position</span> <span class="hljs-number">2</span> <span class="hljs-keyword">in</span> exactly <span class="hljs-number">10</span> steps.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= startPos, endPos, k &lt;= 1000</code></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} startPos
+ * @param {number} endPos
+ * @param {number} k
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> numberOfWays = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">startPos, endPos, k, dp = {}</span>) </span>{
+    <span class="hljs-keyword">if</span> (startPos === endPos &amp;&amp; k === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">if</span> (k === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Math</span>.abs(startPos - endPos) &gt; k) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (!dp[startPos]) dp[startPos] = {};
+    <span class="hljs-keyword">if</span> (dp[startPos][k] === <span class="hljs-literal">undefined</span>) {
+        dp[startPos][k] = (
+            numberOfWays(startPos + <span class="hljs-number">1</span>, endPos, k - <span class="hljs-number">1</span>, dp) +
+            numberOfWays(startPos - <span class="hljs-number">1</span>, endPos, k - <span class="hljs-number">1</span>, dp)
+        ) % (<span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">10</span>, <span class="hljs-number">9</span>) + <span class="hljs-number">7</span>);
+    }
+    <span class="hljs-keyword">return</span> dp[startPos][k];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(k ^ 2).</li>
+<li>Space complexity : O(k ^ 2).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

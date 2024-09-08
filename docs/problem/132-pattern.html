@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>132 Pattern - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>456. 132 Pattern</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/stack">Stack</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/monotonic-stack">Monotonic Stack</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/ordered-set">Ordered Set</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given an array of <code>n</code> integers <code>nums</code>, a <strong>132 pattern</strong> is a subsequence of three integers <code>nums[i]</code>, <code>nums[j]</code> and <code>nums[k]</code> such that <code>i &lt; j &lt; k</code> and <code>nums[i] &lt; nums[k] &lt; nums[j]</code>.</p>
+<p>Return <code>true</code>** if there is a <strong>132 pattern</strong> in <strong><code>nums</code></strong>, otherwise, return <strong><code>false</code></strong>.**</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs"><span class="hljs-attr">Input:</span> <span class="hljs-string">nums</span> <span class="hljs-string">=</span> <span class="hljs-string">[1,2,3,4]</span>
+<span class="hljs-attr">Output:</span> <span class="hljs-literal">false</span>
+<span class="hljs-attr">Explanation:</span> <span class="hljs-string">There</span> <span class="hljs-string">is</span> <span class="hljs-literal">no</span> <span class="hljs-number">132</span> <span class="hljs-string">pattern</span> <span class="hljs-string">in</span> <span class="hljs-string">the</span> <span class="hljs-string">sequence.</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-string">Input:</span> nums = [<span class="hljs-number">3</span>,<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">2</span>]
+<span class="hljs-string">Output:</span> <span class="hljs-literal">true</span>
+<span class="hljs-string">Explanation:</span> There is a <span class="hljs-number">132</span> pattern <span class="hljs-keyword">in</span> the <span class="hljs-string">sequence:</span> [<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">2</span>].
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs"><span class="hljs-string">Input:</span> nums = [<span class="hljs-number">-1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">0</span>]
+<span class="hljs-string">Output:</span> <span class="hljs-literal">true</span>
+<span class="hljs-string">Explanation:</span> There are three <span class="hljs-number">132</span> patterns <span class="hljs-keyword">in</span> the <span class="hljs-string">sequence:</span> [<span class="hljs-number">-1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>], [<span class="hljs-number">-1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">0</span>] and [<span class="hljs-number">-1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">0</span>].
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>n == nums.length</code></p></li>
+<li><p><code>1 &lt;= n &lt;= 2 * 105</code></p></li>
+<li><p><code>-109 &lt;= nums[i] &lt;= 109</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> find132pattern = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums</span>) </span>{
+    <span class="hljs-keyword">if</span> (nums.length &lt; <span class="hljs-number">3</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">var</span> stack = [];
+    <span class="hljs-keyword">var</span> min = <span class="hljs-built_in">Array</span>(nums.length);
+    min[<span class="hljs-number">0</span>] = nums[<span class="hljs-number">0</span>];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">1</span>; i &lt; nums.length; i++) {
+        min[i] = <span class="hljs-built_in">Math</span>.min(min[i - <span class="hljs-number">1</span>], nums[i]);
+    }
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = nums.length - <span class="hljs-number">1</span>; j &gt;= <span class="hljs-number">0</span>; j--) {
+        <span class="hljs-keyword">if</span> (nums[j] &gt; min[j]) {
+            <span class="hljs-keyword">while</span> (stack.length &amp;&amp; stack[stack.length - <span class="hljs-number">1</span>] &lt;= min[j]) stack.pop();
+            <span class="hljs-keyword">if</span> (stack.length &amp;&amp; stack[stack.length - <span class="hljs-number">1</span>] &lt; nums[j]) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+            stack.push(nums[j]);
+        }
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

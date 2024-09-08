@@ -1,0 +1,119 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Design a Food Rating System - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>2353. Design a Food Rating System</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/design">Design</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/heap-priority-queue">Heap (Priority Queue)</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/ordered-set">Ordered Set</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/design-a-number-container-system.html">Design a Number Container System</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/most-popular-video-creator.html">Most Popular Video Creator</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Design a food rating system that can do the following:</p>
+<ul>
+<li><p><strong>Modify</strong> the rating of a food item listed in the system.</p></li>
+<li><p>Return the highest-rated food item for a type of cuisine in the system.</p></li>
+</ul>
+<p>Implement the <code>FoodRatings</code> class:</p>
+<pre><code>`FoodRatings(String[] foods, String[] cuisines, int[] ratings)` Initializes the system. The food items are described by `foods`, `cuisines` and `ratings`, all of which have a length of `n`.
+</code></pre>
+<ul>
+<li><p><code>foods[i]</code> is the name of the <code>ith</code> food,</p></li>
+<li><p><code>cuisines[i]</code> is the type of cuisine of the <code>ith</code> food, and</p></li>
+<li><p><code>ratings[i]</code> is the initial rating of the <code>ith</code> food.</p></li>
+
+<li><p><code>void changeRating(String food, int newRating)</code> Changes the rating of the food item with the name <code>food</code>.</p></li>
+<li><p><code>String highestRated(String cuisine)</code> Returns the name of the food item that has the highest rating for the given type of <code>cuisine</code>. If there is a tie, return the item with the <strong>lexicographically smaller</strong> name.</p></li>
+</ul>
+<p>Note that a string <code>x</code> is lexicographically smaller than string <code>y</code> if <code>x</code> comes before <code>y</code> in dictionary order, that is, either <code>x</code> is a prefix of <code>y</code>, or if <code>i</code> is the first position such that <code>x[i] != y[i]</code>, then <code>x[i]</code> comes before <code>y[i]</code> in alphabetic order.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input
+[<span class="hljs-string">"FoodRatings"</span>, <span class="hljs-string">"highestRated"</span>, <span class="hljs-string">"highestRated"</span>, <span class="hljs-string">"changeRating"</span>, <span class="hljs-string">"highestRated"</span>, <span class="hljs-string">"changeRating"</span>, <span class="hljs-string">"highestRated"</span>]
+[[[<span class="hljs-string">"kimchi"</span>, <span class="hljs-string">"miso"</span>, <span class="hljs-string">"sushi"</span>, <span class="hljs-string">"moussaka"</span>, <span class="hljs-string">"ramen"</span>, <span class="hljs-string">"bulgogi"</span>], [<span class="hljs-string">"korean"</span>, <span class="hljs-string">"japanese"</span>, <span class="hljs-string">"japanese"</span>, <span class="hljs-string">"greek"</span>, <span class="hljs-string">"japanese"</span>, <span class="hljs-string">"korean"</span>], [<span class="hljs-number">9</span>, <span class="hljs-number">12</span>, <span class="hljs-number">8</span>, <span class="hljs-number">15</span>, <span class="hljs-number">14</span>, <span class="hljs-number">7</span>]], [<span class="hljs-string">"korean"</span>], [<span class="hljs-string">"japanese"</span>], [<span class="hljs-string">"sushi"</span>, <span class="hljs-number">16</span>], [<span class="hljs-string">"japanese"</span>], [<span class="hljs-string">"ramen"</span>, <span class="hljs-number">16</span>], [<span class="hljs-string">"japanese"</span>]]
+Output
+[null, <span class="hljs-string">"kimchi"</span>, <span class="hljs-string">"ramen"</span>, null, <span class="hljs-string">"sushi"</span>, null, <span class="hljs-string">"ramen"</span>]
+
+Explanation
+FoodRatings foodRatings = new FoodRatings([<span class="hljs-string">"kimchi"</span>, <span class="hljs-string">"miso"</span>, <span class="hljs-string">"sushi"</span>, <span class="hljs-string">"moussaka"</span>, <span class="hljs-string">"ramen"</span>, <span class="hljs-string">"bulgogi"</span>], [<span class="hljs-string">"korean"</span>, <span class="hljs-string">"japanese"</span>, <span class="hljs-string">"japanese"</span>, <span class="hljs-string">"greek"</span>, <span class="hljs-string">"japanese"</span>, <span class="hljs-string">"korean"</span>], [<span class="hljs-number">9</span>, <span class="hljs-number">12</span>, <span class="hljs-number">8</span>, <span class="hljs-number">15</span>, <span class="hljs-number">14</span>, <span class="hljs-number">7</span>]);
+foodRatings.highestRated(<span class="hljs-string">"korean"</span>); <span class="hljs-comment">// return "kimchi"</span>
+                                    <span class="hljs-comment">// "kimchi" is the highest rated korean food with a rating of 9.</span>
+foodRatings.highestRated(<span class="hljs-string">"japanese"</span>); <span class="hljs-comment">// return "ramen"</span>
+                                      <span class="hljs-comment">// "ramen" is the highest rated japanese food with a rating of 14.</span>
+foodRatings.changeRating(<span class="hljs-string">"sushi"</span>, <span class="hljs-number">16</span>); <span class="hljs-comment">// "sushi" now has a rating of 16.</span>
+foodRatings.highestRated(<span class="hljs-string">"japanese"</span>); <span class="hljs-comment">// return "sushi"</span>
+                                      <span class="hljs-comment">// "sushi" is the highest rated japanese food with a rating of 16.</span>
+foodRatings.changeRating(<span class="hljs-string">"ramen"</span>, <span class="hljs-number">16</span>); <span class="hljs-comment">// "ramen" now has a rating of 16.</span>
+foodRatings.highestRated(<span class="hljs-string">"japanese"</span>); <span class="hljs-comment">// return "ramen"</span>
+                                      <span class="hljs-comment">// Both "sushi" and "ramen" have a rating of 16.</span>
+                                      <span class="hljs-comment">// However, "ramen" is lexicographically smaller than "sushi".</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= n &lt;= 2 * 104</code></p></li>
+<li><p><code>n == foods.length == cuisines.length == ratings.length</code></p></li>
+<li><p><code>1 &lt;= foods[i].length, cuisines[i].length &lt;= 10</code></p></li>
+<li><p><code>foods[i]</code>, <code>cuisines[i]</code> consist of lowercase English letters.</p></li>
+<li><p><code>1 &lt;= ratings[i] &lt;= 108</code></p></li>
+<li><p>All the strings in <code>foods</code> are <strong>distinct</strong>.</p></li>
+<li><p><code>food</code> will be the name of a food item in the system across all calls to <code>changeRating</code>.</p></li>
+<li><p><code>cuisine</code> will be a type of cuisine of <strong>at least one</strong> food item in the system across all calls to <code>highestRated</code>.</p></li>
+<li><p>At most <code>2 * 104</code> calls <strong>in total</strong> will be made to <code>changeRating</code> and <code>highestRated</code>.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string[]} foods
+ * @param {string[]} cuisines
+ * @param {number[]} ratings
+ */</span>
+<span class="hljs-keyword">var</span> FoodRatings = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">foods, cuisines, ratings</span>) </span>{
+    <span class="hljs-keyword">this</span>.foodsMap = {};
+    <span class="hljs-keyword">this</span>.cuisinesMap = {};
+    <span class="hljs-keyword">this</span>.getRatingWithName = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">food, rating</span>) </span>{
+        <span class="hljs-keyword">var</span> z = <span class="hljs-string">'z'</span>.charCodeAt(<span class="hljs-number">0</span>);
+        <span class="hljs-keyword">var</span> foodNameRating = food.split(<span class="hljs-string">''</span>)
+            .map(<span class="hljs-function"><span class="hljs-params">char</span> =&gt;</span> z - char.charCodeAt(<span class="hljs-number">0</span>))
+            .map(<span class="hljs-function"><span class="hljs-params">num</span> =&gt;</span> num &lt; <span class="hljs-number">10</span> ? <span class="hljs-string">`0<span class="hljs-subst">${num}</span>`</span> : <span class="hljs-string">`<span class="hljs-subst">${num}</span>`</span>)
+            .join(<span class="hljs-string">''</span>);
+        <span class="hljs-keyword">var</span> rate = <span class="hljs-built_in">Number</span>(<span class="hljs-string">`<span class="hljs-subst">${rating}</span>.<span class="hljs-subst">${foodNameRating}</span>`</span>);
+        <span class="hljs-keyword">return</span> rate;
+    };
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; foods.length; i++) {
+        <span class="hljs-keyword">var</span> rate = <span class="hljs-keyword">this</span>.getRatingWithName(foods[i], ratings[i]);
+        <span class="hljs-keyword">this</span>.foodsMap[foods[i]] = [cuisines[i], rate];
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.cuisinesMap[cuisines[i]]) {
+            <span class="hljs-keyword">this</span>.cuisinesMap[cuisines[i]] = <span class="hljs-keyword">new</span> MaxPriorityQueue();
+        }
+        <span class="hljs-keyword">this</span>.cuisinesMap[cuisines[i]].enqueue(foods[i], rate);
+    }
+};
+
+<span class="hljs-comment">/** 
+ * @param {string} food 
+ * @param {number} newRating
+ * @return {void}
+ */</span>
+FoodRatings.prototype.changeRating = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">food, newRating</span>) </span>{
+    <span class="hljs-keyword">var</span> rate = <span class="hljs-keyword">this</span>.getRatingWithName(food, newRating);
+    <span class="hljs-keyword">this</span>.foodsMap[food][<span class="hljs-number">1</span>] = rate;
+    <span class="hljs-keyword">this</span>.cuisinesMap[<span class="hljs-keyword">this</span>.foodsMap[food][<span class="hljs-number">0</span>]].enqueue(food, rate);
+};
+
+<span class="hljs-comment">/**
+ * @param {string} cuisine
+ * @return {string}
+ */</span>
+FoodRatings.prototype.highestRated = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">cuisine</span>) </span>{
+    <span class="hljs-keyword">var</span> item = <span class="hljs-keyword">this</span>.cuisinesMap[cuisine].front();
+    <span class="hljs-keyword">while</span> (<span class="hljs-keyword">this</span>.foodsMap[item.element][<span class="hljs-number">1</span>] !== item.priority) {
+        <span class="hljs-keyword">this</span>.cuisinesMap[cuisine].dequeue();
+        item = <span class="hljs-keyword">this</span>.cuisinesMap[cuisine].front();
+    }
+    <span class="hljs-keyword">return</span> item.element;
+};
+
+<span class="hljs-comment">/** 
+ * Your FoodRatings object will be instantiated and called as such:
+ * var obj = new FoodRatings(foods, cuisines, ratings)
+ * obj.changeRating(food,newRating)
+ * var param_2 = obj.highestRated(cuisine)
+ */</span>
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * log(n) + m * log(n)).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

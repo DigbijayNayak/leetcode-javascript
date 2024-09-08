@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Parallel Courses III - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>2050. Parallel Courses III</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/graph">Graph</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/topological-sort">Topological Sort</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/course-schedule-iii.html">Course Schedule III</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/parallel-courses.html">Parallel Courses</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/single-threaded-cpu.html">Single-Threaded CPU</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/process-tasks-using-servers.html">Process Tasks Using Servers</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/maximum-employees-to-be-invited-to-a-meeting.html">Maximum Employees to Be Invited to a Meeting</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given an integer <code>n</code>, which indicates that there are <code>n</code> courses labeled from <code>1</code> to <code>n</code>. You are also given a 2D integer array <code>relations</code> where <code>relations[j] = [prevCoursej, nextCoursej]</code> denotes that course <code>prevCoursej</code> has to be completed <strong>before</strong> course <code>nextCoursej</code> (prerequisite relationship). Furthermore, you are given a <strong>0-indexed</strong> integer array <code>time</code> where <code>time[i]</code> denotes how many <strong>months</strong> it takes to complete the <code>(i+1)th</code> course.</p>
+<p>You must find the <strong>minimum</strong> number of months needed to complete all the courses following these rules:</p>
+<ul>
+<li><p>You may start taking a course at <strong>any time</strong> if the prerequisites are met.</p></li>
+<li><p><strong>Any number of courses</strong> can be taken at the <strong>same time</strong>.</p></li>
+</ul>
+<p>Return **the *<em>minimum</em>* number of months needed to complete all the courses**.</p>
+<p><strong>Note:</strong> The test cases are generated such that it is possible to complete every course (i.e., the graph is a directed acyclic graph).</p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2021/10/07/ex1.png" alt="" /></p>
+<pre><code class="hljs">Input: n = <span class="hljs-number">3</span>, relations = [[<span class="hljs-number">1</span>,<span class="hljs-number">3</span>],[<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]], <span class="hljs-built_in">time</span> = [<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">5</span>]
+Output: <span class="hljs-number">8</span>
+Explanation: The figure above represents <span class="hljs-keyword">the</span> given graph <span class="hljs-keyword">and</span> <span class="hljs-keyword">the</span> <span class="hljs-built_in">time</span> required <span class="hljs-built_in">to</span> complete <span class="hljs-keyword">each</span> course. 
+We <span class="hljs-built_in">start</span> course <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> course <span class="hljs-number">2</span> simultaneously <span class="hljs-keyword">at</span> month <span class="hljs-number">0.</span>
+Course <span class="hljs-number">1</span> takes <span class="hljs-number">3</span> months <span class="hljs-keyword">and</span> course <span class="hljs-number">2</span> takes <span class="hljs-number">2</span> months <span class="hljs-built_in">to</span> complete respectively.
+Thus, <span class="hljs-keyword">the</span> earliest <span class="hljs-built_in">time</span> we can <span class="hljs-built_in">start</span> course <span class="hljs-number">3</span> is <span class="hljs-keyword">at</span> month <span class="hljs-number">3</span>, <span class="hljs-keyword">and</span> <span class="hljs-keyword">the</span> total <span class="hljs-built_in">time</span> required is <span class="hljs-number">3</span> + <span class="hljs-number">5</span> = <span class="hljs-number">8</span> months.
+</code></pre>
+<p>Example 2:</p>
+<p><img src="https://assets.leetcode.com/uploads/2021/10/07/ex2.png" alt="" /></p>
+<pre><code class="hljs">Input: n = 5, relations = [[1,5],[2,5],[3,5],[3,4],[4,5]], time = [1,2,3,4,5]
+Output: 12
+Explanation: The figure above represents the given graph and the time required to complete each course.
+You can <span class="hljs-keyword">start</span> courses <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-keyword">and</span> <span class="hljs-number">3</span> <span class="hljs-keyword">at</span> <span class="hljs-keyword">month</span> <span class="hljs-number">0.</span>
+You can <span class="hljs-keyword">complete</span> them <span class="hljs-keyword">after</span> <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-keyword">and</span> <span class="hljs-number">3</span> <span class="hljs-keyword">months</span> respectively.
+Course <span class="hljs-number">4</span> can be taken <span class="hljs-keyword">only</span> <span class="hljs-keyword">after</span> course <span class="hljs-number">3</span> <span class="hljs-keyword">is</span> completed, i.e., <span class="hljs-keyword">after</span> <span class="hljs-number">3</span> months. It <span class="hljs-keyword">is</span> completed <span class="hljs-keyword">after</span> <span class="hljs-number">3</span> + <span class="hljs-number">4</span> = <span class="hljs-number">7</span> months.
+Course <span class="hljs-number">5</span> can be taken <span class="hljs-keyword">only</span> <span class="hljs-keyword">after</span> courses <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-keyword">and</span> <span class="hljs-number">4</span> have been completed, i.e., <span class="hljs-keyword">after</span> <span class="hljs-keyword">max</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">7</span>) = <span class="hljs-number">7</span> months.
+Thus, the <span class="hljs-keyword">minimum</span> <span class="hljs-keyword">time</span> needed <span class="hljs-keyword">to</span> <span class="hljs-keyword">complete</span> all the courses <span class="hljs-keyword">is</span> <span class="hljs-number">7</span> + <span class="hljs-number">5</span> = <span class="hljs-number">12</span> months.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= n &lt;= 5 * 104</code></p></li>
+<li><p><code>0 &lt;= relations.length &lt;= min(n * (n - 1) / 2, 5 * 104)</code></p></li>
+<li><p><code>relations[j].length == 2</code></p></li>
+<li><p><code>1 &lt;= prevCoursej, nextCoursej &lt;= n</code></p></li>
+<li><p><code>prevCoursej != nextCoursej</code></p></li>
+<li><p>All the pairs <code>[prevCoursej, nextCoursej]</code> are <strong>unique</strong>.</p></li>
+<li><p><code>time.length == n</code></p></li>
+<li><p><code>1 &lt;= time[i] &lt;= 104</code></p></li>
+<li><p>The given graph is a directed acyclic graph.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @param {number[][]} relations
+ * @param {number[]} time
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> minimumTime = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n, relations, time</span>) </span>{
+    <span class="hljs-keyword">var</span> graph = <span class="hljs-built_in">Array</span>(n).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> []);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; relations.length; i++) {
+        <span class="hljs-keyword">var</span> [a, b] = relations[i];
+        graph[a - <span class="hljs-number">1</span>].push(b - <span class="hljs-number">1</span>);
+    }
+
+    <span class="hljs-keyword">var</span> max = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> dp = <span class="hljs-built_in">Array</span>(n);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) {
+        max = <span class="hljs-built_in">Math</span>.max(max, dfs(i, graph, time, dp));
+    }
+    <span class="hljs-keyword">return</span> max;
+};
+
+<span class="hljs-keyword">var</span> dfs = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">i, graph, time, dp</span>) </span>{
+    <span class="hljs-keyword">if</span> (dp[i] !== <span class="hljs-literal">undefined</span>) <span class="hljs-keyword">return</span> dp[i];
+    <span class="hljs-keyword">var</span> max = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; graph[i].length; j++) {
+        max = <span class="hljs-built_in">Math</span>.max(max, dfs(graph[i][j], graph, time, dp));
+    }
+    dp[i] = max + time[i];
+    <span class="hljs-keyword">return</span> dp[i];
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n + m).</li>
+<li>Space complexity : O(n + m).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

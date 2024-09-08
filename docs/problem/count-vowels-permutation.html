@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Count Vowels Permutation - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1220. Count Vowels Permutation</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given an integer <code>n</code>, your task is to count how many strings of length <code>n</code> can be formed under the following rules:</p>
+<ul>
+<li><p>Each character is a lower case vowel&nbsp;(<code>'a'</code>, <code>'e'</code>, <code>'i'</code>, <code>'o'</code>, <code>'u'</code>)</p></li>
+<li><p>Each vowel&nbsp;<code>'a'</code> may only be followed by an <code>'e'</code>.</p></li>
+<li><p>Each vowel&nbsp;<code>'e'</code> may only be followed by an <code>'a'</code>&nbsp;or an <code>'i'</code>.</p></li>
+<li><p>Each vowel&nbsp;<code>'i'</code> <strong>may not</strong> be followed by another <code>'i'</code>.</p></li>
+<li><p>Each vowel&nbsp;<code>'o'</code> may only be followed by an <code>'i'</code> or a&nbsp;<code>'u'</code>.</p></li>
+<li><p>Each vowel&nbsp;<code>'u'</code> may only be followed by an <code>'a'.</code></p></li>
+</ul>
+<p>Since the answer&nbsp;may be too large,&nbsp;return it modulo <code>10^9 + 7.</code></p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> n = <span class="hljs-number">1</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">5</span>
+<span class="hljs-symbol">Explanation:</span> All possible strings are: <span class="hljs-string">"a"</span>, <span class="hljs-string">"e"</span>, <span class="hljs-string">"i"</span> , <span class="hljs-string">"o"</span> <span class="hljs-keyword">and</span> <span class="hljs-string">"u"</span>.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> n = <span class="hljs-number">2</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">10</span>
+<span class="hljs-symbol">Explanation:</span> All possible strings are: <span class="hljs-string">"ae"</span>, <span class="hljs-string">"ea"</span>, <span class="hljs-string">"ei"</span>, <span class="hljs-string">"ia"</span>, <span class="hljs-string">"ie"</span>, <span class="hljs-string">"io"</span>, <span class="hljs-string">"iu"</span>, <span class="hljs-string">"oi"</span>, <span class="hljs-string">"ou"</span> <span class="hljs-keyword">and</span> <span class="hljs-string">"ua"</span>.
+</code></pre>
+<p>Example 3:&nbsp;</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> n = <span class="hljs-number">5</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">68</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= n &lt;= 2 * 10^4</code></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> countVowelPermutation = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n</span>) </span>{
+    <span class="hljs-keyword">var</span> dp = <span class="hljs-built_in">Array</span>(n).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> ({}));
+    <span class="hljs-keyword">return</span> helper(<span class="hljs-string">''</span>, n, dp);
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">lastChar, n, dp</span>) </span>{
+    <span class="hljs-keyword">if</span> (n === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">if</span> (dp[n - <span class="hljs-number">1</span>][lastChar] !== <span class="hljs-literal">undefined</span>) <span class="hljs-keyword">return</span> dp[n - <span class="hljs-number">1</span>][lastChar];
+    <span class="hljs-keyword">var</span> mod = <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">10</span>, <span class="hljs-number">9</span>) + <span class="hljs-number">7</span>;
+    <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (!lastChar || lastChar === <span class="hljs-string">'e'</span>) res = (res + helper(<span class="hljs-string">'a'</span>, n - <span class="hljs-number">1</span>, dp)) % mod;
+    <span class="hljs-keyword">if</span> (!lastChar || lastChar === <span class="hljs-string">'a'</span> || lastChar === <span class="hljs-string">'i'</span>) res = (res + helper(<span class="hljs-string">'e'</span>, n - <span class="hljs-number">1</span>, dp)) % mod;
+    <span class="hljs-keyword">if</span> (!lastChar || lastChar !== <span class="hljs-string">'i'</span>) res = (res + helper(<span class="hljs-string">'i'</span>, n - <span class="hljs-number">1</span>, dp)) % mod;
+    <span class="hljs-keyword">if</span> (!lastChar || lastChar === <span class="hljs-string">'i'</span> || lastChar === <span class="hljs-string">'u'</span>) res = (res + helper(<span class="hljs-string">'o'</span>, n - <span class="hljs-number">1</span>, dp)) % mod;
+    <span class="hljs-keyword">if</span> (!lastChar || lastChar === <span class="hljs-string">'a'</span>) res = (res + helper(<span class="hljs-string">'u'</span>, n - <span class="hljs-number">1</span>, dp)) % mod;
+    dp[n - <span class="hljs-number">1</span>][lastChar] = res;
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

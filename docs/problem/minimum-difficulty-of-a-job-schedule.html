@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Minimum Difficulty of a Job Schedule - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1335. Minimum Difficulty of a Job Schedule</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You want to schedule a list of jobs in <code>d</code> days. Jobs are dependent (i.e To work on the <code>ith</code> job, you have to finish all the jobs <code>j</code> where <code>0 &lt;= j &lt; i</code>).</p>
+<p>You have to finish <strong>at least</strong> one task every day. The difficulty of a job schedule is the sum of difficulties of each day of the <code>d</code> days. The difficulty of a day is the maximum difficulty of a job done on that day.</p>
+<p>You are given an integer array <code>jobDifficulty</code> and an integer <code>d</code>. The difficulty of the <code>ith</code> job is <code>jobDifficulty[i]</code>.</p>
+<p>Return <strong>the minimum difficulty of a job schedule</strong>. If you cannot find a schedule for the jobs return <code>-1</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2020/01/16/untitled.png" alt="" /></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> <span class="hljs-keyword">jobDifficulty </span>= [<span class="hljs-number">6</span>,<span class="hljs-number">5</span>,<span class="hljs-number">4</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>], d = <span class="hljs-number">2</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">7</span>
+<span class="hljs-symbol">Explanation:</span> First day you can finish the first <span class="hljs-number">5</span> <span class="hljs-keyword">jobs, </span>total <span class="hljs-keyword">difficulty </span>= <span class="hljs-number">6</span>.
+Second day you can finish the last <span class="hljs-keyword">job, </span>total <span class="hljs-keyword">difficulty </span>= <span class="hljs-number">1</span>.
+The <span class="hljs-keyword">difficulty </span>of the <span class="hljs-keyword">schedule </span>= <span class="hljs-number">6</span> + <span class="hljs-number">1</span> = <span class="hljs-number">7</span> 
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: jobDifficulty = [<span class="hljs-number">9</span>,<span class="hljs-number">9</span>,<span class="hljs-number">9</span>], d = <span class="hljs-number">4</span>
+Output: -<span class="hljs-number">1</span>
+Explanation: If you finish <span class="hljs-selector-tag">a</span> job per day you will still have <span class="hljs-selector-tag">a</span> free day. you cannot find <span class="hljs-selector-tag">a</span> schedule <span class="hljs-keyword">for</span> the given jobs.
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> <span class="hljs-keyword">jobDifficulty </span>= [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], d = <span class="hljs-number">3</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">3</span>
+<span class="hljs-symbol">Explanation:</span> The <span class="hljs-keyword">schedule </span>is one <span class="hljs-keyword">job </span>per day. total <span class="hljs-keyword">difficulty </span>will <span class="hljs-keyword">be </span><span class="hljs-number">3</span>.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= jobDifficulty.length &lt;= 300</code></p></li>
+<li><p><code>0 &lt;= jobDifficulty[i] &lt;= 1000</code></p></li>
+<li><p><code>1 &lt;= d &lt;= 10</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} jobDifficulty
+ * @param {number} d
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> minDifficulty = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">jobDifficulty, d</span>) </span>{
+    <span class="hljs-keyword">var</span> dp = <span class="hljs-built_in">Array</span>(jobDifficulty.length).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">Array</span>(d));
+    <span class="hljs-keyword">return</span> helper(jobDifficulty, d, <span class="hljs-number">0</span>, dp);
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">jobs, d, index, dp</span>) </span>{
+    <span class="hljs-keyword">if</span> (jobs.length &lt; d) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    <span class="hljs-keyword">if</span> (d === <span class="hljs-number">0</span> &amp;&amp; index === jobs.length) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (d === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER;
+    <span class="hljs-keyword">if</span> (dp[index][d] !== <span class="hljs-literal">undefined</span>) <span class="hljs-keyword">return</span> dp[index][d];
+    <span class="hljs-keyword">var</span> min = <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER;
+    <span class="hljs-keyword">var</span> maxDifficulty = <span class="hljs-built_in">Number</span>.MIN_SAFE_INTEGER;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = index; i &lt;= jobs.length - d; i++) {
+        maxDifficulty = <span class="hljs-built_in">Math</span>.max(maxDifficulty, jobs[i]);
+        min = <span class="hljs-built_in">Math</span>.min(min, maxDifficulty + helper(jobs, d - <span class="hljs-number">1</span>, i + <span class="hljs-number">1</span>, dp));
+    }
+    dp[index][d] = min;
+    <span class="hljs-keyword">return</span> min;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * m).</li>
+<li>Space complexity : O(n * m).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Count Ways To Build Good Strings - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>2466. Count Ways To Build Good Strings</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/climbing-stairs.html">Climbing Stairs</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given the integers <code>zero</code>, <code>one</code>, <code>low</code>, and <code>high</code>, we can construct a string by starting with an empty string, and then at each step perform either of the following:</p>
+<ul>
+<li><p>Append the character <code>'0'</code> <code>zero</code> times.</p></li>
+<li><p>Append the character <code>'1'</code> <code>one</code> times.</p></li>
+</ul>
+<p>This can be performed any number of times.</p>
+<p>A <strong>good</strong> string is a string constructed by the above process having a <strong>length</strong> between <code>low</code> and <code>high</code> (<strong>inclusive</strong>).</p>
+<p>Return **the number of *<em>different</em>* good strings that can be constructed satisfying these properties.** Since the answer can be large, return it <strong>modulo</strong> <code>109 + 7</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: low = <span class="hljs-number">3</span>, high = <span class="hljs-number">3</span>, zero = <span class="hljs-number">1</span>, one = <span class="hljs-number">1</span>
+Output: <span class="hljs-number">8</span>
+Explanation: 
+One possible valid good string <span class="hljs-keyword">is</span> <span class="hljs-string">"011"</span>. 
+It can be constructed as follows: <span class="hljs-string">""</span><span class="hljs-function"> -&gt;</span> <span class="hljs-string">"0"</span><span class="hljs-function"> -&gt;</span> <span class="hljs-string">"01"</span><span class="hljs-function"> -&gt;</span> <span class="hljs-string">"011"</span>. 
+All binary strings <span class="hljs-keyword">from</span> <span class="hljs-string">"000"</span> <span class="hljs-keyword">to</span> <span class="hljs-string">"111"</span> are good strings <span class="hljs-keyword">in</span> <span class="hljs-keyword">this</span> example.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: <span class="hljs-attr">low</span> = <span class="hljs-number">2</span>, <span class="hljs-attr">high</span> = <span class="hljs-number">3</span>, <span class="hljs-attr">zero</span> = <span class="hljs-number">1</span>, <span class="hljs-attr">one</span> = <span class="hljs-number">2</span>
+Output: <span class="hljs-number">5</span>
+Explanation: The good strings are <span class="hljs-string">"00"</span>, <span class="hljs-string">"11"</span>, <span class="hljs-string">"000"</span>, <span class="hljs-string">"110"</span>, <span class="hljs-literal">and</span> <span class="hljs-string">"011"</span>.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= low&amp;nbsp;&lt;= high&amp;nbsp;&lt;= 105</code></p></li>
+<li><p><code>1 &lt;= zero, one &lt;= low</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} low
+ * @param {number} high
+ * @param {number} zero
+ * @param {number} one
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> countGoodStrings = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">low, high, zero, one</span>) </span>{
+    <span class="hljs-keyword">var</span> mod = <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">10</span>, <span class="hljs-number">9</span>) + <span class="hljs-number">7</span>;
+    <span class="hljs-keyword">var</span> dp = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>(high + <span class="hljs-number">1</span>).fill(<span class="hljs-number">0</span>);
+    dp[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-built_in">Math</span>.min(zero, one); i &lt;= high; i++) {
+        <span class="hljs-keyword">if</span> (i &gt;= zero) {
+            dp[i] = (dp[i] + dp[i - zero]) % mod;
+        }
+        <span class="hljs-keyword">if</span> (i &gt;= one) {
+            dp[i] = (dp[i] + dp[i - one]) % mod;
+        }
+    }
+    <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = low; i &lt;= high; i++) {
+        res = (res + dp[i]) % mod;
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p><code>dp[i]</code> means, for string length <code>i</code>, has <code>dp[i]</code> kinds of different good strings.</p>
+<p><code>dp[i] = dp[i - zero] + dp[i - one]</code></p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

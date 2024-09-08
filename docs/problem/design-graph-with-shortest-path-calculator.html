@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Design Graph With Shortest Path Calculator - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>2642. Design Graph With Shortest Path Calculator</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/graph">Graph</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/design">Design</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/heap-priority-queue">Heap (Priority Queue)</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/shortest-path">Shortest Path</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/number-of-restricted-paths-from-first-to-last-node.html">Number of Restricted Paths From First to Last Node</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/closest-node-to-path-in-tree.html">Closest Node to Path in Tree</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>There is a <strong>directed weighted</strong> graph that consists of <code>n</code> nodes numbered from <code>0</code> to <code>n - 1</code>. The edges of the graph are initially represented by the given array <code>edges</code> where <code>edges[i] = [fromi, toi, edgeCosti]</code> meaning that there is an edge from <code>fromi</code> to <code>toi</code> with the cost <code>edgeCosti</code>.</p>
+<p>Implement the <code>Graph</code> class:</p>
+<ul>
+<li><p><code>Graph(int n, int[][] edges)</code> initializes the object with <code>n</code> nodes and the given edges.</p></li>
+<li><p><code>addEdge(int[] edge)</code> adds an edge to the list of edges where <code>edge = [from, to, edgeCost]</code>. It is guaranteed that there is no edge between the two nodes before adding this one.</p></li>
+<li><p><code>int shortestPath(int node1, int node2)</code> returns the <strong>minimum</strong> cost of a path from <code>node1</code> to <code>node2</code>. If no path exists, return <code>-1</code>. The cost of a path is the sum of the costs of the edges in the path.</p></li>
+</ul>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2023/01/11/graph3drawio-2.png" alt="" /></p>
+<pre><code class="hljs">Input
+[<span class="hljs-string">"Graph"</span>, <span class="hljs-string">"shortestPath"</span>, <span class="hljs-string">"shortestPath"</span>, <span class="hljs-string">"addEdge"</span>, <span class="hljs-string">"shortestPath"</span>]
+[[<span class="hljs-number">4</span>, [[<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">5</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">3</span>, <span class="hljs-number">0</span>, <span class="hljs-number">3</span>]]], [<span class="hljs-number">3</span>, <span class="hljs-number">2</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">3</span>], [[<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]], [<span class="hljs-number">0</span>, <span class="hljs-number">3</span>]]
+Output
+[null, <span class="hljs-number">6</span>, <span class="hljs-number">-1</span>, null, <span class="hljs-number">6</span>]
+
+Explanation
+Graph g = new Graph(<span class="hljs-number">4</span>, [[<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">5</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">3</span>, <span class="hljs-number">0</span>, <span class="hljs-number">3</span>]]);
+g.shortestPath(<span class="hljs-number">3</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// return 6. The shortest path from 3 to 2 in the first diagram above is 3 -&gt; 0 -&gt; 1 -&gt; 2 with a total cost of 3 + 2 + 1 = 6.</span>
+g.shortestPath(<span class="hljs-number">0</span>, <span class="hljs-number">3</span>); <span class="hljs-comment">// return -1. There is no path from 0 to 3.</span>
+g.addEdge([<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]); <span class="hljs-comment">// We add an edge from node 1 to node 3, and we get the second diagram above.</span>
+g.shortestPath(<span class="hljs-number">0</span>, <span class="hljs-number">3</span>); <span class="hljs-comment">// return 6. The shortest path from 0 to 3 now is 0 -&gt; 1 -&gt; 3 with a total cost of 2 + 4 = 6.</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= n &lt;= 100</code></p></li>
+<li><p><code>0 &lt;= edges.length &lt;= n * (n - 1)</code></p></li>
+<li><p><code>edges[i].length == edge.length == 3</code></p></li>
+<li><p><code>0 &lt;= fromi, toi, from, to, node1, node2 &lt;= n - 1</code></p></li>
+<li><p><code>1 &lt;= edgeCosti, edgeCost &lt;= 106</code></p></li>
+<li><p>There are no repeated edges and no self-loops in the graph at any point.</p></li>
+<li><p>At most <code>100</code> calls will be made for <code>addEdge</code>.</p></li>
+<li><p>At most <code>100</code> calls will be made for <code>shortestPath</code>.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @param {number[][]} edges
+ */</span>
+<span class="hljs-keyword">var</span> Graph = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n, edges</span>) </span>{
+    <span class="hljs-keyword">var</span> map = <span class="hljs-built_in">Array</span>(n).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> []);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; edges.length; i++) {
+        map[edges[i][<span class="hljs-number">0</span>]].push([edges[i][<span class="hljs-number">1</span>], edges[i][<span class="hljs-number">2</span>]]);
+    }
+    <span class="hljs-keyword">this</span>.map = map;
+};
+
+<span class="hljs-comment">/** 
+ * @param {number[]} edge
+ * @return {void}
+ */</span>
+Graph.prototype.addEdge = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">edge</span>) </span>{
+    <span class="hljs-keyword">this</span>.map[edge[<span class="hljs-number">0</span>]].push([edge[<span class="hljs-number">1</span>], edge[<span class="hljs-number">2</span>]]);
+};
+
+<span class="hljs-comment">/** 
+ * @param {number} node1 
+ * @param {number} node2
+ * @return {number}
+ */</span>
+Graph.prototype.shortestPath = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">node1, node2</span>) </span>{
+    <span class="hljs-keyword">var</span> visited = {};
+    <span class="hljs-keyword">var</span> queue = <span class="hljs-keyword">new</span> MinPriorityQueue();
+    queue.enqueue(node1, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">while</span> (queue.size()) {
+        <span class="hljs-keyword">var</span> { element, priority } = queue.dequeue();
+        <span class="hljs-keyword">if</span> (element === node2) <span class="hljs-keyword">return</span> priority;
+        <span class="hljs-keyword">if</span> (visited[element]) <span class="hljs-keyword">continue</span>;
+        visited[element] = <span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">this</span>.map[element].forEach(<span class="hljs-function"><span class="hljs-params">item</span> =&gt;</span> {
+            queue.enqueue(item[<span class="hljs-number">0</span>], item[<span class="hljs-number">1</span>] + priority);
+        });
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+};
+
+<span class="hljs-comment">/** 
+ * Your Graph object will be instantiated and called as such:
+ * var obj = new Graph(n, edges)
+ * obj.addEdge(edge)
+ * var param_2 = obj.shortestPath(node1,node2)
+ */</span>
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * log(m)).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

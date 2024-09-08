@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Longest Palindromic Subsequence - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>516. Longest Palindromic Subsequence</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/string">String</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/longest-palindromic-substring.html">Longest Palindromic Substring</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/palindromic-substrings.html">Palindromic Substrings</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/count-different-palindromic-subsequences.html">Count Different Palindromic Subsequences</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/longest-common-subsequence.html">Longest Common Subsequence</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/longest-palindromic-subsequence-ii.html">Longest Palindromic Subsequence II</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/maximize-palindrome-length-from-subsequences.html">Maximize Palindrome Length From Subsequences</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/maximum-product-of-the-length-of-two-palindromic-subsequences.html">Maximum Product of the Length of Two Palindromic Subsequences</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a string <code>s</code>, find **the longest palindromic **subsequence<strong>'s length in</strong> <code>s</code>.</p>
+<p>A <strong>subsequence</strong> is a sequence that can be derived from another sequence by deleting some or no elements without changing the order of the remaining elements.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> s = <span class="hljs-string">"bbbab"</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">4</span>
+<span class="hljs-symbol">Explanation:</span> One possible longest palindromic subsequence is <span class="hljs-string">"bbbb"</span>.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> s = <span class="hljs-string">"cbbd"</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">2</span>
+<span class="hljs-symbol">Explanation:</span> One possible longest palindromic subsequence is <span class="hljs-string">"bb"</span>.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= s.length &lt;= 1000</code></p></li>
+<li><p><code>s</code> consists only of lowercase English letters.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> longestPalindromeSubseq = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-keyword">var</span> dp = <span class="hljs-built_in">Array</span>(s.length).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">Array</span>(s.length));
+    <span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">i, j</span>) </span>{
+        <span class="hljs-keyword">if</span> (j &lt; i) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">if</span> (dp[i][j] !== <span class="hljs-literal">undefined</span>) <span class="hljs-keyword">return</span> dp[i][j];
+        <span class="hljs-keyword">if</span> (s[i] === s[j]) {
+            dp[i][j] = (i === j ? <span class="hljs-number">1</span> : <span class="hljs-number">2</span>) + helper(i + <span class="hljs-number">1</span>, j - <span class="hljs-number">1</span>);
+        } <span class="hljs-keyword">else</span> {
+            dp[i][j] = <span class="hljs-built_in">Math</span>.max(
+                helper(i + <span class="hljs-number">1</span>, j),
+                helper(i, j - <span class="hljs-number">1</span>),
+                helper(i + <span class="hljs-number">1</span>, j - <span class="hljs-number">1</span>),
+            );
+        }
+        <span class="hljs-keyword">return</span> dp[i][j];
+    };
+    <span class="hljs-keyword">return</span> helper(<span class="hljs-number">0</span>, s.length - <span class="hljs-number">1</span>);
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * m).</li>
+<li>Space complexity : O(n * m).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Maximum Length of a Concatenated String with Unique Characters - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1239. Maximum Length of a Concatenated String with Unique Characters</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/string">String</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/backtracking">Backtracking</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/bit-manipulation">Bit Manipulation</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given an array of strings <code>arr</code>. A string <code>s</code> is formed by the <strong>concatenation</strong> of a <strong>subsequence</strong> of <code>arr</code> that has <strong>unique characters</strong>.</p>
+<p>Return **the *<em>maximum</em>* possible length** of <code>s</code>.</p>
+<p>A <strong>subsequence</strong> is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: arr = ["un","iq","ue"]
+Output: 4
+Explanation: All the valid concatenations are:
+-<span class="ruby"> <span class="hljs-string">""</span>
+</span>-<span class="ruby"> <span class="hljs-string">"un"</span>
+</span>-<span class="ruby"> <span class="hljs-string">"iq"</span>
+</span>-<span class="ruby"> <span class="hljs-string">"ue"</span>
+</span>-<span class="ruby"> <span class="hljs-string">"uniq"</span> (<span class="hljs-string">"un"</span> + <span class="hljs-string">"iq"</span>)
+</span>-<span class="ruby"> <span class="hljs-string">"ique"</span> (<span class="hljs-string">"iq"</span> + <span class="hljs-string">"ue"</span>)
+</span>Maximum length is 4.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> arr = [<span class="hljs-string">"cha"</span>,<span class="hljs-string">"r"</span>,<span class="hljs-string">"act"</span>,<span class="hljs-string">"ers"</span>]
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">6</span>
+<span class="hljs-symbol">Explanation:</span> Possible longest valid concatenations are <span class="hljs-string">"chaers"</span> (<span class="hljs-string">"cha"</span> + <span class="hljs-string">"ers"</span>) <span class="hljs-keyword">and</span> <span class="hljs-string">"acters"</span> (<span class="hljs-string">"act"</span> + <span class="hljs-string">"ers"</span>).
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Inpu<span class="hljs-variable">t:</span> arr = [<span class="hljs-string">"abcdefghijklmnopqrstuvwxyz"</span>]
+Outpu<span class="hljs-variable">t:</span> <span class="hljs-number">26</span>
+Explanation: The <span class="hljs-keyword">only</span> <span class="hljs-built_in">string</span> in arr <span class="hljs-built_in">has</span> <span class="hljs-keyword">all</span> <span class="hljs-number">26</span> characters.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= arr.length &lt;= 16</code></p></li>
+<li><p><code>1 &lt;= arr[i].length &lt;= 26</code></p></li>
+<li><p><code>arr[i]</code> contains only lowercase English letters.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string[]} arr
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> maxLength = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">arr</span>) </span>{
+    <span class="hljs-keyword">var</span> maskArr = [];
+    <span class="hljs-keyword">var</span> newArr = [];
+    <span class="hljs-keyword">var</span> a = <span class="hljs-string">'a'</span>.charCodeAt(<span class="hljs-number">0</span>);
+    outter: <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; arr.length; i++) {
+        <span class="hljs-keyword">var</span> num = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; arr[i].length; j++) {
+            <span class="hljs-keyword">var</span> bit = (<span class="hljs-number">1</span> &lt;&lt; (arr[i].charCodeAt(j) - a));
+            <span class="hljs-keyword">if</span> ((bit &amp; num) !== <span class="hljs-number">0</span>) {
+                <span class="hljs-keyword">continue</span> outter;
+            }
+            num |= bit;
+        }
+        maskArr.push(num);
+        newArr.push(arr[i]);
+    }
+    <span class="hljs-keyword">return</span> dfs(newArr, maskArr, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+};
+
+<span class="hljs-keyword">var</span> dfs = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">arr, maskArr, num, i</span>) </span>{
+    <span class="hljs-keyword">if</span> (i === arr.length) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> len = dfs(arr, maskArr, num, i + <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">if</span> ((maskArr[i] &amp; num) === <span class="hljs-number">0</span>) {
+        len = <span class="hljs-built_in">Math</span>.max(len, arr[i].length + dfs(arr, maskArr, maskArr[i] | num, i + <span class="hljs-number">1</span>));
+    }
+    <span class="hljs-keyword">return</span> len;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>Bit mask + DFS.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(2^n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

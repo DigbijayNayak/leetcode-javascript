@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Minimum Size Subarray Sum - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>209. Minimum Size Subarray Sum</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/sliding-window">Sliding Window</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/prefix-sum">Prefix Sum</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-window-substring.html">Minimum Window Substring</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/maximum-size-subarray-sum-equals-k.html">Maximum Size Subarray Sum Equals k</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/maximum-length-of-repeated-subarray.html">Maximum Length of Repeated Subarray</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-operations-to-reduce-x-to-zero.html">Minimum Operations to Reduce X to Zero</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/k-radius-subarray-averages.html">K Radius Subarray Averages</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/maximum-product-after-k-increments.html">Maximum Product After K Increments</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given an array of positive integers <code>nums</code> and a positive integer <code>target</code>, return **the *<em>minimal length</em>* of a <strong><em><em>subarray</em></strong></em> whose sum is greater than or equal to** <code>target</code>. If there is no such subarray, return <code>0</code> instead.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> target = <span class="hljs-number">7</span>, nums = [<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">3</span>]
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">2</span>
+<span class="hljs-symbol">Explanation:</span> The subarray [<span class="hljs-number">4</span>,<span class="hljs-number">3</span>] has the minimal length under the problem constraint.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> target = <span class="hljs-number">4</span>, nums = [<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">4</span>]
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">1</span>
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> target = <span class="hljs-number">11</span>, nums = [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">0</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= target &lt;= 109</code></p></li>
+<li><p><code>1 &lt;= nums.length &lt;= 105</code></p></li>
+<li><p><code>1 &lt;= nums[i] &lt;= 104</code></p></li>
+</ul>
+<p>&nbsp;
+<strong>Follow up:</strong> If you have figured out the <code>O(n)</code> solution, try coding another solution of which the time complexity is <code>O(n log(n))</code>.</p>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} target
+ * @param {number[]} nums
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> minSubArrayLen = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">target, nums</span>) </span>{
+    <span class="hljs-keyword">var</span> left = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> right = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> sum = nums[<span class="hljs-number">0</span>];
+    <span class="hljs-keyword">var</span> min = <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER;
+    <span class="hljs-keyword">while</span> (right &lt; nums.length &amp;&amp; left &lt;= right) {
+        <span class="hljs-keyword">if</span> (sum &lt; target) {
+            right++;
+            sum += nums[right];
+        } <span class="hljs-keyword">else</span> {
+            min = <span class="hljs-built_in">Math</span>.min(min, right - left + <span class="hljs-number">1</span>);
+            sum -= nums[left];
+            left++;
+        }
+    }
+    <span class="hljs-keyword">return</span> min === <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER ? <span class="hljs-number">0</span> : min;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

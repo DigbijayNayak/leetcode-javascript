@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Counting Bits - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>338. Counting Bits</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/bit-manipulation">Bit Manipulation</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/number-of-1-bits.html">Number of 1 Bits</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given an integer <code>n</code>, return **an array *<em><code>ans</code></em>* of length <strong><code>n + 1</code></strong> such that for each <strong><code>i</code></strong> <strong>(<code>0 &lt;= i &lt;= n</code>)</strong>, <strong><code>ans[i]</code></strong> is the <strong>number of <strong><em><em><code>1</code></em></strong></em>'s</strong> in the binary representation of **<code>i</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: n = <span class="hljs-number">2</span>
+Output: [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]
+Explanation:
+<span class="hljs-number">0</span> <span class="hljs-comment">--&gt; 0</span>
+<span class="hljs-number">1</span> <span class="hljs-comment">--&gt; 1</span>
+<span class="hljs-number">2</span> <span class="hljs-comment">--&gt; 10</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: n = <span class="hljs-number">5</span>
+Output: [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>]
+Explanation:
+<span class="hljs-number">0</span> <span class="hljs-comment">--&gt; 0</span>
+<span class="hljs-number">1</span> <span class="hljs-comment">--&gt; 1</span>
+<span class="hljs-number">2</span> <span class="hljs-comment">--&gt; 10</span>
+<span class="hljs-number">3</span> <span class="hljs-comment">--&gt; 11</span>
+<span class="hljs-number">4</span> <span class="hljs-comment">--&gt; 100</span>
+<span class="hljs-number">5</span> <span class="hljs-comment">--&gt; 101</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><code>0 &lt;= n &lt;= 105</code></li>
+</ul>
+<p>&nbsp;
+<strong>Follow up:</strong></p>
+<ul>
+<li><p>It is very easy to come up with a solution with a runtime of <code>O(n log n)</code>. Can you do it in linear time <code>O(n)</code> and possibly in a single pass?</p></li>
+<li><p>Can you do it without using any built-in function (i.e., like <code>__builtin_popcount</code> in C++)?</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> countBits = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n</span>) </span>{
+    <span class="hljs-keyword">var</span> res = <span class="hljs-built_in">Array</span>(n + <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">var</span> num = <span class="hljs-number">2</span>;
+    <span class="hljs-keyword">var</span> nextNum = <span class="hljs-number">4</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt;= n; i++) {
+        <span class="hljs-keyword">if</span> (i === <span class="hljs-number">0</span>) {
+            res[i] = <span class="hljs-number">0</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (i === <span class="hljs-number">1</span>) {
+            res[i] = <span class="hljs-number">1</span>;
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">if</span> (i === nextNum) {
+                num = nextNum;
+                nextNum *= <span class="hljs-number">2</span>;
+            }
+            res[i] = <span class="hljs-number">1</span> + res[i - num];
+        }
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

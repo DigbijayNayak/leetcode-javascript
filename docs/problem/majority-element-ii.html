@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Majority Element II - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>229. Majority Element II</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/sorting">Sorting</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/counting">Counting</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/majority-element.html">Majority Element</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/check-if-a-number-is-majority-element-in-a-sorted-array.html">Check If a Number Is Majority Element in a Sorted Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/most-frequent-even-element.html">Most Frequent Even Element</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given an integer array of size <code>n</code>, find all elements that appear more than <code>⌊ n/3 ⌋</code> times.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: nums = <span class="hljs-string">[3,2,3]</span>
+Output: <span class="hljs-string">[3]</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: nums = <span class="hljs-string">[1]</span>
+Output: <span class="hljs-string">[1]</span>
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: nums = <span class="hljs-string">[1,2]</span>
+Output: <span class="hljs-string">[1,2]</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= nums.length &lt;= 5 * 104</code></p></li>
+<li><p><code>-109 &lt;= nums[i] &lt;= 109</code></p></li>
+</ul>
+<p>&nbsp;
+<strong>Follow up:</strong> Could you solve the problem in linear time and in <code>O(1)</code> space?</p>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> majorityElement = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums</span>) </span>{
+    <span class="hljs-keyword">var</span> num1 = <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER;
+    <span class="hljs-keyword">var</span> count1 = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> num2 = <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER;
+    <span class="hljs-keyword">var</span> count2 = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; nums.length; i++) {
+        <span class="hljs-keyword">if</span> (nums[i] === num1) {
+            count1 += <span class="hljs-number">1</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (nums[i] === num2) {
+            count2 += <span class="hljs-number">1</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (count1 === <span class="hljs-number">0</span>) {
+            num1 = nums[i];
+            count1 += <span class="hljs-number">1</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (count2 === <span class="hljs-number">0</span>) {
+            num2 = nums[i];
+            count2 += <span class="hljs-number">1</span>;
+        } <span class="hljs-keyword">else</span> {
+            count1 -= <span class="hljs-number">1</span>;
+            count2 -= <span class="hljs-number">1</span>;
+        }
+    }
+    <span class="hljs-keyword">var</span> realCount1 = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> realCount2 = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; nums.length; i++) {
+        <span class="hljs-keyword">if</span> (nums[i] === num1) realCount1++;
+        <span class="hljs-keyword">if</span> (nums[i] === num2) realCount2++;
+    }
+    <span class="hljs-keyword">return</span> (realCount1 &gt; nums.length / <span class="hljs-number">3</span>) &amp;&amp; (realCount2 &gt; nums.length / <span class="hljs-number">3</span>)
+        ? [num1, num2]
+        : ((realCount1 &gt; nums.length / <span class="hljs-number">3</span>) ? [num1] : ((realCount2 &gt; nums.length / <span class="hljs-number">3</span>) ? [num2] : []))
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

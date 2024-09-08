@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Coin Change II - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>518. Coin Change II</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/maximum-value-of-k-coins-from-piles.html">Maximum Value of K Coins From Piles</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/number-of-ways-to-earn-points.html">Number of Ways to Earn Points</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/count-of-sub-multisets-with-bounded-sum.html">Count of Sub-Multisets With Bounded Sum</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/length-of-the-longest-subsequence-that-sums-to-target.html">Length of the Longest Subsequence That Sums to Target</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money.</p>
+<p>Return <strong>the number of combinations that make up that amount</strong>. If that amount of money cannot be made up by any combination of the coins, return <code>0</code>.</p>
+<p>You may assume that you have an infinite number of each kind of coin.</p>
+<p>The answer is <strong>guaranteed</strong> to fit into a signed <strong>32-bit</strong> integer.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: amount = 5, coins = [1,2,5]
+Output: 4
+Explanation: there are four ways <span class="hljs-keyword">to</span> make up the amount:
+<span class="hljs-attribute">5</span>=5
+<span class="hljs-attribute">5</span>=2+2+1
+<span class="hljs-attribute">5</span>=2+1+1+1
+<span class="hljs-attribute">5</span>=1+1+1+1+1
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: amount = <span class="hljs-number">3</span>, coins = [<span class="hljs-number">2</span>]
+Output: <span class="hljs-number">0</span>
+Explanation: <span class="hljs-keyword">the</span> amount <span class="hljs-keyword">of</span> <span class="hljs-number">3</span> cannot be made up just <span class="hljs-keyword">with</span> coins <span class="hljs-keyword">of</span> <span class="hljs-number">2.</span>
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> amount = <span class="hljs-number">10</span>, coins = [<span class="hljs-number">10</span>]
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">1</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= coins.length &lt;= 300</code></p></li>
+<li><p><code>1 &lt;= coins[i] &lt;= 5000</code></p></li>
+<li><p>All the values of <code>coins</code> are <strong>unique</strong>.</p></li>
+<li><p><code>0 &lt;= amount &lt;= 5000</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} amount
+ * @param {number[]} coins
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> change = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">amount, coins</span>) </span>{
+    coins.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> b - a);
+    <span class="hljs-keyword">return</span> helper(amount, coins, <span class="hljs-built_in">Array</span>(coins.length + <span class="hljs-number">1</span>).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> []));
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">amount, coins, dp</span>) </span>{
+    <span class="hljs-keyword">if</span> (amount === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">if</span> (dp[coins.length][amount] !== <span class="hljs-literal">undefined</span>) <span class="hljs-keyword">return</span> dp[coins.length][amount];
+    <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; coins.length; i++) {
+        <span class="hljs-keyword">if</span> (amount &gt;= coins[i]) {
+            res += helper(amount - coins[i], coins.slice(i), dp);
+        }
+    }
+    dp[coins.length][amount] = res;
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<ol>
+<li>sort <code>coins</code> array, to avoid duplicate answer</li>
+<li><code>f(5, [5,2,1]) = f(0, [5,2,1]) + f(3, [2,1]) + f(4, [1])</code></li>
+<li><code>f(0, []) = 1</code></li>
+<li>cache every compute so that we only compute same case once</li>
+</ol>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * m).</li>
+<li>Space complexity : O(n * m).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Longest String Chain - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1048. Longest String Chain</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/two-pointers">Two Pointers</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/string">String</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/dynamic-programming">Dynamic Programming</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given an array of <code>words</code> where each word consists of lowercase English letters.</p>
+<p><code>wordA</code> is a <strong>predecessor</strong> of <code>wordB</code> if and only if we can insert <strong>exactly one</strong> letter anywhere in <code>wordA</code> <strong>without changing the order of the other characters</strong> to make it equal to <code>wordB</code>.</p>
+<ul>
+<li>For example, <code>"abc"</code> is a <strong>predecessor</strong> of <code>"abac"</code>, while <code>"cba"</code> is not a <strong>predecessor</strong> of <code>"bcad"</code>.</li>
+</ul>
+<p>A <strong>word chain</strong>** **is a sequence of words <code>[word1, word2, ..., wordk]</code> with <code>k &gt;= 1</code>, where <code>word1</code> is a *<em>predecessor</em>* of <code>word2</code>, <code>word2</code> is a <strong>predecessor</strong> of <code>word3</code>, and so on. A single word is trivially a <strong>word chain</strong> with <code>k == 1</code>.</p>
+<p>Return **the *<em>length</em>* of the <strong>longest possible word chain</strong> with words chosen from the given list of **<code>words</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: <span class="hljs-built_in">words</span> = [<span class="hljs-string">"a"</span>,<span class="hljs-string">"b"</span>,<span class="hljs-string">"ba"</span>,<span class="hljs-string">"bca"</span>,<span class="hljs-string">"bda"</span>,<span class="hljs-string">"bdca"</span>]
+Output: <span class="hljs-number">4</span>
+Explanation: One <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> longest <span class="hljs-built_in">word</span> chains <span class="hljs-keyword">is</span> [<span class="hljs-string">"a"</span>,<span class="hljs-string">"ba"</span>,<span class="hljs-string">"bda"</span>,<span class="hljs-string">"bdca"</span>].
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: <span class="hljs-keyword">words</span> = [<span class="hljs-string">"xbc"</span>,<span class="hljs-string">"pcxbcf"</span>,<span class="hljs-string">"xb"</span>,<span class="hljs-string">"cxbc"</span>,<span class="hljs-string">"pcxbc"</span>]
+Output: <span class="hljs-number">5</span>
+Explanation: All <span class="hljs-keyword">the</span> <span class="hljs-keyword">words</span> can be <span class="hljs-built_in">put</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">a</span> <span class="hljs-built_in">word</span> chain [<span class="hljs-string">"xb"</span>, <span class="hljs-string">"xbc"</span>, <span class="hljs-string">"cxbc"</span>, <span class="hljs-string">"pcxbc"</span>, <span class="hljs-string">"pcxbcf"</span>].
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: <span class="hljs-built_in">words</span> = [<span class="hljs-string">"abcd"</span>,<span class="hljs-string">"dbqca"</span>]
+Output: <span class="hljs-number">1</span>
+Explanation: The trivial <span class="hljs-built_in">word</span> chain [<span class="hljs-string">"abcd"</span>] <span class="hljs-keyword">is</span> one <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> longest <span class="hljs-built_in">word</span> chains.
+[<span class="hljs-string">"abcd"</span>,<span class="hljs-string">"dbqca"</span>] <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> a valid <span class="hljs-built_in">word</span> chain because <span class="hljs-keyword">the</span> ordering <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> letters <span class="hljs-keyword">is</span> changed.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= words.length &lt;= 1000</code></p></li>
+<li><p><code>1 &lt;= words[i].length &lt;= 16</code></p></li>
+<li><p><code>words[i]</code> only consists of lowercase English letters.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string[]} words
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> longestStrChain = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">words</span>) </span>{
+    <span class="hljs-keyword">var</span> map = <span class="hljs-built_in">Array</span>(<span class="hljs-number">17</span>).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> []);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; words.length; i++) {
+      map[words[i].length].push(words[i]);
+    }
+    <span class="hljs-keyword">var</span> max = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; words.length; i++) {
+      max = <span class="hljs-built_in">Math</span>.max(max, helper(map, words[i], {}));
+    }
+    <span class="hljs-keyword">return</span> max;
+};
+
+<span class="hljs-keyword">var</span> helper = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">map, word, dp</span>) </span>{
+  <span class="hljs-keyword">if</span> (dp[word] !== <span class="hljs-literal">undefined</span>) <span class="hljs-keyword">return</span> dp[word];
+  <span class="hljs-keyword">var</span> arr = map[word.length + <span class="hljs-number">1</span>] || [];
+  <span class="hljs-keyword">var</span> max = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; arr.length; j++) {
+    <span class="hljs-keyword">if</span> (!isPredecessor(word, arr[j])) <span class="hljs-keyword">continue</span>;
+    max = <span class="hljs-built_in">Math</span>.max(max, <span class="hljs-number">1</span> + helper(map, arr[j], dp));
+  }
+  dp[word] = max;
+  <span class="hljs-keyword">return</span> max;
+};
+
+<span class="hljs-keyword">var</span> isPredecessor = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">word1, word2</span>) </span>{
+  <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">var</span> skipped = <span class="hljs-literal">false</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; word2.length; j++) {
+    <span class="hljs-keyword">if</span> (word1[i] !== word2[j]) {
+      <span class="hljs-keyword">if</span> (!skipped) {
+        skipped = <span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">continue</span>;
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+      }
+    }
+    i++;
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>DFS and DP.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n ^ 2).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

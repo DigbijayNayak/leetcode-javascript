@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Count of Matches in Tournament - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1688. Count of Matches in Tournament</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/simulation">Simulation</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/count-distinct-numbers-on-board.html">Count Distinct Numbers on Board</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given an integer <code>n</code>, the number of teams in a tournament that has strange rules:</p>
+<ul>
+<li><p>If the current number of teams is <strong>even</strong>, each team gets paired with another team. A total of <code>n / 2</code> matches are played, and <code>n / 2</code> teams advance to the next round.</p></li>
+<li><p>If the current number of teams is <strong>odd</strong>, one team randomly advances in the tournament, and the rest gets paired. A total of <code>(n - 1) / 2</code> matches are played, and <code>(n - 1) / 2 + 1</code> teams advance to the next round.</p></li>
+</ul>
+<p>Return <strong>the number of matches played in the tournament until a winner is decided.</strong></p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: <span class="hljs-attr">n</span> = <span class="hljs-number">7</span>
+Output: <span class="hljs-number">6</span>
+Explanation: Details of the tournament: 
+- <span class="hljs-number">1</span>st Round: <span class="hljs-attr">Teams</span> = <span class="hljs-number">7</span>, <span class="hljs-attr">Matches</span> = <span class="hljs-number">3</span>, <span class="hljs-literal">and</span> <span class="hljs-number">4</span> teams advance.
+- <span class="hljs-number">2</span>nd Round: <span class="hljs-attr">Teams</span> = <span class="hljs-number">4</span>, <span class="hljs-attr">Matches</span> = <span class="hljs-number">2</span>, <span class="hljs-literal">and</span> <span class="hljs-number">2</span> teams advance.
+- <span class="hljs-number">3</span>rd Round: <span class="hljs-attr">Teams</span> = <span class="hljs-number">2</span>, <span class="hljs-attr">Matches</span> = <span class="hljs-number">1</span>, <span class="hljs-literal">and</span> <span class="hljs-number">1</span> team is declared the winner.
+Total number of <span class="hljs-attr">matches</span> = <span class="hljs-number">3</span> + <span class="hljs-number">2</span> + <span class="hljs-number">1</span> = <span class="hljs-number">6</span>.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: n = <span class="hljs-number">14</span>
+Output: <span class="hljs-number">13</span>
+Explanation: Details of the tournament:
+- <span class="hljs-number">1</span>st <span class="hljs-built_in">Round</span>: <span class="hljs-built_in">Teams</span> = <span class="hljs-number">14</span>, Matches = <span class="hljs-number">7</span>, <span class="hljs-built_in">and</span> <span class="hljs-number">7</span> <span class="hljs-built_in">teams</span> advance.
+- <span class="hljs-number">2</span>nd <span class="hljs-built_in">Round</span>: <span class="hljs-built_in">Teams</span> = <span class="hljs-number">7</span>, Matches = <span class="hljs-number">3</span>, <span class="hljs-built_in">and</span> <span class="hljs-number">4</span> <span class="hljs-built_in">teams</span> advance.
+- <span class="hljs-number">3</span>rd <span class="hljs-built_in">Round</span>: <span class="hljs-built_in">Teams</span> = <span class="hljs-number">4</span>, Matches = <span class="hljs-number">2</span>, <span class="hljs-built_in">and</span> <span class="hljs-number">2</span> <span class="hljs-built_in">teams</span> advance.
+- <span class="hljs-number">4</span>th <span class="hljs-built_in">Round</span>: <span class="hljs-built_in">Teams</span> = <span class="hljs-number">2</span>, Matches = <span class="hljs-number">1</span>, <span class="hljs-built_in">and</span> <span class="hljs-number">1</span> team is declared the winner.
+Total number of matches = <span class="hljs-number">7</span> + <span class="hljs-number">3</span> + <span class="hljs-number">2</span> + <span class="hljs-number">1</span> = <span class="hljs-number">13</span>.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= n &lt;= 200</code></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> numberOfMatches = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n</span>) </span>{
+    <span class="hljs-keyword">if</span> (n === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (n % <span class="hljs-number">2</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.floor(n / <span class="hljs-number">2</span>) + numberOfMatches((n + <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> (n / <span class="hljs-number">2</span>) + numberOfMatches(n / <span class="hljs-number">2</span>);
+    }
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(log(n)).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

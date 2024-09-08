@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Determine if String Halves Are Alike - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1704. Determine if String Halves Are Alike</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/string">String</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/counting">Counting</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given a string <code>s</code> of even length. Split this string into two halves of equal lengths, and let <code>a</code> be the first half and <code>b</code> be the second half.</p>
+<p>Two strings are <strong>alike</strong> if they have the same number of vowels (<code>'a'</code>, <code>'e'</code>, <code>'i'</code>, <code>'o'</code>, <code>'u'</code>, <code>'A'</code>, <code>'E'</code>, <code>'I'</code>, <code>'O'</code>, <code>'U'</code>). Notice that <code>s</code> contains uppercase and lowercase letters.</p>
+<p>Return <code>true</code>** if <strong><code>a</code></strong> and <strong><code>b</code></strong> are <strong>alike</strong>**. Otherwise, return <code>false</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: s = <span class="hljs-string">"book"</span>
+Output: true
+Explanation: <span class="hljs-selector-tag">a</span> = <span class="hljs-string">"bo"</span> and <span class="hljs-selector-tag">b</span> = <span class="hljs-string">"ok"</span>. <span class="hljs-selector-tag">a</span> has <span class="hljs-number">1</span> vowel and <span class="hljs-selector-tag">b</span> has <span class="hljs-number">1</span> vowel. Therefore, they are alike.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: s = <span class="hljs-string">"textbook"</span>
+Output: false
+Explanation: <span class="hljs-selector-tag">a</span> = <span class="hljs-string">"text"</span> and <span class="hljs-selector-tag">b</span> = <span class="hljs-string">"book"</span>. <span class="hljs-selector-tag">a</span> has <span class="hljs-number">1</span> vowel whereas <span class="hljs-selector-tag">b</span> has <span class="hljs-number">2</span>. Therefore, they are not alike.
+Notice that the vowel o is counted twice.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>2 &lt;= s.length &lt;= 1000</code></p></li>
+<li><p><code>s.length</code> is even.</p></li>
+<li><p><code>s</code> consists of <strong>uppercase and lowercase</strong> letters.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> halvesAreAlike = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-keyword">var</span> map = {
+        <span class="hljs-attr">a</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">e</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">i</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">o</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">u</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">A</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">E</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">I</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">O</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">U</span>: <span class="hljs-literal">true</span>,
+    };
+    <span class="hljs-keyword">var</span> half = s.length / <span class="hljs-number">2</span>;
+    <span class="hljs-keyword">var</span> count = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; half; i++) {
+        <span class="hljs-keyword">if</span> (map[s[i]]) count++;
+        <span class="hljs-keyword">if</span> (map[s[i + half]]) count--;
+    }
+    <span class="hljs-keyword">return</span> count === <span class="hljs-number">0</span>;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

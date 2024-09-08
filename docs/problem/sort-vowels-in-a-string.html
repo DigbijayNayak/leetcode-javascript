@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Sort Vowels in a String - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>2785. Sort Vowels in a String</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/string">String</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/sorting">Sorting</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/reverse-vowels-of-a-string.html">Reverse Vowels of a String</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a <strong>0-indexed</strong> string <code>s</code>, <strong>permute</strong> <code>s</code> to get a new string <code>t</code> such that:</p>
+<ul>
+<li><p>All consonants remain in their original places. More formally, if there is an index <code>i</code> with <code>0 &lt;= i &lt; s.length</code> such that <code>s[i]</code> is a consonant, then <code>t[i] = s[i]</code>.</p></li>
+<li><p>The vowels must be sorted in the <strong>nondecreasing</strong> order of their <strong>ASCII</strong> values. More formally, for pairs of indices <code>i</code>, <code>j</code> with <code>0 &lt;= i &lt; j &lt; s.length</code> such that <code>s[i]</code> and <code>s[j]</code> are vowels, then <code>t[i]</code> must not have a higher ASCII value than <code>t[j]</code>.</p></li>
+</ul>
+<p>Return <strong>the resulting string</strong>.</p>
+<p>The vowels are <code>'a'</code>, <code>'e'</code>, <code>'i'</code>, <code>'o'</code>, and <code>'u'</code>, and they can appear in lowercase or uppercase. Consonants comprise all letters that are not vowels.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: s = <span class="hljs-string">"lEetcOde"</span>
+Output: <span class="hljs-string">"lEOtcede"</span>
+Explanation: <span class="hljs-string">'E'</span>, <span class="hljs-string">'O'</span>, <span class="hljs-keyword">and</span> <span class="hljs-string">'e'</span> are <span class="hljs-keyword">the</span> vowels <span class="hljs-keyword">in</span> s; <span class="hljs-string">'l'</span>, <span class="hljs-string">'t'</span>, <span class="hljs-string">'c'</span>, <span class="hljs-keyword">and</span> <span class="hljs-string">'d'</span> are all consonants. The vowels are sorted according <span class="hljs-built_in">to</span> their ASCII values, <span class="hljs-keyword">and</span> <span class="hljs-keyword">the</span> consonants remain <span class="hljs-keyword">in</span> <span class="hljs-keyword">the</span> same places.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs"><span class="hljs-string">Input:</span> s = <span class="hljs-string">"lYmpH"</span>
+<span class="hljs-string">Output:</span> <span class="hljs-string">"lYmpH"</span>
+<span class="hljs-string">Explanation:</span> There are no vowels <span class="hljs-keyword">in</span> s (all characters <span class="hljs-keyword">in</span> s are consonants), so we <span class="hljs-keyword">return</span> <span class="hljs-string">"lYmpH"</span>.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= s.length &lt;= 105</code></p></li>
+<li><p><code>s</code> consists only of letters of the&nbsp;English alphabet&nbsp;in <strong>uppercase and lowercase</strong>.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string} s
+ * @return {string}
+ */</span>
+<span class="hljs-keyword">var</span> sortVowels = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">s</span>) </span>{
+    <span class="hljs-keyword">var</span> vowels = s.split(<span class="hljs-string">''</span>)
+        .filter(isVowels)
+        .sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a.charCodeAt(<span class="hljs-number">0</span>) - b.charCodeAt(<span class="hljs-number">0</span>));
+    <span class="hljs-keyword">var</span> res = <span class="hljs-string">''</span>;
+    <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; s.length; i++) {
+        <span class="hljs-keyword">if</span> (isVowels(s[i])) {
+            res += vowels[index++];
+        } <span class="hljs-keyword">else</span> {
+            res += s[i];
+        }
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> isVowels = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">char</span>) </span>{
+    <span class="hljs-keyword">var</span> chars = [<span class="hljs-string">'a'</span>, <span class="hljs-string">'e'</span>, <span class="hljs-string">'i'</span>, <span class="hljs-string">'o'</span>, <span class="hljs-string">'u'</span>];
+    <span class="hljs-keyword">return</span> chars.includes(char.toLowerCase()) || chars.includes(char.toUpperCase());
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * log(n)).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

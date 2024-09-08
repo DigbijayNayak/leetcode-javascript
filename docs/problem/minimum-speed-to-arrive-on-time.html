@@ -1,0 +1,81 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Minimum Speed to Arrive on Time - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1870. Minimum Speed to Arrive on Time</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/maximum-candies-allocated-to-k-children.html">Maximum Candies Allocated to K Children</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-skips-to-arrive-at-meeting-on-time.html">Minimum Skips to Arrive at Meeting On Time</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimum-time-to-complete-trips.html">Minimum Time to Complete Trips</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/the-latest-time-to-catch-a-bus.html">The Latest Time to Catch a Bus</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/minimize-maximum-of-array.html">Minimize Maximum of Array</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given a floating-point number <code>hour</code>, representing the amount of time you have to reach the office. To commute to the office, you must take <code>n</code> trains in sequential order. You are also given an integer array <code>dist</code> of length <code>n</code>, where <code>dist[i]</code> describes the distance (in kilometers) of the <code>ith</code> train ride.</p>
+<p>Each train can only depart at an integer hour, so you may need to wait in between each train ride.</p>
+<ul>
+<li>For example, if the <code>1st</code> train ride takes <code>1.5</code> hours, you must wait for an additional <code>0.5</code> hours before you can depart on the <code>2nd</code> train ride at the 2 hour mark.</li>
+</ul>
+<p>Return **the *<em>minimum positive integer</em>* speed <strong>(in kilometers per hour)</strong> that all the trains must travel at for you to reach the office on time, or <strong><code>-1</code></strong> if it is impossible to be on time**.</p>
+<p>Tests are generated such that the answer will not exceed <code>107</code> and <code>hour</code> will have <strong>at most two digits after the decimal point</strong>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: dist = [<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>], hour = <span class="hljs-number">6</span>
+Output: <span class="hljs-number">1</span>
+Explanation: At speed <span class="hljs-number">1</span>:
+- The <span class="hljs-keyword">first</span> train ride takes <span class="hljs-number">1</span>/<span class="hljs-number">1</span> = <span class="hljs-number">1</span> hour.
+- Since we are already <span class="hljs-keyword">at</span> <span class="hljs-keyword">an</span> <span class="hljs-keyword">integer</span> hour, we depart immediately <span class="hljs-keyword">at</span> <span class="hljs-keyword">the</span> <span class="hljs-number">1</span> hour mark. The <span class="hljs-keyword">second</span> train takes <span class="hljs-number">3</span>/<span class="hljs-number">1</span> = <span class="hljs-number">3</span> hours.
+- Since we are already <span class="hljs-keyword">at</span> <span class="hljs-keyword">an</span> <span class="hljs-keyword">integer</span> hour, we depart immediately <span class="hljs-keyword">at</span> <span class="hljs-keyword">the</span> <span class="hljs-number">4</span> hour mark. The <span class="hljs-keyword">third</span> train takes <span class="hljs-number">2</span>/<span class="hljs-number">1</span> = <span class="hljs-number">2</span> hours.
+- You will arrive <span class="hljs-keyword">at</span> exactly <span class="hljs-keyword">the</span> <span class="hljs-number">6</span> hour mark.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: dist = [<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>], hour = <span class="hljs-number">2.7</span>
+Output: <span class="hljs-number">3</span>
+Explanation: At speed <span class="hljs-number">3</span>:
+- The <span class="hljs-keyword">first</span> train ride takes <span class="hljs-number">1</span>/<span class="hljs-number">3</span> = <span class="hljs-number">0.33333</span> hours.
+- Since we are <span class="hljs-keyword">not</span> <span class="hljs-keyword">at</span> <span class="hljs-keyword">an</span> <span class="hljs-keyword">integer</span> hour, we <span class="hljs-built_in">wait</span> <span class="hljs-keyword">until</span> <span class="hljs-keyword">the</span> <span class="hljs-number">1</span> hour mark <span class="hljs-built_in">to</span> depart. The <span class="hljs-keyword">second</span> train ride takes <span class="hljs-number">3</span>/<span class="hljs-number">3</span> = <span class="hljs-number">1</span> hour.
+- Since we are already <span class="hljs-keyword">at</span> <span class="hljs-keyword">an</span> <span class="hljs-keyword">integer</span> hour, we depart immediately <span class="hljs-keyword">at</span> <span class="hljs-keyword">the</span> <span class="hljs-number">2</span> hour mark. The <span class="hljs-keyword">third</span> train takes <span class="hljs-number">2</span>/<span class="hljs-number">3</span> = <span class="hljs-number">0.66667</span> hours.
+- You will arrive <span class="hljs-keyword">at</span> <span class="hljs-keyword">the</span> <span class="hljs-number">2.66667</span> hour mark.
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: dist = [<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>], hour = <span class="hljs-number">1.9</span>
+Output: <span class="hljs-number">-1</span>
+Explanation: It is impossible because <span class="hljs-keyword">the</span> earliest <span class="hljs-keyword">the</span> <span class="hljs-keyword">third</span> train can depart is <span class="hljs-keyword">at</span> <span class="hljs-keyword">the</span> <span class="hljs-number">2</span> hour mark.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>n == dist.length</code></p></li>
+<li><p><code>1 &lt;= n &lt;= 105</code></p></li>
+<li><p><code>1 &lt;= dist[i] &lt;= 105</code></p></li>
+<li><p><code>1 &lt;= hour &lt;= 109</code></p></li>
+<li><p>There will be at most two digits after the decimal point in <code>hour</code>.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} dist
+ * @param {number} hour
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> minSpeedOnTime = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">dist, hour</span>) </span>{
+    <span class="hljs-keyword">return</span> search(dist, hour, <span class="hljs-number">1</span>, <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">10</span>, <span class="hljs-number">7</span>));
+};
+
+<span class="hljs-keyword">var</span> search = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">dist, hour, left, right</span>) </span>{
+    <span class="hljs-keyword">while</span> (left &lt;= right) {
+        <span class="hljs-keyword">const</span> mid = left + <span class="hljs-built_in">Math</span>.floor((right - left) / <span class="hljs-number">2</span>);
+        <span class="hljs-keyword">if</span> (getTime(dist, mid) &gt; hour) {
+            left = mid + <span class="hljs-number">1</span>;
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">if</span> (left === right) <span class="hljs-keyword">return</span> left;
+            right = mid;
+        }
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+};
+
+<span class="hljs-keyword">var</span> getTime = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">dist, speed</span>) </span>{
+    <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; dist.length; i++) {
+        <span class="hljs-keyword">var</span> num = dist[i] / speed;
+        <span class="hljs-keyword">if</span> (i !== dist.length - <span class="hljs-number">1</span>) num = <span class="hljs-built_in">Math</span>.ceil(num);
+        res += num;
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>Binary search.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * log(K)).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

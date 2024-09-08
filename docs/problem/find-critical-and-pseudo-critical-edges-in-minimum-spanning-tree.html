@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Find Critical and Pseudo-Critical Edges in Minimum Spanning Tree - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1489. Find Critical and Pseudo-Critical Edges in Minimum Spanning Tree</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/union-find">Union Find</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/graph">Graph</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/sorting">Sorting</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/minimum-spanning-tree">Minimum Spanning Tree</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/strongly-connected-component">Strongly Connected Component</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a weighted undirected connected graph with <code>n</code>&nbsp;vertices numbered from <code>0</code> to <code>n - 1</code>,&nbsp;and an array <code>edges</code>&nbsp;where <code>edges[i] = [ai, bi, weighti]</code> represents a bidirectional and weighted edge between nodes&nbsp;<code>ai</code>&nbsp;and <code>bi</code>. A minimum spanning tree (MST) is a subset of the graph's edges that connects all vertices without cycles&nbsp;and with the minimum possible total edge weight.</p>
+<p>Find <strong>all the critical and pseudo-critical edges in the given graph's minimum spanning tree (MST)</strong>. An MST edge whose deletion from the graph would cause the MST weight to increase is called a&nbsp;<strong>critical edge</strong>. On&nbsp;the other hand, a pseudo-critical edge is that which can appear in some MSTs but not all.</p>
+<p>Note that you can return the indices of the edges in any order.</p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2020/06/04/ex1.png" alt="" /></p>
+<pre><code class="hljs">Input: n = <span class="hljs-number">5</span>, edges = [[<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>],[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>],[<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>],[<span class="hljs-number">0</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>],[<span class="hljs-number">0</span>,<span class="hljs-number">4</span>,<span class="hljs-number">3</span>],[<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">3</span>],[<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">6</span>]]
+Output: [[<span class="hljs-number">0</span>,<span class="hljs-number">1</span>],[<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]]
+Explanation: The figure above describes <span class="hljs-keyword">the</span> graph.
+The following figure shows all <span class="hljs-keyword">the</span> possible MSTs:
+
+Notice that <span class="hljs-keyword">the</span> <span class="hljs-literal">two</span> edges <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> <span class="hljs-number">1</span> appear <span class="hljs-keyword">in</span> all MSTs, therefore they are critical edges, so we <span class="hljs-literal">return</span> them <span class="hljs-keyword">in</span> <span class="hljs-keyword">the</span> <span class="hljs-keyword">first</span> list <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> output.
+The edges <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-keyword">and</span> <span class="hljs-number">5</span> are only part <span class="hljs-keyword">of</span> some MSTs, therefore they are considered pseudo-critical edges. We <span class="hljs-built_in">add</span> them <span class="hljs-built_in">to</span> <span class="hljs-keyword">the</span> <span class="hljs-keyword">second</span> list <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> output.
+</code></pre>
+<p>Example 2:</p>
+<p><img src="https://assets.leetcode.com/uploads/2020/06/04/ex2.png" alt="" /></p>
+<pre><code class="hljs">Input: n = <span class="hljs-number">4</span>, edges = <span class="hljs-string">[[0,1,1],[1,2,1],[2,3,1],[0,3,1]]</span>
+Output: <span class="hljs-string">[[],[0,1,2,3]]</span>
+Explanation: We can observe that since all <span class="hljs-number">4</span> edges have equal weight, choosing any <span class="hljs-number">3</span> edges from the given <span class="hljs-number">4</span> will <span class="hljs-built_in">yield</span> an MST. Therefore all <span class="hljs-number">4</span> edges are pseudo-critical.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>2 &lt;= n &lt;= 100</code></p></li>
+<li><p><code>1 &lt;= edges.length &lt;= min(200, n * (n - 1) / 2)</code></p></li>
+<li><p><code>edges[i].length == 3</code></p></li>
+<li><p><code>0 &lt;= ai &lt; bi &lt; n</code></p></li>
+<li><p><code>1 &lt;= weighti&amp;nbsp;&lt;= 1000</code></p></li>
+<li><p>All pairs <code>(ai, bi)</code> are <strong>distinct</strong>.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @param {number[][]} edges
+ * @return {number[][]}
+ */</span>
+<span class="hljs-keyword">var</span> findCriticalAndPseudoCriticalEdges = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n, edges</span>) </span>{
+    <span class="hljs-keyword">var</span> [min] = findMinSpanningTreeWeight(n, edges);
+    <span class="hljs-keyword">var</span> res = [[], []];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; edges.length; i++) {
+        <span class="hljs-keyword">var</span> [num, parents] = findMinSpanningTreeWeight(n, edges, <span class="hljs-literal">undefined</span>, edges[i]);
+        <span class="hljs-keyword">var</span> root = find(parents, <span class="hljs-number">0</span>);
+        <span class="hljs-keyword">var</span> isCritical = num &gt; min || !<span class="hljs-built_in">Array</span>(n).fill(<span class="hljs-number">0</span>).every(<span class="hljs-function">(<span class="hljs-params">_, k</span>) =&gt;</span> find(parents, k) === root);
+        <span class="hljs-keyword">if</span> (isCritical) {
+            res[<span class="hljs-number">0</span>].push(i);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">var</span> [num2] = findMinSpanningTreeWeight(n, edges, edges[i], <span class="hljs-literal">undefined</span>);
+            <span class="hljs-keyword">if</span> (num2 === min) res[<span class="hljs-number">1</span>].push(i);
+        }
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> findMinSpanningTreeWeight = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n, edges, mustHaveItem, mustNotHaveItem</span>) </span>{
+    edges = [...edges];
+    edges.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a[<span class="hljs-number">2</span>] - b[<span class="hljs-number">2</span>]);
+
+    <span class="hljs-keyword">if</span> (mustHaveItem !== <span class="hljs-literal">undefined</span>) {
+        edges = edges.filter(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> item !== mustHaveItem);
+        edges.unshift(mustHaveItem);
+    }
+
+    <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> parents = <span class="hljs-built_in">Array</span>(n).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function">(<span class="hljs-params">_, i</span>) =&gt;</span> i);
+    <span class="hljs-keyword">var</span> count = <span class="hljs-built_in">Array</span>(n).fill(<span class="hljs-number">0</span>);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; edges.length; i++) {
+        <span class="hljs-keyword">if</span> (edges[i] === mustNotHaveItem) <span class="hljs-keyword">continue</span>;
+        <span class="hljs-keyword">var</span> [m, k, distance] = edges[i];
+        <span class="hljs-keyword">var</span> j = find(parents, m);
+        <span class="hljs-keyword">var</span> p = find(parents, k);
+        <span class="hljs-keyword">if</span> (j === p) <span class="hljs-keyword">continue</span>;
+        <span class="hljs-keyword">if</span> (count[j] &lt;= count[p]) {
+            union(parents, j, p);
+            count[p]++;
+        } <span class="hljs-keyword">else</span> {
+            union(parents, p, j);
+            count[j]++;
+        }
+        res += distance;
+    }
+
+    <span class="hljs-keyword">return</span> [res, parents];
+};
+
+<span class="hljs-keyword">var</span> find = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">parents, i</span>) </span>{
+    <span class="hljs-keyword">if</span> (parents[i] === i) <span class="hljs-keyword">return</span> i
+    parents[i] = find(parents, parents[i]);
+    <span class="hljs-keyword">return</span> parents[i];
+};
+
+<span class="hljs-keyword">var</span> union = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">parents, i, j</span>) </span>{
+    parents[i] = j;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(m * n ^ 2).</li>
+<li>Space complexity : O(n ^ 2).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

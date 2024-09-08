@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Reconstruct Itinerary - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>332. Reconstruct Itinerary</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/depth-first-search">Depth-First Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/graph">Graph</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/eulerian-circuit">Eulerian Circuit</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/longest-common-subpath.html">Longest Common Subpath</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/valid-arrangement-of-pairs.html">Valid Arrangement of Pairs</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given a list of airline <code>tickets</code> where <code>tickets[i] = [fromi, toi]</code> represent the departure and the arrival airports of one flight. Reconstruct the itinerary in order and return it.</p>
+<p>All of the tickets belong to a man who departs from <code>"JFK"</code>, thus, the itinerary must begin with <code>"JFK"</code>. If there are multiple valid itineraries, you should return the itinerary that has the smallest lexical order when read as a single string.</p>
+<ul>
+<li>For example, the itinerary <code>["JFK", "LGA"]</code> has a smaller lexical order than <code>["JFK", "LGB"]</code>.</li>
+</ul>
+<p>You may assume all tickets form at least one valid itinerary. You must use all the tickets once and only once.</p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2021/03/14/itinerary1-graph.jpg" alt="" /></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input</span>: tickets = [[<span class="hljs-string">"MUC"</span>,<span class="hljs-string">"LHR"</span>],[<span class="hljs-string">"JFK"</span>,<span class="hljs-string">"MUC"</span>],[<span class="hljs-string">"SFO"</span>,<span class="hljs-string">"SJC"</span>],[<span class="hljs-string">"LHR"</span>,<span class="hljs-string">"SFO"</span>]]
+<span class="hljs-symbol">Output</span>: [<span class="hljs-string">"JFK"</span>,<span class="hljs-string">"MUC"</span>,<span class="hljs-string">"LHR"</span>,<span class="hljs-string">"SFO"</span>,<span class="hljs-string">"SJC"</span>]
+</code></pre>
+<p>Example 2:</p>
+<p><img src="https://assets.leetcode.com/uploads/2021/03/14/itinerary2-graph.jpg" alt="" /></p>
+<pre><code class="hljs"><span class="hljs-symbol">Input</span>: tickets = [[<span class="hljs-string">"JFK"</span>,<span class="hljs-string">"SFO"</span>],[<span class="hljs-string">"JFK"</span>,<span class="hljs-string">"ATL"</span>],[<span class="hljs-string">"SFO"</span>,<span class="hljs-string">"ATL"</span>],[<span class="hljs-string">"ATL"</span>,<span class="hljs-string">"JFK"</span>],[<span class="hljs-string">"ATL"</span>,<span class="hljs-string">"SFO"</span>]]
+<span class="hljs-symbol">Output</span>: [<span class="hljs-string">"JFK"</span>,<span class="hljs-string">"ATL"</span>,<span class="hljs-string">"JFK"</span>,<span class="hljs-string">"SFO"</span>,<span class="hljs-string">"ATL"</span>,<span class="hljs-string">"SFO"</span>]
+<span class="hljs-symbol">Explanation</span>: <span class="hljs-symbol">Another</span> possible reconstruction is [<span class="hljs-string">"JFK"</span>,<span class="hljs-string">"SFO"</span>,<span class="hljs-string">"ATL"</span>,<span class="hljs-string">"JFK"</span>,<span class="hljs-string">"ATL"</span>,<span class="hljs-string">"SFO"</span>] but it is larger in lexical order.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= tickets.length &lt;= 300</code></p></li>
+<li><p><code>tickets[i].length == 2</code></p></li>
+<li><p><code>fromi.length == 3</code></p></li>
+<li><p><code>toi.length == 3</code></p></li>
+<li><p><code>fromi</code> and <code>toi</code> consist of uppercase English letters.</p></li>
+<li><p><code>fromi != toi</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {string[][]} tickets
+ * @return {string[]}
+ */</span>
+<span class="hljs-keyword">var</span> findItinerary = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">tickets</span>) </span>{
+  tickets.sort(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> (a[<span class="hljs-number">1</span>] === b[<span class="hljs-number">1</span>] ? <span class="hljs-number">0</span> : (a[<span class="hljs-number">1</span>] &lt; b[<span class="hljs-number">1</span>] ? <span class="hljs-number">-1</span> : <span class="hljs-number">1</span>)));
+
+  <span class="hljs-keyword">var</span> map = {};
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; tickets.length; i++) {
+    <span class="hljs-keyword">if</span> (!map[tickets[i][<span class="hljs-number">0</span>]]) map[tickets[i][<span class="hljs-number">0</span>]] = [];
+    map[tickets[i][<span class="hljs-number">0</span>]].push(tickets[i][<span class="hljs-number">1</span>]);
+  }
+
+  <span class="hljs-keyword">var</span> itinerary = [];
+  dfs(<span class="hljs-string">'JFK'</span>, map, itinerary);
+  <span class="hljs-keyword">return</span> itinerary.reverse();
+};
+
+<span class="hljs-keyword">var</span> dfs = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">airport, map, itinerary</span>) </span>{
+  <span class="hljs-keyword">while</span> (map[airport]?.length) {
+    dfs(map[airport].shift(), map, itinerary);
+  }
+  itinerary.push(airport);
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * log(n)).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

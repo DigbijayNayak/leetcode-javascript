@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Insert Delete GetRandom O(1) - Duplicates allowed - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>381. Insert Delete GetRandom O(1) - Duplicates allowed</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/design">Design</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/randomized">Randomized</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/insert-delete-getrandom-o1.html">Insert Delete GetRandom O(1)</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p><code>RandomizedCollection</code> is a data structure that contains a collection of numbers, possibly duplicates (i.e., a multiset). It should support inserting and removing specific elements and also reporting a random element.</p>
+<p>Implement the <code>RandomizedCollection</code> class:</p>
+<ul>
+<li><p><code>RandomizedCollection()</code> Initializes the empty <code>RandomizedCollection</code> object.</p></li>
+<li><p><code>bool insert(int val)</code> Inserts an item <code>val</code> into the multiset, even if the item is already present. Returns <code>true</code> if the item is not present, <code>false</code> otherwise.</p></li>
+<li><p><code>bool remove(int val)</code> Removes an item <code>val</code> from the multiset if present. Returns <code>true</code> if the item is present, <code>false</code> otherwise. Note that if <code>val</code> has multiple occurrences in the multiset, we only remove one of them.</p></li>
+<li><p><code>int getRandom()</code> Returns a random element from the current multiset of elements. The probability of each element being returned is <strong>linearly related</strong> to the number of the same values the multiset contains.</p></li>
+</ul>
+<p>You must implement the functions of the class such that each function works on <strong>average</strong> <code>O(1)</code> time complexity.</p>
+<p><strong>Note:</strong> The test cases are generated such that <code>getRandom</code> will only be called if there is <strong>at least one</strong> item in the <code>RandomizedCollection</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs"><span class="hljs-type">Input</span>
+[<span class="hljs-string">"RandomizedCollection"</span>, <span class="hljs-string">"insert"</span>, <span class="hljs-string">"insert"</span>, <span class="hljs-string">"insert"</span>, <span class="hljs-string">"getRandom"</span>, <span class="hljs-string">"remove"</span>, <span class="hljs-string">"getRandom"</span>]
+[[], [<span class="hljs-number">1</span>], [<span class="hljs-number">1</span>], [<span class="hljs-number">2</span>], [], [<span class="hljs-number">1</span>], []]
+<span class="hljs-type">Output</span>
+[null, <span class="hljs-literal">true</span>, <span class="hljs-literal">false</span>, <span class="hljs-literal">true</span>, <span class="hljs-number">2</span>, <span class="hljs-literal">true</span>, <span class="hljs-number">1</span>]
+
+<span class="hljs-type">Explanation</span>
+<span class="hljs-type">RandomizedCollection</span> randomizedCollection = <span class="hljs-function"><span class="hljs-keyword">new</span> <span class="hljs-title">RandomizedCollection</span>();
+<span class="hljs-title">randomizedCollection</span>.<span class="hljs-title">insert</span>(<span class="hljs-number">1</span>);   <span class="hljs-comment">// return true since the collection does not contain 1.</span>
+                                  <span class="hljs-comment">// Inserts 1 into the collection.</span>
+<span class="hljs-title">randomizedCollection</span>.<span class="hljs-title">insert</span>(<span class="hljs-number">1</span>);   <span class="hljs-comment">// return false since the collection contains 1.</span>
+                                  <span class="hljs-comment">// Inserts another 1 into the collection. Collection now contains [1,1].</span>
+<span class="hljs-title">randomizedCollection</span>.<span class="hljs-title">insert</span>(<span class="hljs-number">2</span>);   <span class="hljs-comment">// return true since the collection does not contain 2.</span>
+                                  <span class="hljs-comment">// Inserts 2 into the collection. Collection now contains [1,1,2].</span>
+<span class="hljs-title">randomizedCollection</span>.<span class="hljs-title">getRandom</span>(); <span class="hljs-comment">// getRandom should:</span>
+                                  <span class="hljs-comment">// - return 1 with probability 2/3, or</span>
+                                  <span class="hljs-comment">// - return 2 with probability 1/3.</span>
+<span class="hljs-title">randomizedCollection</span>.<span class="hljs-title">remove</span>(<span class="hljs-number">1</span>);   <span class="hljs-comment">// return true since the collection contains 1.</span>
+                                  <span class="hljs-comment">// Removes 1 from the collection. Collection now contains [1,2].</span>
+<span class="hljs-title">randomizedCollection</span>.<span class="hljs-title">getRandom</span>(); <span class="hljs-comment">// getRandom should return 1 or 2, both equally likely.</span></span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>-231 &lt;= val &lt;= 231 - 1</code></p></li>
+<li><p>At most <code>2 * 105</code> calls <strong>in total</strong> will be made to <code>insert</code>, <code>remove</code>, and <code>getRandom</code>.</p></li>
+<li><p>There will be <strong>at least one</strong> element in the data structure when <code>getRandom</code> is called.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript">
+<span class="hljs-keyword">var</span> RandomizedCollection = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">this</span>.map = {};
+    <span class="hljs-keyword">this</span>.arr = [];
+};
+
+<span class="hljs-comment">/** 
+ * @param {number} val
+ * @return {boolean}
+ */</span>
+RandomizedCollection.prototype.insert = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">val</span>) </span>{
+    <span class="hljs-keyword">var</span> notFound = <span class="hljs-keyword">this</span>.map[val] === <span class="hljs-literal">undefined</span>;
+    <span class="hljs-keyword">if</span> (notFound) <span class="hljs-keyword">this</span>.map[val] = { <span class="hljs-attr">arr</span>: [], <span class="hljs-attr">map</span>: {} };
+    <span class="hljs-keyword">this</span>.map[val].map[<span class="hljs-keyword">this</span>.arr.length] = <span class="hljs-keyword">this</span>.map[val].arr.length;
+    <span class="hljs-keyword">this</span>.map[val].arr.push(<span class="hljs-keyword">this</span>.arr.length);
+    <span class="hljs-keyword">this</span>.arr.push(val);
+    <span class="hljs-keyword">return</span> notFound;
+};
+
+<span class="hljs-comment">/** 
+ * @param {number} val
+ * @return {boolean}
+ */</span>
+RandomizedCollection.prototype.remove = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">val</span>) </span>{
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.map[val] === <span class="hljs-literal">undefined</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">var</span> valIndexs = <span class="hljs-keyword">this</span>.map[val].arr;
+    <span class="hljs-keyword">var</span> delIndex = valIndexs[valIndexs.length - <span class="hljs-number">1</span>];
+    <span class="hljs-keyword">var</span> lastValue = <span class="hljs-keyword">this</span>.arr.pop();
+    <span class="hljs-keyword">if</span> (valIndexs.length === <span class="hljs-number">1</span>) {
+        <span class="hljs-keyword">delete</span> <span class="hljs-keyword">this</span>.map[val];
+    } <span class="hljs-keyword">else</span> {
+        valIndexs.pop();
+        <span class="hljs-keyword">delete</span> <span class="hljs-keyword">this</span>.map[val].map[delIndex];
+    }
+    <span class="hljs-keyword">if</span> (lastValue !== val) {
+        <span class="hljs-keyword">var</span> lastValueIndex = <span class="hljs-keyword">this</span>.map[lastValue].map[<span class="hljs-keyword">this</span>.arr.length];
+        <span class="hljs-keyword">this</span>.map[lastValue].arr[lastValueIndex] = delIndex;
+        <span class="hljs-keyword">delete</span> <span class="hljs-keyword">this</span>.map[lastValue].map[<span class="hljs-keyword">this</span>.arr.length];
+        <span class="hljs-keyword">this</span>.map[lastValue].map[delIndex] = lastValueIndex;
+        <span class="hljs-keyword">this</span>.arr[delIndex] = lastValue;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+};
+
+<span class="hljs-comment">/**
+ * @return {number}
+ */</span>
+RandomizedCollection.prototype.getRandom = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> num = <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * <span class="hljs-keyword">this</span>.arr.length);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.arr[num];
+};
+
+<span class="hljs-comment">/** 
+ * Your RandomizedCollection object will be instantiated and called as such:
+ * var obj = new RandomizedCollection()
+ * var param_1 = obj.insert(val)
+ * var param_2 = obj.remove(val)
+ * var param_3 = obj.getRandom()
+ */</span>
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(1).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

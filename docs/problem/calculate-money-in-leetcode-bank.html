@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Calculate Money in Leetcode Bank - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1716. Calculate Money in Leetcode Bank</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/math">Math</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/distribute-money-to-maximum-children.html">Distribute Money to Maximum Children</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Hercy wants to save money for his first car. He puts money in the Leetcode&nbsp;bank <strong>every day</strong>.</p>
+<p>He starts by putting in <code>$1</code> on Monday, the first day. Every day from Tuesday to Sunday, he will put in <code>$1</code> more than the day before. On every subsequent Monday, he will put in <code>$1</code> more than the <strong>previous Monday</strong>. </p>
+<p>Given <code>n</code>, return **the total amount of money he will have in the Leetcode bank at the end of the *<em><code>nth</code></em>* day.**</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs"><span class="hljs-symbol">Input:</span> n = <span class="hljs-number">4</span>
+<span class="hljs-symbol">Output:</span> <span class="hljs-number">10</span>
+<span class="hljs-symbol">Explanation:</span>&amp;nbsp<span class="hljs-comment">;After the 4th day, the total is 1 + 2 + 3 + 4 = 10.</span>
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: n = <span class="hljs-number">10</span>
+Output: <span class="hljs-number">37</span>
+Explanation:&amp;nbsp;After <span class="hljs-keyword">the</span> <span class="hljs-number">10</span>th <span class="hljs-built_in">day</span>, <span class="hljs-keyword">the</span> total <span class="hljs-keyword">is</span> (<span class="hljs-number">1</span> + <span class="hljs-number">2</span> + <span class="hljs-number">3</span> + <span class="hljs-number">4</span> + <span class="hljs-number">5</span> + <span class="hljs-number">6</span> + <span class="hljs-number">7</span>) + (<span class="hljs-number">2</span> + <span class="hljs-number">3</span> + <span class="hljs-number">4</span>) = <span class="hljs-number">37.</span> Notice <span class="hljs-keyword">that</span> <span class="hljs-keyword">on</span> <span class="hljs-keyword">the</span> <span class="hljs-number">2</span>nd Monday, Hercy only puts <span class="hljs-keyword">in</span> $<span class="hljs-number">2.</span>
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: n = 20
+Output: 96
+Explanation:&amp;nbsp;After the 20th day, the total is (1 +<span class="hljs-number"> 2 </span>+<span class="hljs-number"> 3 </span>+<span class="hljs-number"> 4 </span>+<span class="hljs-number"> 5 </span>+<span class="hljs-number"> 6 </span>+ 7) + (2 +<span class="hljs-number"> 3 </span>+<span class="hljs-number"> 4 </span>+<span class="hljs-number"> 5 </span>+<span class="hljs-number"> 6 </span>+<span class="hljs-number"> 7 </span>+ 8) + (3 +<span class="hljs-number"> 4 </span>+<span class="hljs-number"> 5 </span>+<span class="hljs-number"> 6 </span>+<span class="hljs-number"> 7 </span>+ 8) = 96.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= n &lt;= 1000</code></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> totalMoney = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n</span>) </span>{
+    <span class="hljs-keyword">var</span> weeks = <span class="hljs-built_in">Math</span>.floor(n / <span class="hljs-number">7</span>);
+    <span class="hljs-keyword">var</span> lastWeekDays = n % <span class="hljs-number">7</span>;
+    <span class="hljs-keyword">var</span> sumOfWeeks = (<span class="hljs-number">4</span> + <span class="hljs-number">4</span> + weeks - <span class="hljs-number">1</span>) * <span class="hljs-number">7</span> * weeks / <span class="hljs-number">2</span>;
+    <span class="hljs-keyword">var</span> sumOfLastDays = <span class="hljs-built_in">Array</span>(lastWeekDays).fill(<span class="hljs-number">0</span>).reduce(<span class="hljs-function">(<span class="hljs-params">sum, _, i</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> sum + (i + <span class="hljs-number">1</span>) + weeks;
+    }, <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">return</span> sumOfWeeks + sumOfLastDays;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(1).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

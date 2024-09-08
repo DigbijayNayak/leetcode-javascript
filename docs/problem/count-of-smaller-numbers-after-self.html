@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Count of Smaller Numbers After Self - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>315. Count of Smaller Numbers After Self</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-search">Binary Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/divide-and-conquer">Divide and Conquer</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-indexed-tree">Binary Indexed Tree</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/segment-tree">Segment Tree</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/merge-sort">Merge Sort</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/ordered-set">Ordered Set</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/count-of-range-sum.html">Count of Range Sum</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/queue-reconstruction-by-height.html">Queue Reconstruction by Height</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/reverse-pairs.html">Reverse Pairs</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/how-many-numbers-are-smaller-than-the-current-number.html">How Many Numbers Are Smaller Than the Current Number</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/count-good-triplets-in-an-array.html">Count Good Triplets in an Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/count-the-number-of-k-big-indices.html">Count the Number of K-Big Indices</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given an integer array <code>nums</code>, return** an integer array <strong><code>counts</code></strong> where <strong><code>counts[i]</code></strong> is the number of smaller elements to the right of **<code>nums[i]</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: nums = [<span class="hljs-number">5</span>,<span class="hljs-number">2</span>,<span class="hljs-number">6</span>,<span class="hljs-number">1</span>]
+Output: [<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>]
+Explanation:
+To <span class="hljs-keyword">the</span> <span class="hljs-literal">right</span> <span class="hljs-keyword">of</span> <span class="hljs-number">5</span> there are <span class="hljs-number">2</span> smaller elements (<span class="hljs-number">2</span> <span class="hljs-keyword">and</span> <span class="hljs-number">1</span>).
+To <span class="hljs-keyword">the</span> <span class="hljs-literal">right</span> <span class="hljs-keyword">of</span> <span class="hljs-number">2</span> there is only <span class="hljs-number">1</span> smaller <span class="hljs-keyword">element</span> (<span class="hljs-number">1</span>).
+To <span class="hljs-keyword">the</span> <span class="hljs-literal">right</span> <span class="hljs-keyword">of</span> <span class="hljs-number">6</span> there is <span class="hljs-number">1</span> smaller <span class="hljs-keyword">element</span> (<span class="hljs-number">1</span>).
+To <span class="hljs-keyword">the</span> <span class="hljs-literal">right</span> <span class="hljs-keyword">of</span> <span class="hljs-number">1</span> there is <span class="hljs-number">0</span> smaller <span class="hljs-keyword">element</span>.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: nums = <span class="hljs-string">[-1]</span>
+Output: <span class="hljs-string">[0]</span>
+</code></pre>
+<p>Example 3:</p>
+<pre><code class="hljs">Input: nums = <span class="hljs-string">[-1,-1]</span>
+Output: <span class="hljs-string">[0,0]</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= nums.length &lt;= 105</code></p></li>
+<li><p><code>-104 &lt;= nums[i] &lt;= 104</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */</span>
+<span class="hljs-keyword">var</span> countSmaller = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums</span>) </span>{
+    <span class="hljs-keyword">var</span> arr = nums.map(<span class="hljs-function">(<span class="hljs-params">num, i</span>) =&gt;</span> [num, i]);
+    <span class="hljs-keyword">var</span> res = <span class="hljs-built_in">Array</span>(nums.length).fill(<span class="hljs-number">0</span>);
+    mergeSort(arr, res);
+    <span class="hljs-keyword">return</span> res;
+};
+
+<span class="hljs-keyword">var</span> mergeSort = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">arr, res</span>) </span>{
+    <span class="hljs-keyword">if</span> (arr.length === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> arr;
+    <span class="hljs-keyword">var</span> mid = <span class="hljs-built_in">Math</span>.floor(arr.length / <span class="hljs-number">2</span>);
+    <span class="hljs-keyword">var</span> left = mergeSort(arr.slice(<span class="hljs-number">0</span>, mid), res);
+    <span class="hljs-keyword">var</span> right = mergeSort(arr.slice(mid), res);
+    <span class="hljs-keyword">return</span> merge(left, right, res);
+};
+
+<span class="hljs-keyword">var</span> merge = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">left, right, res</span>) </span>{
+    <span class="hljs-keyword">var</span> arr = [];
+    <span class="hljs-keyword">var</span> leftIndex = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> rightIndex = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (leftIndex &lt; left.length || rightIndex &lt; right.length) {
+        <span class="hljs-keyword">if</span> (!right[rightIndex] || (left[leftIndex] &amp;&amp; left[leftIndex][<span class="hljs-number">0</span>] &gt; right[rightIndex][<span class="hljs-number">0</span>])) {
+            arr.push(left[leftIndex]);
+            res[left[leftIndex][<span class="hljs-number">1</span>]] += right.length - rightIndex;
+            leftIndex += <span class="hljs-number">1</span>;
+        } <span class="hljs-keyword">else</span> {
+            arr.push(right[rightIndex]);
+            rightIndex += <span class="hljs-number">1</span>;
+        }
+    }
+    <span class="hljs-keyword">return</span> arr;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n * log(n)).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

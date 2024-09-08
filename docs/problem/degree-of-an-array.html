@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Degree of an Array - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>697. Degree of an Array</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/hash-table">Hash Table</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/maximum-subarray.html">Maximum Subarray</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>Given a non-empty array of non-negative integers <code>nums</code>, the <strong>degree</strong> of this array is defined as the maximum frequency of any one of its elements.</p>
+<p>Your task is to find the smallest possible length of a (contiguous) subarray of <code>nums</code>, that has the same degree as <code>nums</code>.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: nums = [1,2,2,3,1]
+Output: 2
+Explanation: 
+The input<span class="hljs-built_in"> array </span>has a degree of 2 because both elements 1<span class="hljs-built_in"> and </span>2 appear twice.
+Of the subarrays that have the same degree:
+[1, 2, 2, 3, 1], [1, 2, 2, 3], [2, 2, 3, 1], [1, 2, 2], [2, 2, 3], [2, 2]
+The shortest length is 2. So<span class="hljs-built_in"> return </span>2.
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: nums = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">2</span>]
+Output: <span class="hljs-number">6</span>
+Explanation: 
+The degree <span class="hljs-keyword">is</span> <span class="hljs-number">3</span> because <span class="hljs-keyword">the</span> element <span class="hljs-number">2</span> <span class="hljs-keyword">is</span> repeated <span class="hljs-number">3</span> <span class="hljs-keyword">times</span>.
+So [<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">2</span>] <span class="hljs-keyword">is</span> <span class="hljs-keyword">the</span> shortest subarray, therefore <span class="hljs-keyword">returning</span> <span class="hljs-number">6.</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>nums.length</code> will be between 1 and 50,000.</p></li>
+<li><p><code>nums[i]</code> will be an integer between 0 and 49,999.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[]} nums
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> findShortestSubArray = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nums</span>) </span>{
+    <span class="hljs-keyword">var</span> map = {};
+    <span class="hljs-keyword">var</span> degree = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; nums.length; i++) {
+        <span class="hljs-keyword">if</span> (!map[nums[i]]) {
+            map[nums[i]] = {
+                <span class="hljs-attr">left</span>: i,
+                <span class="hljs-attr">right</span>: i,
+                <span class="hljs-attr">num</span>: <span class="hljs-number">1</span>,
+            };
+        } <span class="hljs-keyword">else</span> {
+            map[nums[i]].right = i;
+            map[nums[i]].num += <span class="hljs-number">1</span>;
+        }
+        degree = <span class="hljs-built_in">Math</span>.max(degree, map[nums[i]].num);
+    }
+    <span class="hljs-keyword">var</span> min = <span class="hljs-built_in">Number</span>.MAX_SAFE_INTEGER;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; nums.length; i++) {
+        <span class="hljs-keyword">if</span> (map[nums[i]].num === degree) {
+            min = <span class="hljs-built_in">Math</span>.min(map[nums[i]].right - map[nums[i]].left + <span class="hljs-number">1</span>, min);
+        }
+    }
+    <span class="hljs-keyword">return</span> min;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

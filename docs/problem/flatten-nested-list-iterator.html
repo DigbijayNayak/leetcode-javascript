@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Flatten Nested List Iterator - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>341. Flatten Nested List Iterator</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/stack">Stack</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/tree">Tree</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/depth-first-search">Depth-First Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/design">Design</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/queue">Queue</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/iterator">Iterator</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/flatten-2d-vector.html">Flatten 2D Vector</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/zigzag-iterator.html">Zigzag Iterator</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/mini-parser.html">Mini Parser</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/array-nesting.html">Array Nesting</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given a nested list of integers <code>nestedList</code>. Each element is either an integer or a list whose elements may also be integers or other lists. Implement an iterator to flatten it.</p>
+<p>Implement the <code>NestedIterator</code> class:</p>
+<ul>
+<li><p><code>NestedIterator(List&lt;NestedInteger&gt; nestedList)</code> Initializes the iterator with the nested list <code>nestedList</code>.</p></li>
+<li><p><code>int next()</code> Returns the next integer in the nested list.</p></li>
+<li><p><code>boolean hasNext()</code> Returns <code>true</code> if there are still some integers in the nested list and <code>false</code> otherwise.</p></li>
+</ul>
+<p>Your code will be tested with the following pseudocode:</p>
+<pre><code class="hljs">initialize <span class="hljs-keyword">iterator</span> <span class="hljs-keyword">with</span> nestedList
+res = []
+<span class="hljs-keyword">while</span> <span class="hljs-keyword">iterator</span>.hasNext()
+    append <span class="hljs-keyword">iterator</span>.next() to the <span class="hljs-keyword">end</span> <span class="hljs-keyword">of</span> res
+<span class="hljs-keyword">return</span> res
+</code></pre>
+<p>If <code>res</code> matches the expected flattened list, then your code will be judged as correct.</p>
+<p>&nbsp;
+Example 1:</p>
+<pre><code class="hljs">Input: nestedList = <span class="hljs-string">[[1,1],2,[1,1]]</span>
+Output: [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]
+Explanation: By calling <span class="hljs-built_in">next</span> repeatedly <span class="hljs-keyword">until</span> hasNext returns <span class="hljs-literal">false</span>, the order of elements returned by <span class="hljs-built_in">next</span> should be: [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>].
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: nestedList = [<span class="hljs-number">1</span>,[<span class="hljs-number">4</span>,[<span class="hljs-number">6</span>]]]
+Output: [<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">6</span>]
+Explanation: <span class="hljs-keyword">By</span> calling <span class="hljs-keyword">next</span> repeatedly <span class="hljs-keyword">until</span> hasNext returns <span class="hljs-literal">false</span>, the <span class="hljs-keyword">order</span> <span class="hljs-keyword">of</span> elements returned <span class="hljs-keyword">by</span> <span class="hljs-keyword">next</span> should be: [<span class="hljs-number">1</span>,<span class="hljs-number">4</span>,<span class="hljs-number">6</span>].
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>1 &lt;= nestedList.length &lt;= 500</code></p></li>
+<li><p>The values of the integers in the nested list is in the range <code>[-106, 106]</code>.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * function NestedInteger() {
+ *
+ *     Return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     @return {boolean}
+ *     this.isInteger = function() {
+ *         ...
+ *     };
+ *
+ *     Return the single integer that this NestedInteger holds, if it holds a single integer
+ *     Return null if this NestedInteger holds a nested list
+ *     @return {integer}
+ *     this.getInteger = function() {
+ *         ...
+ *     };
+ *
+ *     Return the nested list that this NestedInteger holds, if it holds a nested list
+ *     Return null if this NestedInteger holds a single integer
+ *     @return {NestedInteger[]}
+ *     this.getList = function() {
+ *         ...
+ *     };
+ * };
+ */</span>
+<span class="hljs-comment">/**
+ * @constructor
+ * @param {NestedInteger[]} nestedList
+ */</span>
+<span class="hljs-keyword">var</span> NestedIterator = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">nestedList</span>) </span>{
+    <span class="hljs-keyword">this</span>.index = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">this</span>.list = [];
+    <span class="hljs-keyword">const</span> flatten = <span class="hljs-function">(<span class="hljs-params">list</span>) =&gt;</span> {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> item <span class="hljs-keyword">of</span> list) {
+            <span class="hljs-keyword">if</span> (item.isInteger()) {
+                <span class="hljs-keyword">this</span>.list.push(item.getInteger());
+            } <span class="hljs-keyword">else</span> {
+                flatten(item.getList());
+            }
+        }
+    };
+    flatten(nestedList);
+};
+
+
+<span class="hljs-comment">/**
+ * @this NestedIterator
+ * @returns {boolean}
+ */</span>
+NestedIterator.prototype.hasNext = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.index &lt; <span class="hljs-keyword">this</span>.list.length;
+};
+
+<span class="hljs-comment">/**
+ * @this NestedIterator
+ * @returns {integer}
+ */</span>
+NestedIterator.prototype.next = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.list[<span class="hljs-keyword">this</span>.index++];
+};
+
+<span class="hljs-comment">/**
+ * Your NestedIterator will be called like this:
+ * var i = new NestedIterator(nestedList), a = [];
+ * while (i.hasNext()) a.push(i.next());
+*/</span>
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

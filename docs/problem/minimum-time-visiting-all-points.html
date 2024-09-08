@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Minimum Time Visiting All Points - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1266. Minimum Time Visiting All Points</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/easy" class="tag">Easy</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/math">Math</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/geometry">Geometry</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>On a 2D plane, there are <code>n</code> points with integer coordinates <code>points[i] = [xi, yi]</code>. Return **the *<em>minimum time</em>* in seconds to visit all the points in the order given by **<code>points</code>.</p>
+<p>You can move according to these rules:</p>
+<pre><code>In `1` second, you can either:
+</code></pre>
+<ul>
+<li><p>move vertically by one&nbsp;unit,</p></li>
+<li><p>move horizontally by one unit, or</p></li>
+<li><p>move diagonally <code>sqrt(2)</code> units (in other words, move one unit vertically then one unit horizontally in <code>1</code> second).</p></li>
+
+<li><p>You have to visit the points in the same order as they appear in the array.</p></li>
+<li><p>You are allowed to pass through points that appear later in the order, but these do not count as visits.</p></li>
+</ul>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2019/11/14/1626_example_1.PNG" alt="" /></p>
+<pre><code class="hljs">Input: points = <span class="hljs-comment">[<span class="hljs-comment">[1,1]</span>,<span class="hljs-comment">[3,4]</span>,<span class="hljs-comment">[-1,0]</span>]</span>
+Output: 7
+Explanation: One optimal path <span class="hljs-keyword">is</span> <span class="hljs-comment">[1,1]</span> -&gt; <span class="hljs-comment">[2,2]</span> -&gt; <span class="hljs-comment">[3,3]</span> -&gt; <span class="hljs-comment">[3,4]</span> -&gt; <span class="hljs-comment">[2,3]</span> -&gt; <span class="hljs-comment">[1,2]</span> -&gt; <span class="hljs-comment">[0,1]</span> -&gt; <span class="hljs-comment">[-1,0]</span>   
+Time from <span class="hljs-comment">[1,1]</span> to <span class="hljs-comment">[3,4]</span> = 3 seconds 
+Time from <span class="hljs-comment">[3,4]</span> to <span class="hljs-comment">[-1,0]</span> = 4 seconds
+Total time = 7 seconds
+</code></pre>
+<p>Example 2:</p>
+<pre><code class="hljs">Input: points = <span class="hljs-string">[[3,2],[-2,2]]</span>
+Output: <span class="hljs-number">5</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>points.length == n</code></p></li>
+<li><p><code>1 &lt;= n&amp;nbsp;&lt;= 100</code></p></li>
+<li><p><code>points[i].length == 2</code></p></li>
+<li><p><code>-1000&amp;nbsp;&lt;= points[i][0], points[i][1]&amp;nbsp;&lt;= 1000</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} points
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> minTimeToVisitAllPoints = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">points</span>) </span>{
+    <span class="hljs-keyword">return</span> points.reduce(<span class="hljs-function">(<span class="hljs-params">sum, point, index</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (index === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">var</span> diffX = <span class="hljs-built_in">Math</span>.abs(point[<span class="hljs-number">0</span>] - points[index - <span class="hljs-number">1</span>][<span class="hljs-number">0</span>]);
+        <span class="hljs-keyword">var</span> diffY = <span class="hljs-built_in">Math</span>.abs(point[<span class="hljs-number">1</span>] - points[index - <span class="hljs-number">1</span>][<span class="hljs-number">1</span>]);
+        <span class="hljs-keyword">var</span> second = <span class="hljs-built_in">Math</span>.max(diffX, diffY);
+        <span class="hljs-keyword">return</span> sum + second;
+    }, <span class="hljs-number">0</span>);
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

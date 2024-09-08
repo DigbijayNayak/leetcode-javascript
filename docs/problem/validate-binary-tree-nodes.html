@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Validate Binary Tree Nodes - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>1361. Validate Binary Tree Nodes</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/medium" class="tag">Medium</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/tree">Tree</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/depth-first-search">Depth-First Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/breadth-first-search">Breadth-First Search</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/union-find">Union Find</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/graph">Graph</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/binary-tree">Binary Tree</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You have <code>n</code> binary tree nodes numbered from <code>0</code> to <code>n - 1</code> where node <code>i</code> has two children <code>leftChild[i]</code> and <code>rightChild[i]</code>, return <code>true</code> if and only if <strong>all</strong> the given nodes form <strong>exactly one</strong> valid binary tree.</p>
+<p>If node <code>i</code> has no left child then <code>leftChild[i]</code> will equal <code>-1</code>, similarly for the right child.</p>
+<p>Note that the nodes have no values and that we only use the node numbers in this problem.</p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2019/08/23/1503_ex1.png" alt="" /></p>
+<pre><code class="hljs">Input: n = 4, leftChild = [1,<span class="hljs-string">-1</span>,3,<span class="hljs-string">-1</span>], rightChild = [2,<span class="hljs-string">-1</span>,<span class="hljs-string">-1</span>,<span class="hljs-string">-1</span>]
+Output: true
+</code></pre>
+<p>Example 2:</p>
+<p><img src="https://assets.leetcode.com/uploads/2019/08/23/1503_ex2.png" alt="" /></p>
+<pre><code class="hljs">Input: <span class="hljs-attr">n</span> = <span class="hljs-number">4</span>, <span class="hljs-attr">leftChild</span> = [<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,-<span class="hljs-number">1</span>], <span class="hljs-attr">rightChild</span> = [<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,-<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>]
+Output: <span class="hljs-literal">false</span>
+</code></pre>
+<p>Example 3:</p>
+<p><img src="https://assets.leetcode.com/uploads/2019/08/23/1503_ex3.png" alt="" /></p>
+<pre><code class="hljs">Input: <span class="hljs-attr">n</span> = <span class="hljs-number">2</span>, <span class="hljs-attr">leftChild</span> = [<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], <span class="hljs-attr">rightChild</span> = [-<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>]
+Output: <span class="hljs-literal">false</span>
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>n == leftChild.length == rightChild.length</code></p></li>
+<li><p><code>1 &lt;= n &lt;= 104</code></p></li>
+<li><p><code>-1 &lt;= leftChild[i], rightChild[i] &lt;= n - 1</code></p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number} n
+ * @param {number[]} leftChild
+ * @param {number[]} rightChild
+ * @return {boolean}
+ */</span>
+<span class="hljs-keyword">var</span> validateBinaryTreeNodes = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n, leftChild, rightChild</span>) </span>{
+    <span class="hljs-keyword">var</span> indegree = <span class="hljs-built_in">Array</span>(n).fill(<span class="hljs-number">0</span>);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) {
+        leftChild[i] !== <span class="hljs-number">-1</span> &amp;&amp; indegree[leftChild[i]]++;
+        rightChild[i] !== <span class="hljs-number">-1</span> &amp;&amp; indegree[rightChild[i]]++;
+    }
+    <span class="hljs-keyword">var</span> root = indegree.findIndex(<span class="hljs-function"><span class="hljs-params">num</span> =&gt;</span> num === <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">var</span> visited = <span class="hljs-built_in">Array</span>(n).fill(<span class="hljs-literal">false</span>);
+    <span class="hljs-keyword">var</span> visit = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">node</span>) </span>{
+        <span class="hljs-keyword">if</span> (visited[node]) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        visited[node] = <span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">return</span> (leftChild[node] === <span class="hljs-number">-1</span> || visit(leftChild[node]))
+            &amp;&amp; (rightChild[node] === <span class="hljs-number">-1</span> || visit(rightChild[node]));
+    };
+    <span class="hljs-keyword">return</span> visit(root) &amp;&amp; visited.every(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> n);
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n).</li>
+<li>Space complexity : O(n).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>

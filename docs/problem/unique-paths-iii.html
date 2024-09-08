@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta http-equiv="X-UA-Compatible" content="ie=edge"/><title>Unique Paths III - LeetCode javascript solutions</title><link rel="shortcut icon" href=" https://digbijaynayak.github.io/leetcode-javascript/static/img/favicon.png" type="image/png"/><link rel="stylesheet" href=" https://digbijaynayak.github.io/leetcode-javascript/static/css/app.css"/></head><body><header><h1>980. Unique Paths III</h1><div class="row"><div class="name">Difficulty:</div><div class="value"><a href=" https://digbijaynayak.github.io/leetcode-javascript/difficulty/hard" class="tag">Hard</a></div></div><div class="row"><div class="name">Related Topics:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/array">Array</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/backtracking">Backtracking</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/bit-manipulation">Bit Manipulation</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/tag/matrix">Matrix</a></li></ul></div></div><div class="row"><div class="name">Similar Questions:</div><div class="value"><ul class="clearfix"><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/sudoku-solver.html">Sudoku Solver</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/unique-paths-ii.html">Unique Paths II</a></li><li><a href=" https://digbijaynayak.github.io/leetcode-javascript/problem/word-search-ii.html">Word Search II</a></li></ul></div></div></header><main><article class="markdown-body"><h2 id="problem">Problem</h2>
+<p>You are given an <code>m x n</code> integer array <code>grid</code> where <code>grid[i][j]</code> could be:</p>
+<ul>
+<li><p><code>1</code> representing the starting square. There is exactly one starting square.</p></li>
+<li><p><code>2</code> representing the ending square. There is exactly one ending square.</p></li>
+<li><p><code>0</code> representing empty squares we can walk over.</p></li>
+<li><p><code>-1</code> representing obstacles that we cannot walk over.</p></li>
+</ul>
+<p>Return <strong>the number of 4-directional walks from the starting square to the ending square, that walk over every non-obstacle square exactly once</strong>.</p>
+<p>&nbsp;
+Example 1:</p>
+<p><img src="https://assets.leetcode.com/uploads/2021/08/02/lc-unique1.jpg" alt="" /></p>
+<pre><code class="hljs">Input: grid = <span class="hljs-string">[[1,0,0,0],[0,0,0,0],[0,0,2,-1]]</span>
+Output: <span class="hljs-number">2</span>
+Explanation: We have the following two paths: 
+<span class="hljs-number">1.</span> (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">3</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">2</span>)
+<span class="hljs-number">2.</span> (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">3</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">2</span>)
+</code></pre>
+<p>Example 2:</p>
+<p><img src="https://assets.leetcode.com/uploads/2021/08/02/lc-unique2.jpg" alt="" /></p>
+<pre><code class="hljs">Input: grid = <span class="hljs-string">[[1,0,0,0],[0,0,0,0],[0,0,0,2]]</span>
+Output: <span class="hljs-number">4</span>
+Explanation: We have the following four paths: 
+<span class="hljs-number">1.</span> (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">3</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)
+<span class="hljs-number">2.</span> (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">3</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)
+<span class="hljs-number">3.</span> (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">3</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)
+<span class="hljs-number">4.</span> (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">3</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>),(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">2</span>),(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)
+</code></pre>
+<p>Example 3:</p>
+<p><img src="https://assets.leetcode.com/uploads/2021/08/02/lc-unique3-.jpg" alt="" /></p>
+<pre><code class="hljs">Input: grid = [[0,1],[2,0]]
+Output: 0
+Explanation: There is <span class="hljs-literal">no</span> path that walks over every empty square exactly once.<span class="hljs-built_in">
+Note </span>that the starting <span class="hljs-keyword">and</span> ending square can be anywhere <span class="hljs-keyword">in</span> the grid.
+</code></pre>
+<p>&nbsp;
+<strong>Constraints:</strong></p>
+<ul>
+<li><p><code>m == grid.length</code></p></li>
+<li><p><code>n == grid[i].length</code></p></li>
+<li><p><code>1 &lt;= m, n &lt;= 20</code></p></li>
+<li><p><code>1 &lt;= m * n &lt;= 20</code></p></li>
+<li><p><code>-1 &lt;= grid[i][j] &lt;= 2</code></p></li>
+<li><p>There is exactly one starting cell and one ending cell.</p></li>
+</ul>
+<h2 id="solution">Solution</h2>
+<pre><code class="hljs lang-javascript"><span class="hljs-comment">/**
+ * @param {number[][]} grid
+ * @return {number}
+ */</span>
+<span class="hljs-keyword">var</span> uniquePathsIII = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">grid</span>) </span>{
+    <span class="hljs-keyword">var</span> start;
+    <span class="hljs-keyword">var</span> m = grid.length;
+    <span class="hljs-keyword">var</span> n = grid[<span class="hljs-number">0</span>].length;
+    <span class="hljs-keyword">var</span> emptyNum = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; m; i++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; n; j++) {
+            <span class="hljs-keyword">if</span> (grid[i][j] === <span class="hljs-number">1</span>) start = [i, j];
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (grid[i][j] === <span class="hljs-number">0</span>) emptyNum++;
+        }
+    }
+    <span class="hljs-keyword">return</span> getPathNum(start[<span class="hljs-number">0</span>], start[<span class="hljs-number">1</span>], grid, <span class="hljs-number">0</span>, emptyNum);
+};
+
+<span class="hljs-keyword">var</span> getPathNum = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">i, j, grid, visitedNum, emptyNum</span>) </span>{
+    <span class="hljs-keyword">var</span> res = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> directions = [
+        [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>], <span class="hljs-comment">// up</span>
+        [<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>], <span class="hljs-comment">// down</span>
+        [<span class="hljs-number">0</span>, <span class="hljs-number">-1</span>], <span class="hljs-comment">// left</span>
+        [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>], <span class="hljs-comment">// right</span>
+    ];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> k = <span class="hljs-number">0</span>; k &lt; <span class="hljs-number">4</span>; k++) {
+        <span class="hljs-keyword">var</span> [diffX, diffY] = directions[k];
+        <span class="hljs-keyword">if</span> (grid[i + diffX] &amp;&amp; grid[i + diffX][j + diffY] === <span class="hljs-number">0</span>) {
+            grid[i + diffX][j + diffY] = <span class="hljs-number">-1</span>;
+            res += getPathNum(i + diffX, j + diffY, grid, visitedNum + <span class="hljs-number">1</span>, emptyNum);
+            grid[i + diffX][j + diffY] = <span class="hljs-number">0</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (grid[i + diffX] &amp;&amp; grid[i + diffX][j + diffY] === <span class="hljs-number">2</span>) {
+            res += (visitedNum === emptyNum ? <span class="hljs-number">1</span> : <span class="hljs-number">0</span>);
+        }
+    }
+    <span class="hljs-keyword">return</span> res;
+};
+</code></pre>
+<p><strong>Explain:</strong></p>
+<p>nope.</p>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li>Time complexity : O(n!).</li>
+<li>Space complexity : O(1).</li>
+</ul></article></main><footer><a href="https://github.com/BaffinLee/leetcode-javascript" target="_blank"><img src=" https://digbijaynayak.github.io/leetcode-javascript/static/img/github.png" alt="github"/></a></footer></body></html>
